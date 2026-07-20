@@ -138,6 +138,9 @@
             Console.Write("Enter Score : ");
             int score = int.Parse(Console.ReadLine());
             DescribeGrade(score);
+            Console.Write("Enter your name : ");
+            string name = Console.ReadLine();
+            handleError(name);
 
         }
 
@@ -226,6 +229,16 @@
                     Console.WriteLine("Below Standard");
                     break;
             }
+        }
+        // 2.4
+        private static void handleError(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                Console.WriteLine("The name is null ! Please try again");
+            }
+            else
+                Console.WriteLine(name);
         }
 
     }
