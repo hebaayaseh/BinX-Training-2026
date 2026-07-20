@@ -1,0 +1,6 @@
+@BinXTraining_HostAddress = http://localhost:5145
+
+GET {{BinXTraining_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
