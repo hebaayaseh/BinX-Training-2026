@@ -164,6 +164,29 @@
 
             // string : 
             Console.ReadLine();
+            // Tasks : 
+            ValueTypeAndReferenceType();
+        }
+        // 2.1 : Value Types vs. Reference Types
+        private static void ValueTypeAndReferenceType()
+        {
+            // 1. Write a console program with at least 3 value-type and 3 reference-type variables, printing each one's type using 
+            //"GetType()".
+
+            int x = 5;
+            double y = 5.4D;
+            float z = 5.4f;
+
+            Console.WriteLine(x.GetType());
+            Console.WriteLine(y.GetType());
+            Console.WriteLine(z.GetType());
+
+            string name = "Heba Hesham";
+            List<int> list = new List<int>();
+            int[]arr = new int[5];
+            Console.WriteLine(name.GetType());
+            Console.WriteLine(list.GetType());
+            Console.WriteLine(arr.GetType());
 
         }
     }
