@@ -1,4 +1,4 @@
-namespace BinXTraining.Week1.Day1
+namespace BinXTraining
 {
     public class Program
     {

@@ -1,7 +1,6 @@
-using BinXTraining.Week1.Day1;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BinXTraining.Week1.Day1.Controllers
+namespace BinXTraining.Controllers
 {
     [ApiController]
     [Route("[controller]")]
