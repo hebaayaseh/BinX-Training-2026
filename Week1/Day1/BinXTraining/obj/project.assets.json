@@ -453,11 +453,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\hebah\\source\\repos\\BinXTraining\\BinXTraining\\BinXTraining.csproj",
+      "projectUniqueName": "C:\\Users\\hebah\\source\\repos\\BinXTraining\\Week1\\Day1\\BinXTraining\\BinXTraining.csproj",
       "projectName": "BinXTraining",
-      "projectPath": "C:\\Users\\hebah\\source\\repos\\BinXTraining\\BinXTraining\\BinXTraining.csproj",
+      "projectPath": "C:\\Users\\hebah\\source\\repos\\BinXTraining\\Week1\\Day1\\BinXTraining\\BinXTraining.csproj",
       "packagesPath": "C:\\Users\\hebah\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\hebah\\source\\repos\\BinXTraining\\BinXTraining\\obj\\",
+      "outputPath": "C:\\Users\\hebah\\source\\repos\\BinXTraining\\Week1\\Day1\\BinXTraining\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

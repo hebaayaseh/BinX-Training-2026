@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BinXTraining")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d5aa4221c1e7b8c48809103c3aadb15d0f510aaa")]
 [assembly: System.Reflection.AssemblyProductAttribute("BinXTraining")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BinXTraining")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
