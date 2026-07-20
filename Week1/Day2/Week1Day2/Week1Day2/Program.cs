@@ -135,6 +135,9 @@
             // tasks : 
             ValueTypeAndReferenceType();
             mutation();
+            Console.Write("Enter Score : ");
+            int score = int.Parse(Console.ReadLine());
+            DescribeGrade(score);
 
         }
 
@@ -207,7 +210,23 @@
             Console.WriteLine($"After Change list1 {string.Join(", ", list2)}");// list 1 effect list 2
 
         }
-        
+        // 2.3 
+        private static void DescribeGrade(int score)
+        {
+            switch (score) {
+                case >= 90:  Console.WriteLine("Excellent");
+                    break;
+                case >= 70:
+                    Console.WriteLine("Proficient");
+                    break;
+                case >= 50:
+                    Console.WriteLine("Developing");
+                    break;
+                case < 50:
+                    Console.WriteLine("Below Standard");
+                    break;
+            }
+        }
 
     }
 }
