@@ -1,0 +1,14 @@
+C:\Users\hebah\source\repos\BinXTraining\Week1\Day3\LibraryOOP\LibraryOOP\bin\Debug\net8.0\LibraryOOP.exe
+C:\Users\hebah\source\repos\BinXTraining\Week1\Day3\LibraryOOP\LibraryOOP\bin\Debug\net8.0\LibraryOOP.deps.json
+C:\Users\hebah\source\repos\BinXTraining\Week1\Day3\LibraryOOP\LibraryOOP\bin\Debug\net8.0\LibraryOOP.runtimeconfig.json
+C:\Users\hebah\source\repos\BinXTraining\Week1\Day3\LibraryOOP\LibraryOOP\bin\Debug\net8.0\LibraryOOP.dll
+C:\Users\hebah\source\repos\BinXTraining\Week1\Day3\LibraryOOP\LibraryOOP\bin\Debug\net8.0\LibraryOOP.pdb
+C:\Users\hebah\source\repos\BinXTraining\Week1\Day3\LibraryOOP\LibraryOOP\obj\Debug\net8.0\LibraryOOP.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\hebah\source\repos\BinXTraining\Week1\Day3\LibraryOOP\LibraryOOP\obj\Debug\net8.0\LibraryOOP.AssemblyInfoInputs.cache
+C:\Users\hebah\source\repos\BinXTraining\Week1\Day3\LibraryOOP\LibraryOOP\obj\Debug\net8.0\LibraryOOP.AssemblyInfo.cs
+C:\Users\hebah\source\repos\BinXTraining\Week1\Day3\LibraryOOP\LibraryOOP\obj\Debug\net8.0\LibraryOOP.csproj.CoreCompileInputs.cache
+C:\Users\hebah\source\repos\BinXTraining\Week1\Day3\LibraryOOP\LibraryOOP\obj\Debug\net8.0\LibraryOOP.dll
+C:\Users\hebah\source\repos\BinXTraining\Week1\Day3\LibraryOOP\LibraryOOP\obj\Debug\net8.0\refint\LibraryOOP.dll
+C:\Users\hebah\source\repos\BinXTraining\Week1\Day3\LibraryOOP\LibraryOOP\obj\Debug\net8.0\LibraryOOP.pdb
+C:\Users\hebah\source\repos\BinXTraining\Week1\Day3\LibraryOOP\LibraryOOP\obj\Debug\net8.0\LibraryOOP.genruntimeconfig.cache
+C:\Users\hebah\source\repos\BinXTraining\Week1\Day3\LibraryOOP\LibraryOOP\obj\Debug\net8.0\ref\LibraryOOP.dll
