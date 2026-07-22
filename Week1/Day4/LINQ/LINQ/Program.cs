@@ -25,35 +25,60 @@ namespace LINQ
                 new Book(7,"ASP.NET"),
                 new Book(8,"JavaScript")
             };
+
+            // Print Lisy :
+            var printBook = books
+                .Select(b => b.getTitle)
+                .ToList();
+            Console.WriteLine("Books : ");
+            foreach(var book in printBook)
+            {
+                Console.WriteLine(book);
+            }
+            Console.WriteLine();
+
             // Filter :
             Console.WriteLine("Enter a character to filter the book : ");
             var ch = Console.ReadLine();
             var filter = books.Where(b => b.getTitle.ToLower().Contains(ch))
             .ToList();
-            Console.WriteLine($"Books Contain the Character : ");
-            foreach (var book in filter)
+            if (filter.Count() == 0)
+                Console.WriteLine("Book Not Found");
+            else
             {
-                Console.WriteLine(book.getTitle);
-            }
+                Console.WriteLine($"Books Contain the Character : ");
+                foreach (var book in filter)
+                {
+                    Console.WriteLine(book.getTitle);
+                }
 
-            // Projection : 
-            var bookTitle = books.Select(t=>t.getTitle)
-                .ToList();
-            int count = 0;
-            foreach (var book in filter)
-            {
-                Console.WriteLine($"{count++} : {book.getTitle}");
+                Console.WriteLine();
+
+                // Projection : 
+                var bookTitle = books.Select(t => t.getTitle)
+                    .ToList();
+                int count = 0;
+                foreach (var book in filter)
+                {
+                    Console.WriteLine($"{count++} : {book.getTitle}");
+                }
+
+                Console.WriteLine();
             }
 
             // Aggregation 
             var countBooks = books.Count();
             Console.WriteLine($"Number of books : {countBooks}");
 
+            Console.WriteLine();
+
             // Async Method :
             Library library = new Library();
             await library.Register("Heba@gmail.com", "1234");
 
             // Try & Catch :
+
+            Console.WriteLine();
 
             try
             {
