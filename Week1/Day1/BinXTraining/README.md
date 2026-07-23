@@ -10,8 +10,4 @@ Initial setup and introduction to the C# development environment, project struct
 - Visual Studio workflow
 - Git & GitHub integration
 
-## Tech Stack
-- C#
-- .NET
-- Visual Studio 2022
-- Git
+
