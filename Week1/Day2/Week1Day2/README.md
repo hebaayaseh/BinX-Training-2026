@@ -9,8 +9,4 @@ Implementation of fundamental C# concepts with a focus on the type system, varia
 - Control Flow (`if`, `switch`, `for`, `foreach`, `while`)
 - Nullable Reference Types
 
-## Tech Stack
-- C#
-- .NET
-- Visual Studio 2022
-- Git
+
