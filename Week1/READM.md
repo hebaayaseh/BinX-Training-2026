@@ -1,10 +1,10 @@
 # Week 1 – Onboarding, C# Fundamentals & Git
 
-## Overview
+## Overview :
 
 Week 1 focused on building a solid foundation for .NET backend development. The training covered the development environment setup, core C# language fundamentals, object-oriented programming principles, collections, LINQ, asynchronous programming, and Git/GitHub workflows through a series of hands-on exercises. 
 
-## Learning Outcomes
+## Learning Outcomes :
 
 By the end of this week, I was able to:
 
@@ -15,7 +15,7 @@ By the end of this week, I was able to:
 - Query collections with LINQ and implement asynchronous methods using `async`/`await`.
 - Manage source code using Git and GitHub with clear commit history and version control practices. 
 
-## Daily Progress
+## Daily Progress :
 
 | Day | Topic |
 |------|-------|
@@ -25,7 +25,7 @@ By the end of this week, I was able to:
 | Day 4 | Collections, LINQ & Async Programming |
 | Day 5 | Git & GitHub Workflow |
 
-## Projects
+## Projects :
 
 - Environment Setup & First Console Application
 - C# Fundamentals Exercises
