@@ -4,7 +4,7 @@
 
 Week 1 focused on building a solid foundation for .NET backend development. The training covered the development environment setup, core C# language fundamentals, object-oriented programming principles, collections, LINQ, asynchronous programming, and Git/GitHub workflows through a series of hands-on exercises. :contentReference[oaicite:0]{index=0}
 
-## Learning Outcomes :
+## Learning Outcomes 
 
 By the end of this week, I was able to:
 
@@ -33,7 +33,7 @@ By the end of this week, I was able to:
 - Library System Domain Model
 - LINQ & Asynchronous Programming Practice
 
-  ## Repository
+## Repository
 
 Projects are organized by week and day to track learning progress.
 
