@@ -1,13 +1,11 @@
-# Week 1 – Day 4
+# Week 2 – Day 4
 
 ## Overview
 
-Extended the **Library System** domain model by applying LINQ queries, asynchronous programming with `async`/`await`, and structured exception handling to process and manage data efficiently.
+Extended the **Library System** domain model by applying Generic Repository .
 
 ## Topics
 - LINQ Queries
-- Filtering, Projection & Aggregation
-- Asynchronous Programming (`async`/`await`)
-- Exception Handling (`try`/`catch`)
+- IReadOnlyList
 - Collections
 
