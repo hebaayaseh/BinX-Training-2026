@@ -76,7 +76,7 @@ namespace LINQ
             Library library = new Library();
             await library.Register("Heba@gmail.com", "1234");
 
-            // Try & Catch :
+            // Try :
 
             Console.WriteLine();
 
@@ -89,6 +89,7 @@ namespace LINQ
 
                 Console.WriteLine($"Book You Need : {findBook.getTitle}");
             }
+            // Catch :
             catch
             {
                 Console.WriteLine("Book Not Found");

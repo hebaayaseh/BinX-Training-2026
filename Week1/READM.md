@@ -1,10 +1,10 @@
 # Week 1 – Onboarding, C# Fundamentals & Git
 
-## Overview :
+## Overview
 
-Week 1 focused on building a solid foundation for .NET backend development. The training covered the development environment setup, core C# language fundamentals, object-oriented programming principles, collections, LINQ, asynchronous programming, and Git/GitHub workflows through a series of hands-on exercises. 
+Week 1 focused on building a solid foundation for .NET backend development. The training covered the development environment setup, core C# language fundamentals, object-oriented programming principles, collections, LINQ, asynchronous programming, and Git/GitHub workflows through a series of hands-on exercises. :contentReference[oaicite:0]{index=0}
 
-## Learning Outcomes :
+## Learning Outcomes 
 
 By the end of this week, I was able to:
 
@@ -13,9 +13,10 @@ By the end of this week, I was able to:
 - Apply core C# concepts, including types, variables, control flow, and nullable reference types.
 - Design object-oriented models using classes, records, interfaces, and encapsulation.
 - Query collections with LINQ and implement asynchronous methods using `async`/`await`.
-- Manage source code using Git and GitHub with clear commit history and version control practices. 
+- Manage source code using Git and GitHub with clear commit history and version control practices. :contentReference[oaicite:1]{index=1}
 
-## Daily Progress :
+## Daily Progress
+- Manage source code using Git and GitHub with clear commit history and version control practices. 
 
 | Day | Topic |
 |------|-------|
@@ -25,12 +26,16 @@ By the end of this week, I was able to:
 | Day 4 | Collections, LINQ & Async Programming |
 | Day 5 | Git & GitHub Workflow |
 
-## Projects :
+## Projects
 
 - Environment Setup & First Console Application
 - C# Fundamentals Exercises
 - Library System Domain Model
 - LINQ & Asynchronous Programming Practice
+
+## Repository
+
+Projects are organized by week and day to track learning progress.
 
 ## Tech Stack
 
