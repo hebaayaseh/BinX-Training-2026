@@ -1,10 +1,14 @@
-# Week 2 – Day 2
+# Week 2 – Day 3
 
 ## Overview
 
-Extended the **Simple Ecommerce Project** domain model by applying Advanced LINQ & Deferred Execution.
+Extended the **Simple Ecommerce Project** domain model by applying Asynchronous and await programming in C#.
 
 ## Topics
-- LINQ Queries
-- Deferred Execution
-- Collections
+- async method
+- await method
+- Cancellation using CancellationToken parameter
+- sequential execution with wait
+- concurrent execution using Task.WhenAll
+
+
