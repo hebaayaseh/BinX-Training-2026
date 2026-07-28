@@ -56,6 +56,8 @@ namespace Ecommerce
                 Console.WriteLine("Customer With Order loading was cancelled");
             }
 
+            //  Result 
+            // Task.WhenAll completes faster all tasks run concurrently
         }
 
 
