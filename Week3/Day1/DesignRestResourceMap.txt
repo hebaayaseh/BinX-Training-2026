@@ -1,0 +1,53 @@
+Domain
+Library Managment System 
+
+Core Resources 
+The main resource in the system are : 
+-Books
+-Authors
+-Members
+-Loans
+
+
+Primary Resource For Books :
+HTTP Mesthod||Endpoint        || Description             || Success Status  || Error Status
+--------------------------------------------------------------------------------------------------------
+GET         | api/v1/books     | Retrieve all books       | 200 OK           | 500 Internal Server Error
+GET         | api/v1/books{id} | Retrive a book by Id     | 200 OK           | 404 Not Found
+POST        | api/v1/books     | Create a new book        | 201 Created      | 404 Not Found
+PUT         | api/v1/books{id} | Update an existing book  | 200 OK           | 404 Not Found
+Delete      | api/v1/books{id} | Delete a book            | 200 OK           | 404 Not Found
+
+Nested Resource :
+A member can borrow one or more books , Therefore the nested endpoint is :
+GET / api/v1/members/{memberId}/loans
+
+Description :
+Return all loans that being to the specified member
+
+Status Codes :
+Success : 200 OK
+Error : 404 Not Found 
+
+HTTP Status Codes          || Meaning 
+--------------------------------------------------------------------------------------------------------
+200 OK                      |The request complete successfully
+201 Created                 |A new resource was create successfully
+204 No Content              |The resource was deleted successfully
+400 Bad Request             |The request must contain invalid data
+404 Not Found               |The request resourse doesn’t exist
+500 Internal Server Error   |An unexpected server error occurred 
+
+API Versioning
+This project uses UPL versioning
+version :
+/api/v1
+
+Examples Endpoints : 
+GET/api/v1/books 
+GET/api/v1/books{id} 
+
+
+ 
+
+
