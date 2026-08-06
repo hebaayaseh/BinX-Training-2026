@@ -1,26 +1,38 @@
-# Week 2
+# Week 2 – Advanced C#, API Development & Backend Fundamentals
 
 ## Overview
 
-Completed Week 2 tasks focusing on advanced C# concepts, API development, and backend fundamentals.
+Week 2 focused on strengthening backend development skills using C# and ASP.NET Core. The training covered advanced C# concepts, generic programming, LINQ operations, asynchronous programming, API development, middleware, and dependency injection through multiple hands-on labs and practical exercises.
 
-## Completed Tasks
+## Learning Outcomes
 
-* Implemented Generic Repository using generics and constraints.
-* Practiced LINQ operations including GroupBy, Join, and SelectMany.
-* Worked with asynchronous programming using Task, Task.WhenAll, and CancellationToken.
-* Built ASP.NET Core Web API endpoints using Controllers and Minimal APIs.
-* Tested APIs using Postman and Swagger.
-* Implemented Custom Middleware and Dependency Injection.
-* Prepared Week 2 documentation and GitHub updates.
+By the end of this week, I was able to:
 
-## Tools Used
+* Implement generic repositories using generics, constraints, and reusable code.
+* Apply advanced LINQ operations including GroupBy, Join, and SelectMany.
+* Understand deferred execution and how LINQ queries behave.
+* Work with asynchronous programming using Task, async/await, Task.WhenAll, and CancellationToken.
+* Build REST API endpoints using ASP.NET Core Controllers and Minimal APIs.
+* Implement middleware components and understand request pipeline ordering.
+* Apply Dependency Injection and service lifetimes in ASP.NET Core applications.
+* Test APIs using Swagger and Postman.
+
+## Projects
+
+* Generic Repository Implementation
+* LINQ Operations Practice
+* Async Programming and Concurrency Demo
+* ASP.NET Core Web API with Controllers and Minimal APIs
+* Middleware & Dependency Injection Practice
+
+## Tech Stack
 
 * C#
 * .NET SDK
 * ASP.NET Core Web API
-* Entity Framework Core
 * LINQ
-* Postman
+* Entity Framework Core
 * Swagger
+* Postman
+* Git
 * GitHub
