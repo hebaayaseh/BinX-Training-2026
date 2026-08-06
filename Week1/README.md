@@ -18,24 +18,12 @@ By the end of this week, I was able to:
 ## Daily Progress
 - Manage source code using Git and GitHub with clear commit history and version control practices. 
 
-| Day | Topic |
-|------|-------|
-| Day 1 | Development Environment Setup |
-| Day 2 | C# Fundamentals: Types, Variables & Control Flow |
-| Day 3 | Object-Oriented Programming |
-| Day 4 | Collections, LINQ & Async Programming |
-| Day 5 | Git & GitHub Workflow |
-
 ## Projects
 
 - Environment Setup & First Console Application
 - C# Fundamentals Exercises
 - Library System Domain Model
 - LINQ & Asynchronous Programming Practice
-
-## Repository
-
-Projects are organized by week and day to track learning progress.
 
 ## Tech Stack
 
