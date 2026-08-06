@@ -20,5 +20,5 @@ Completed Week 3 tasks focusing on REST API design, database modeling, and API t
 * Entity Framework Core
 * MySQL
 * Postman
-* Notion
+
 
