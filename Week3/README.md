@@ -1,24 +1,44 @@
-# Week 3
+# Week 3 – REST API Design, Database Modeling & API Testing
 
 ## Overview
 
-Completed Week 3 tasks focusing on REST API design, database modeling, and API testing using Postman.
+Week 3 focused on designing and documenting REST APIs, creating database models, and improving API testing workflows. The training covered database normalization, ERD design, REST API structure, and Postman collections through practical hands-on tasks.
 
-## Completed Tasks
+## Learning Outcomes
 
-* Designed REST API endpoints.
-* Created and organized database ERD.
-* Implemented API requests and tested them using Postman.
-* Added success and error test cases.
-* Created Postman environment with `baseUrl`.
-* Prepared API documentation for mentor review.
+By the end of this week, I was able to:
 
-## Tools Used
+* Design RESTful API endpoints following best practices.
+* Analyze requirements and define API resources.
+* Create normalized database schemas using 1NF, 2NF, and 3NF principles.
+* Design Entity Relationship Diagrams (ERD) with proper relationships.
+* Define primary keys and foreign keys between entities.
+* Organize API requests using Postman collections and folders.
+* Create Postman environments using reusable variables.
+* Add API test scripts to validate response status codes.
+* Document project progress and prepare summaries for mentor review.
+
+
+## Projects
+
+* REST API Design Documentation
+* Database Schema Design
+* Entity Relationship Diagram (ERD)
+* Postman API Collection
+* API Testing and Documentation
+
+
+## Tech Stack
 
 * ASP.NET Core Web API
 * C#
 * Entity Framework Core
-* MySQL
+* MySQL / MariaDB
 * Postman
+* Swagger
+* Notion
+* Git
+* GitHub
+
 
 
