@@ -17,6 +17,16 @@ namespace Ecommerce
         static async Task Main(string[] args)
         {
 
+            Product product = new Product();
+            product.id = 1;
+            product.name ="laptop";
+            product.price = 100;
+            product.description ="This is a laptop";
+
+            Console.WriteLine($"Product name : {product.name} Price : {product.price} Description : {product.description} ");
+
+
+
             var result = Stopwatch.StartNew();
             // Sequential : 
             await GetCustomerAsync();
