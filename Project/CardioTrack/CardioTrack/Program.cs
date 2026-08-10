@@ -1,7 +1,10 @@
 
 using CardioTrack.Data;
-using Microsoft.EntityFrameworkCore; 
-using Pomelo.EntityFrameworkCore.MySql.Infrastructure; 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using System.Text;
 
 
 namespace CardioTrack
@@ -73,6 +76,56 @@ namespace CardioTrack
                 });
             });
             // 5. JWT AUTHENTICATION
+            var jwtKey = builder.Configuration["Jwt:Key"]!;
+            var jwtIssuer = builder.Configuration["Jwt:Issuer"]!;
+            var jwtAudience = builder.Configuration["Jwt:Audience"]!;
+
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+                    ValidateIssuer = true,
+                    ValidIssuer = jwtIssuer,
+                    ValidateAudience = true,
+                    ValidAudience = jwtAudience,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero,
+                    NameClaimType = System.Security.Claims.ClaimTypes.NameIdentifier
+                };
+
+                options.Events = new JwtBearerEvents
+                {
+                    
+                    OnChallenge = async context =>
+                    {
+                        context.HandleResponse();
+                        context.Response.StatusCode = 401;
+                        context.Response.ContentType = "application/json";
+                        await context.Response.WriteAsJsonAsync(new
+                        {
+                            status = 401,
+                            message = "Unauthorized. Please login first."
+                        });
+                    },
+                    OnForbidden = async context =>
+                    {
+                        context.Response.StatusCode = 403;
+                        context.Response.ContentType = "application/json";
+                        await context.Response.WriteAsJsonAsync(new
+                        {
+                            status = 403,
+                            message = "Forbidden. You do not have permission to access this resource."
+                        });
+                    }
+                };
+            });
 
             // 6. AUTHORIZATION — ROLES
             builder.Services.AddAuthorization(options =>
