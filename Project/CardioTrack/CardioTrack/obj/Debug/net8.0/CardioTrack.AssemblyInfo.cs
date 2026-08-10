@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CardioTrack")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4496736005827fcf68e4c7a6265bea9a097f1d58")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b53cf9baec119d4a2439872c496cb6e80a1e13f3")]
 [assembly: System.Reflection.AssemblyProductAttribute("CardioTrack")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CardioTrack")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

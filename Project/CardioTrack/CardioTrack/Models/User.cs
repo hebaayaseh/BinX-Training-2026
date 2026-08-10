@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using CardioTrack.Enums;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
 namespace CardioTrack.Models
