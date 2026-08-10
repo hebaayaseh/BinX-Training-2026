@@ -14,7 +14,7 @@ namespace CardioTrack.Models
         public int PatientId { get; set; }
         public int RecordedByDoctorId { get; set; }
         // Navigation Properties
-        public Patient Patient { get; set; }
-        public User RecordedByDoctor { get; set; }
+        public Patient? Patient { get; set; }
+        public User? RecordedByDoctor { get; set; }
     }
 }
