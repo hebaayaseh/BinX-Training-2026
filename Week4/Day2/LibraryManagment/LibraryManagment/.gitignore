@@ -1,0 +1,6 @@
+﻿bin/
+obj/
+appsetting.Development.json
+*.user
+.vs/
+.DS_Store
