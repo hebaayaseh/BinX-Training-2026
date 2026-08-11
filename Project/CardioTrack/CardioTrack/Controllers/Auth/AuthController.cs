@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CardioTrack.Controllers.Auth
 {
     [ApiController]
-    [Route("api-login")]
+    [Route("api/login")]
     public class AuthController : ControllerBase
     {
         private readonly IAuth auth;
