@@ -31,6 +31,7 @@ namespace CardioTrack.Models
         public ICollection<Appointment>? AppointmentsAsDoctor { get; set; } = new List<Appointment>();
         public ICollection<Appointment>? AppointmentsCreated { get; set; } = new List<Appointment>();
         public ICollection<EmailVerificationCode>? EmailVerificationCodes { get; set; } = new List<EmailVerificationCode>();
+        public ICollection<RefreshToken>? RefreshTokens { get; set; } = new List<RefreshToken>();
 
     }
 }

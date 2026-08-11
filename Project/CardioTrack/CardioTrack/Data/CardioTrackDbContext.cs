@@ -188,6 +188,19 @@ namespace CardioTrack.Data
 
             });
 
+            // RefreshToken : 
+            modelBuilder.Entity<RefreshToken>(entity =>
+            {
+                entity.ToTable("RefreshTokens");
+                entity.HasKey(e => e.Id);
+                entity.HasIndex(e => e.Token).IsUnique();
+
+                entity.HasOne(e => e.User)
+                .WithMany(u => u.RefreshTokens)
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+            });
+
         }
 
     }

@@ -1,6 +1,6 @@
-﻿namespace CardioTrack.DTOs.Admin
+﻿namespace CardioTrack.DTOs.LogIn
 {
-    public class AdminLoginRequestDto
+    public class LoginRequestDto
     {
         public string Email { get; set; }
         public string Password { get; set; }

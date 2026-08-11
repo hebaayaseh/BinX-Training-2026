@@ -14,11 +14,12 @@ namespace CardioTrack.Models
         public UserRole UserRole { get; set; }
         public int UserId { get; set; }
 
-        public int? CenterId { get; set; }
-
         public DateTime ExpiresAt { get; set; }
         public bool IsRevoked { get; set; } = false;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        // Navigation Property
+        public User? User { get; set; }
     }
 }
 

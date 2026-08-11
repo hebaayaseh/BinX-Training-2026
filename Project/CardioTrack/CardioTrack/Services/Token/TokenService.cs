@@ -1,23 +1,14 @@
 ﻿using CardioTrack.Data;
 using CardioTrack.DTOs.Token;
+using CardioTrack.Enums;
 using CardioTrack.Helper;
 using CardioTrack.Interfaces.RefreshToken;
+using CardioTrack.Models;
 using Microsoft.EntityFrameworkCore;
-using Sehatak.Application.DTOs.Auth;
-using Sehatak.Application.DTOs.Exceptions;
-using Sehatak.Application.Interfaces.IAuth;
-using Sehatak.Domain.Entities.SharedEntities;
-using Sehatak.Domain.Enums.SharedEnums;
-using Sehatak.Infrastructure.Data;
-using Sehatak.Infrastructure.Security;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace Sehatak.Infrastructure.Services.tokenService
+namespace CardioTrack.Infrastructure.Services.TokenService
 {
     public class TokenService : ITokenService
     {
@@ -30,20 +21,19 @@ namespace Sehatak.Infrastructure.Services.tokenService
             this.jwtGenerator = jwtGenerator;
         }
 
-        public async Task<TokenResponseDto> IssueTokensAsync(int userId, string name, string email, string role, int? centerId, TokenOwnerType ownerType)
+        public async Task<TokenResponseDto> IssueTokensAsync(int userId, string name, string email, UserRole role)
         {
             var accessToken = jwtGenerator.GenerateToken(userId, name, email, role);
             var refreshTokenValue = GenerateSecureToken();
+            var hashedToken = ComputeSha256Hash(refreshTokenValue);
 
-            dbContext.RefreshTokens.Add(new RefreshToken
+            dbContext.refreshTokens.Add(new RefreshToken
             {
-                Token = refreshTokenValue,
-                OwnerType = ownerType,
+                Token = hashedToken,
+                UserRole = role,
                 UserId = userId,
-                CenterId = centerId,
                 ExpiresAt = DateTime.UtcNow.AddDays(7)
             });
-
             await dbContext.SaveChangesAsync();
 
             return new TokenResponseDto
@@ -53,19 +43,49 @@ namespace Sehatak.Infrastructure.Services.tokenService
             };
         }
 
-        private string GenerateSecureToken()
+        public async Task<TokenResponseDto> RefreshAsync(string refreshToken)
         {
-            var randomBytes = new byte[64];
-            using var rng = RandomNumberGenerator.Create();
-            rng.GetBytes(randomBytes);
-            return Convert.ToBase64String(randomBytes);
+            var hashedInput = ComputeSha256Hash(refreshToken);
 
+            var existing = await dbContext.refreshTokens
+                .FirstOrDefaultAsync(t => t.Token == hashedInput);
+
+            if (existing == null || existing.IsRevoked || existing.ExpiresAt < DateTime.UtcNow)
+                throw new Exception("Auth invalid refresh token");
+
+            var user = await dbContext.users.FindAsync(existing.UserId);
+            if (user == null)
+                throw new Exception("Auth invalid refresh token");
+
+            existing.IsRevoked = true;
+
+            var newRefreshTokenValue = GenerateSecureToken();
+            var newHashedToken = ComputeSha256Hash(newRefreshTokenValue);
+
+            dbContext.refreshTokens.Add(new RefreshToken
+            {
+                Token = newHashedToken,
+                UserRole = existing.UserRole,
+                UserId = existing.UserId,
+                ExpiresAt = DateTime.UtcNow.AddDays(7)
+            });
+            await dbContext.SaveChangesAsync();
+
+            var newAccessToken = jwtGenerator.GenerateToken(existing.UserId, user.FullName, user.Email, existing.UserRole);
+
+            return new TokenResponseDto
+            {
+                AccessToken = newAccessToken,
+                RefreshToken = newRefreshTokenValue
+            };
         }
 
         public async Task LogoutAsync(string refreshToken)
         {
-            var existing = await dbContext.RefreshTokens
-                .FirstOrDefaultAsync(t => t.Token == refreshToken);
+            var hashedInput = ComputeSha256Hash(refreshToken);
+
+            var existing = await dbContext.refreshTokens
+                .FirstOrDefaultAsync(t => t.Token == hashedInput);
 
             if (existing != null)
             {
@@ -74,50 +94,19 @@ namespace Sehatak.Infrastructure.Services.tokenService
             }
         }
 
-        public async Task<TokenResponseDto> RefreshAsync(string refreshToken)
+        private string GenerateSecureToken()
         {
-            var existing = await dbContext.RefreshTokens
-                .FirstOrDefaultAsync(t => t.Token == refreshToken);
+            var randomBytes = new byte[64];
+            using var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(randomBytes);
+            return Convert.ToBase64String(randomBytes);
+        }
 
-            if (existing == null || existing.IsRevoked || existing.ExpiresAt < DateTime.UtcNow)
-                throw new Exception("Auth invalid refresh token");
-
-            string name, email, role;
-
-            if (existing.CenterId == null)
-                throw new Exception("Auth invalid refresh token");
-
-            var user = await dbContext.users.FindAsync(existing.UserId);
-            if (user == null)
-                throw new Exception("Auth invalid refresh token");
-
-            name = $"{user.firstName} {user.lastName}";
-            email = user.email!;
-            role = user.role.ToString();
-            
-
-            existing.IsRevoked = true;
-
-            var newRefreshTokenValue = GenerateSecureToken();
-            dbContext.RefreshTokens.Add(new RefreshToken
-            {
-                Token = newRefreshTokenValue,
-                OwnerType = existing.OwnerType,
-                UserId = existing.UserId,
-                CenterId = existing.CenterId,
-                ExpiresAt = DateTime.UtcNow.AddDays(7)
-            });
-
-            await dbContext.SaveChangesAsync();
-
-            var newAccessToken = jwtGenerator.GenerateToken(existing.UserId, name, email, role, existing.CenterId);
-
-            return new TokenResponseDto
-            {
-                AccessToken = newAccessToken,
-                RefreshToken = newRefreshTokenValue
-            };
+        private string ComputeSha256Hash(string rawText)
+        {
+            using var sha256 = SHA256.Create();
+            var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(rawText));
+            return Convert.ToBase64String(bytes);
         }
     }
 }
-
