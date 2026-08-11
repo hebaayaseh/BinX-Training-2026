@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "ContainingType": "CardioTrack.Controllers.Auth.AuthController",
+    "Method": "Login",
+    "RelativePath": "api-login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CardioTrack.DTOs.LogIn.LoginRequestDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

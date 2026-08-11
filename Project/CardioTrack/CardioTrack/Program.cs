@@ -1,5 +1,10 @@
 
 using CardioTrack.Data;
+using CardioTrack.Helper;
+using CardioTrack.Infrastructure.Services.TokenService;
+using CardioTrack.Interfaces.IAdmin;
+using CardioTrack.Interfaces.RefreshToken;
+using CardioTrack.Services.Admin;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -137,7 +142,11 @@ namespace CardioTrack
             });
 
             //7. Services  
+            builder.Services.AddSingleton<JwtTokenGenerator>();
             builder.Services.AddScoped<SeedData>();
+            builder.Services.AddScoped<IAuth, AuthService>();
+            builder.Services.AddScoped<ITokenService, TokenService>();
+
 
 
             var app = builder.Build();
