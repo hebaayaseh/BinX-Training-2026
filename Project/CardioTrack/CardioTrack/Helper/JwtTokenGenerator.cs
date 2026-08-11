@@ -33,7 +33,7 @@ namespace CardioTrack.Helper
             
 
             var key = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(_config["Jwt:SecretKey"]!)
+                Encoding.UTF8.GetBytes(_config["Jwt:Key"]!)
             );
 
 

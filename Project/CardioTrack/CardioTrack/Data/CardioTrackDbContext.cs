@@ -16,6 +16,7 @@ namespace CardioTrack.Data
         public DbSet<Medication> medications => Set<Medication>();
         public DbSet<Appointment> appointments => Set<Appointment>();
         public DbSet<EmailVerificationCode> emailVerificationCodes => Set<EmailVerificationCode>();
+        public DbSet<RefreshToken> refreshTokens => Set<RefreshToken>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
