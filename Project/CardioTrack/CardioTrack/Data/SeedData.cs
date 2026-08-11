@@ -119,7 +119,7 @@ namespace CardioTrack.Data
             {
                 new Patient
                 {
-                    FullName = "Yazzan Ayaseh",
+                    FullName = "Yazan Ayaseh",
                     DateOfBirth = new DateTime(2000, 8, 24),
                     Gender = Gender.Male,
                     PhoneNumber = "521463987",
@@ -198,7 +198,7 @@ namespace CardioTrack.Data
             bool vitalsExist = await dbContext.vitalSigns.AnyAsync();
             if (vitalsExist) return;
 
-            var yazan = await dbContext.patients.FirstAsync(p => p.FullName == "Yazan Ayash");
+            var ibrahim = await dbContext.patients.FirstAsync(p => p.FullName == "Ibrahim Ayaseh");
             var fatima = await dbContext.patients.FirstAsync(p => p.FullName == "Fatima Ayaseh");
             var nurse1 = await dbContext.users.FirstAsync(u => u.Email == "sameerayaseh@gmail.com");
 
@@ -206,7 +206,7 @@ namespace CardioTrack.Data
             {
                 new VitalSign
                 {
-                    PatientId = yazan.Id,
+                    PatientId = ibrahim.Id,
                     RecordedAt = DateTime.UtcNow.AddDays(-2),
                     HeartRate = 78,
                     BloodPressureSystolic = 120,
@@ -237,14 +237,14 @@ namespace CardioTrack.Data
             bool medsExist = await dbContext.medications.AnyAsync();
             if (medsExist) return;
 
-            var yazan = await dbContext.patients.FirstAsync(p => p.FullName == "Yazan Ayaseh");
+            var ibrahim = await dbContext.patients.FirstAsync(p => p.FullName == "Ibrahim Ayaseh");
             var doctor1 = await dbContext.users.FirstAsync(u => u.Email == "ahmadayaseh@gmail.com");
 
             var medications = new List<Medication>
             {
                 new Medication
                 {
-                    PatientId = yazan.Id,
+                    PatientId = ibrahim.Id,
                     DrugName = "Amlodipine",
                     Dosage = "5mg",
                     Frequency = "Once daily",
@@ -264,7 +264,7 @@ namespace CardioTrack.Data
             bool appointmentsExist = await dbContext.appointments.AnyAsync();
             if (appointmentsExist) return;
 
-            var yazan = await dbContext.patients.FirstAsync(p => p.FullName == "Yazan Ayaseh");
+            var ibrahim = await dbContext.patients.FirstAsync(p => p.FullName == "Ibrahim Ayaseh");
             var fatima = await dbContext.patients.FirstAsync(p => p.FullName == "Fatima Ayaseh");
             var doctor1 = await dbContext.users.FirstAsync(u => u.Email == "ahmadayaseh@gmail.com");
             var doctor2 = await dbContext.users.FirstAsync(u => u.Email == "souadayaseh@gmail.com");
@@ -274,7 +274,7 @@ namespace CardioTrack.Data
             {
                 new Appointment
                 {
-                    PatientId = yazan.Id,
+                    PatientId = ibrahim.Id,
                     DoctorId = doctor1.Id,
                     AppointmentDate = DateTime.UtcNow.AddDays(5),
                     Reason = "Routine follow-up",
