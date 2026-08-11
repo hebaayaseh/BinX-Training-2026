@@ -4,6 +4,7 @@ using CardioTrack.Helper;
 using CardioTrack.Infrastructure.Services.TokenService;
 using CardioTrack.Interfaces.IAdmin;
 using CardioTrack.Interfaces.RefreshToken;
+using CardioTrack.Middleware;
 using CardioTrack.Services.Admin;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -175,6 +176,7 @@ namespace CardioTrack
             app.UseRequestLocalization();
             app.UseCors("CardioTrackPolicy");
             app.UseRouting();
+            app.UseMiddleware<ExceptionMiddleware>();
             app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();

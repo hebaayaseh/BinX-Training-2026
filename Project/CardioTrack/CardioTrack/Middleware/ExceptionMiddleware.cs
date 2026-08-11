@@ -1,7 +1,6 @@
 ﻿using CardioTrack.ExceptionService;
-using Microsoft.Extensions.Localization;
 
-namespace Sehatak.API.Middleware;
+namespace CardioTrack.Middleware;
 
 public class ExceptionMiddleware
 {
@@ -22,43 +21,33 @@ public class ExceptionMiddleware
         }
         catch (Exception ex)
         {
-
             _logger.LogError(ex,
              "Unhandled exception occurred. Path: {Path}, Method: {Method}",
              context.Request.Path,
              context.Request.Method);
-
             await HandleExceptionAsync(context, ex);
         }
     }
 
     private static async Task HandleExceptionAsync(HttpContext context, Exception ex)
     {
-        
         context.Response.ContentType = "application/json";
 
-
-        var (statusCode, messageKey) = ex switch
+        var (statusCode, message) = ex switch
         {
-            Exceptions be => (StatusCodes.Status400BadRequest, be.Message),
-            UnauthorizedAccessException => (StatusCodes.Status401Unauthorized, "Auth.Unauthorized"),
-            KeyNotFoundException => (StatusCodes.Status404NotFound, "General.NotFound"),
+            Exceptions appEx => (appEx.StatusCode, appEx.Message),
+            UnauthorizedAccessException => (StatusCodes.Status401Unauthorized, "Unauthorized"),
+            KeyNotFoundException => (StatusCodes.Status404NotFound, "Resource not found"),
             ArgumentException => (StatusCodes.Status400BadRequest, ex.Message),
-            _ => (StatusCodes.Status500InternalServerError, "General.ServerError")
+            _ => (StatusCodes.Status500InternalServerError, "An unexpected error occurred")
         };
 
         context.Response.StatusCode = statusCode;
-
-        var message = (statusCode == 400 && ex is ArgumentException)
-        ? ex.Message
-        : messageKey.ToString();
 
         await context.Response.WriteAsJsonAsync(new
         {
             status = statusCode,
             message = message
         });
-
     }
 }
-
