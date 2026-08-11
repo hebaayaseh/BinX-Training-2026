@@ -15,6 +15,7 @@ namespace CardioTrack.Data
         public DbSet<MedicalHistory> medicalHistories => Set<MedicalHistory>();
         public DbSet<Medication> medications => Set<Medication>();
         public DbSet<Appointment> appointments => Set<Appointment>();
+        public DbSet<EmailVerificationCode> emailVerificationCodes => Set<EmailVerificationCode>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -166,6 +167,21 @@ namespace CardioTrack.Data
                 .HasForeignKey(e => e.CreatedByUserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            });
+
+            // EmailVerificationCode 
+            modelBuilder.Entity<EmailVerificationCode>(entity =>
+            {
+                entity.ToTable("EmailVerificationCode")
+                .HasKey(e => e.Id);
+
+                entity.Property(e => e.Purpose).HasMaxLength(50);
+
+                
+                entity.HasOne(e => e.User)
+                .WithMany(e => e.EmailVerificationCodes)
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             });
 
