@@ -53,7 +53,7 @@ namespace CardioTrack
                 });
             });
             // 3. Connection Database
-            builder.Services.AddDbContext<CardioTraackDbContext>(options =>
+            builder.Services.AddDbContext<CardioTrackDbContext>(options =>
                options.UseMySql(
                    builder.Configuration.GetConnectionString("Connection"),
                    ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("Connection"))
@@ -158,7 +158,6 @@ namespace CardioTrack
             app.UseRequestLocalization();
             app.UseCors("CardioTrackPolicy");
             app.UseRouting();
-            app.UseRateLimiter();
             app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();

@@ -9,6 +9,10 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.29" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.29" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.10">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.22.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
@@ -17,9 +21,9 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
-    <Folder Include="DTOs\" />
-    <Folder Include="Interfaces\" />
-    <Folder Include="Services\" />
+    <Folder Include="DTOs\Doctor\" />
+    <Folder Include="DTOs\Patient\" />
+    <Folder Include="DTOs\Nurse\" />
   </ItemGroup>
 
 </Project>
