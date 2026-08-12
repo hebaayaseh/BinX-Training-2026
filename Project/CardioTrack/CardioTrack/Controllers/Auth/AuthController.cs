@@ -17,9 +17,6 @@ namespace CardioTrack.Controllers.Auth
         public async Task<IActionResult> Login([FromBody] LoginRequestDto request)
         {
             var result = await auth.LoginAsync(request);
-            if (result == null)
-                throw new UnauthorizedAccessException();
-
             return Ok(result);
         }
     }

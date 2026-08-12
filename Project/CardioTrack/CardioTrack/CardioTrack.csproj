@@ -23,7 +23,6 @@
 
   <ItemGroup>
     <Folder Include="DTOs\Doctor\" />
-    <Folder Include="DTOs\Admin\" />
     <Folder Include="DTOs\Patient\" />
     <Folder Include="DTOs\Nurse\" />
   </ItemGroup>

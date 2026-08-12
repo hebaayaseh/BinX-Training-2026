@@ -1,5 +1,6 @@
 ﻿using CardioTrack.Data;
 using CardioTrack.DTOs.LogIn;
+using CardioTrack.ExceptionService;
 using CardioTrack.Interfaces.IAdmin;
 using CardioTrack.Interfaces.RefreshToken;
 using Microsoft.EntityFrameworkCore;
@@ -20,10 +21,10 @@ namespace CardioTrack.Services.Admin
             var user = await dbContext.users
                 .FirstOrDefaultAsync(u => u.Email == request.Email);
 
-            if (user == null) return Exceptions;
+            if (user == null) throw new ForbiddenException("Email not exist!");
 
             var passwordValid = BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash);
-            if (!passwordValid) return null;
+            if (!passwordValid) throw new ForbiddenException("Invalid Password!");
 
 
             var tokens = await tokenService.IssueTokensAsync(

@@ -2,7 +2,7 @@
   {
     "ContainingType": "CardioTrack.Controllers.Auth.AuthController",
     "Method": "Login",
-    "RelativePath": "api-login",
+    "RelativePath": "api/login",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -10,6 +10,38 @@
       {
         "Name": "request",
         "Type": "CardioTrack.DTOs.LogIn.LoginRequestDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CardioTrack.Controllers.Token.TokenController",
+    "Method": "Logout",
+    "RelativePath": "api/token/logout",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CardioTrack.DTOs.Token.LogoutRequestDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CardioTrack.Controllers.Token.TokenController",
+    "Method": "RefreshToken",
+    "RelativePath": "api/token/refresh-token",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CardioTrack.DTOs.Token.RefreshRequestDto",
         "IsRequired": true
       }
     ],
