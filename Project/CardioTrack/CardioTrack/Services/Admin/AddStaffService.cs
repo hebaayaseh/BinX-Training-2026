@@ -55,6 +55,42 @@ namespace CardioTrack.Services.Admin
 
         }
 
+        public async Task<string> AddNurseAsync(int userId, AddNurseRequestDto request)
+        {
+            var user = await dbContext.users
+                .FirstOrDefaultAsync(u => u.Id == userId
+                                     && u.IsActive);
+
+            if (user == null)
+                throw new InvalidTokenException("Auth unauthorized");
+
+            if (user.Role != UserRole.Admin)
+                throw new ForbiddenException("Auth forbidden");
+
+            var nurse = await dbContext.users
+                .FirstOrDefaultAsync(e => e.Email == request.Email);
+            if (nurse != null)
+                throw new ForbiddenException("Email exsist!");
+
+            var password = GenerateTempPassword();
+
+            await dbContext.AddAsync(new User
+            {
+                FullName = request.FullName,
+                Email = request.Email,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(password),
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                IsActive = true,
+                PhoneNumber = request.PhoneNumber,
+                Role = UserRole.Nurse
+            });
+            await dbContext.SaveChangesAsync();
+
+            await email.SendTempPasswordAsync(request.Email, request.FullName, password);
+            return "تم التسجيل بنجاح.";
+        }
+
         private string GenerateTempPassword()
         {
             const string chars = "ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789";

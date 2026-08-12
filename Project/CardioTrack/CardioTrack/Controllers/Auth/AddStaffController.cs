@@ -14,7 +14,7 @@ namespace CardioTrack.Controllers.Auth
         {
             this.addStaff = addStaff;
         }
-        [Authorize(Policy = "Admin")]
+        [Authorize(Policy = "AdminOnly")]
         [HttpPost("add-doctor")]
         public async Task<IActionResult> AddDoctor([FromBody]AddDoctorRequestDto request)
         {
@@ -22,5 +22,15 @@ namespace CardioTrack.Controllers.Auth
             var result = await addStaff.AddDoctorAsync(userId , request);
             return Ok(result);
         }
+
+        [Authorize(Policy = "AdminOnly")]
+        [HttpPost("add-nurse")]
+        public async Task<IActionResult> AddNurse([FromBody] AddNurseRequestDto request)
+        {
+            int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
+            var result = await addStaff.AddNurseAsync(userId, request);
+            return Ok(result);
+        }
+
     }
 }

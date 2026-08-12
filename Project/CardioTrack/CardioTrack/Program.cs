@@ -4,10 +4,12 @@ using CardioTrack.Helper;
 using CardioTrack.Infrastructure.Services.TokenService;
 using CardioTrack.Interfaces.IAdmin;
 using CardioTrack.Interfaces.IEmail;
+using CardioTrack.Interfaces.IProfile;
 using CardioTrack.Interfaces.RefreshToken;
 using CardioTrack.Middleware;
 using CardioTrack.Services.Admin;
 using CardioTrack.Services.Email;
+using CardioTrack.Services.Profile;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -142,6 +144,7 @@ namespace CardioTrack
                 options.AddPolicy("DoctorOnly", policy => policy.RequireRole("Doctor"));
                 options.AddPolicy("NurseOnly", policy => policy.RequireRole("Nurse"));
                 options.AddPolicy("PatientOnly", policy => policy.RequireRole("Patient"));
+                options.AddPolicy("AllActors", policy => policy.RequireRole("Admin", "Doctor", "Nurse", "Patient"));
             });
 
             //7. Services  
@@ -151,6 +154,7 @@ namespace CardioTrack
             builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddScoped<IEmail, EmailService>();
             builder.Services.AddScoped<IAddStaff, AddStaffService>();
+            builder.Services.AddScoped<IProfile, EditProfileService>();
 
 
             var app = builder.Build();
