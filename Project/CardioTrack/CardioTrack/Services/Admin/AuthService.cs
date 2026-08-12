@@ -20,7 +20,7 @@ namespace CardioTrack.Services.Admin
             var user = await dbContext.users
                 .FirstOrDefaultAsync(u => u.Email == request.Email);
 
-            if (user == null) return null;
+            if (user == null) return Exceptions;
 
             var passwordValid = BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash);
             if (!passwordValid) return null;
