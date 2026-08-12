@@ -6,6 +6,8 @@ namespace CardioTrack.Interfaces.IProfile
     {
         Task<EditProfileResponseDto> EditProfileAsync(int userId, EditProfileRequestDto request);
         Task<string> EditEmailRequest(int userId, EditEmailRequestDto request);
-        Task<string> ConfirmCode(int userId, CodeVerify codeVerify);
+        Task<string> ConfirmEmailCode(int userId, CodeVerify codeVerify);
+        Task<string> EditPasswordRequest(int userId, EditPasswordRequestDto request);
+        Task<string> ConfirmPasswordCode(int userId, CodeVerify codeVerify);
     }
 }

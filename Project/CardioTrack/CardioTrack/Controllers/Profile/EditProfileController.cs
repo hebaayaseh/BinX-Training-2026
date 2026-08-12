@@ -38,7 +38,25 @@ namespace CardioTrack.Controllers.Profile
         public async Task<IActionResult> ConfirmEmail([FromBody] CodeVerify request)
         {
             int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
-            var result = await profile.ConfirmCode(userId, request);
+            var result = await profile.ConfirmEmailCode(userId, request);
+            return Ok(result);
+        }
+
+        [Authorize(Policy = "AllActors")]
+        [HttpPost("edit-password")]
+        public async Task<IActionResult> EditPasswod([FromBody] EditPasswordRequestDto request)
+        {
+            int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
+            var result = await profile.EditPasswordRequest(userId, request);
+            return Ok(result);
+        }
+
+        [Authorize(Policy = "AllActors")]
+        [HttpPut("confirm-password")]
+        public async Task<IActionResult> ConfirmPassword([FromBody] CodeVerify request)
+        {
+            int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
+            var result = await profile.ConfirmPasswordCode(userId, request);
             return Ok(result);
         }
 

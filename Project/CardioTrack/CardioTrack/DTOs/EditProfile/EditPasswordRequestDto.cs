@@ -1,6 +1,6 @@
 ﻿namespace CardioTrack.DTOs.EditProfile
 {
-    public class EdiitPasswordRequestDto
+    public class EditPasswordRequestDto
     {
         public string Password { get; set; }
     }

@@ -19,7 +19,7 @@ namespace CardioTrack.Services.Profile
             this.email = email;
         }
 
-        public async Task<string> ConfirmCode(int userId, CodeVerify codeVerify)
+        public async Task<string> ConfirmEmailCode(int userId, CodeVerify codeVerify)
         {
             var user = await dbContext.users
                 .FirstOrDefaultAsync(u => u.Id == userId
@@ -47,6 +47,34 @@ namespace CardioTrack.Services.Profile
             return "تم تعديل الايميل بنجاح";
         }
 
+        public async Task<string> ConfirmPasswordCode(int userId, CodeVerify codeVerify)
+        {
+            var user = await dbContext.users
+                .FirstOrDefaultAsync(u => u.Id == userId
+                                     && u.IsActive);
+
+            if (user == null)
+                throw new InvalidTokenException("Auth unauthorized");
+
+            var validCode = await dbContext.emailVerificationCodes
+                .Where(c => c.UserId == userId
+                       && c.Purpose == "change-password"
+                       && !c.IsUsed
+                       && c.Code == codeVerify.Code
+                       && c.ExpiresAt > DateTime.UtcNow)
+                .OrderByDescending(c => c.CreatedAt)
+                .FirstOrDefaultAsync();
+
+            if (validCode == null || string.IsNullOrEmpty(validCode.PendingValue))
+                throw new ConflictException("Verfiy code");
+
+            user.Email = validCode.PendingValue;
+            validCode.IsUsed = true;
+            await dbContext.SaveChangesAsync();
+
+            return "تم تعديل كلمة المرور بنجاح";
+        }
+
         public async Task<string> EditEmailRequest(int userId, EditEmailRequestDto request)
         {
             var user = await dbContext.users
@@ -71,6 +99,33 @@ namespace CardioTrack.Services.Profile
 
             await dbContext.SaveChangesAsync();
             await email.SendOtpAsync(request.Email, code,"change-email");
+            return "تم ارسال الكود الى الايميل";
+        }
+
+        public async Task<string> EditPasswordRequest(int userId, EditPasswordRequestDto request)
+        {
+            var user = await dbContext.users
+               .FirstOrDefaultAsync(u => u.Id == userId
+                                    && u.IsActive);
+
+            if (user == null)
+                throw new InvalidTokenException("Auth unauthorized");
+
+            var code = new Random().Next(100000, 999999).ToString();
+
+            await dbContext.emailVerificationCodes
+                .AddAsync(new EmailVerificationCode
+                {
+                    UserId = userId,
+                    Code = code,
+                    ExpiresAt = DateTime.UtcNow.AddMinutes(10),
+                    Purpose = "change-password",
+                    PendingValue = BCrypt.Net.BCrypt.HashPassword(request.Password),
+
+                });
+
+            await dbContext.SaveChangesAsync();
+            await email.SendOtpAsync(request.Password, code, "change-password");
             return "تم ارسال الكود الى الايميل";
         }
 
