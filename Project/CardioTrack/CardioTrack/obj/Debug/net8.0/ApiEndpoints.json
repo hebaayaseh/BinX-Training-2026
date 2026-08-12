@@ -1,5 +1,21 @@
 [
   {
+    "ContainingType": "CardioTrack.Controllers.Auth.AddStaffController",
+    "Method": "AddDoctor",
+    "RelativePath": "add/staff/add-doctor",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CardioTrack.DTOs.Admin.AddDoctorRequestDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "CardioTrack.Controllers.Auth.AuthController",
     "Method": "Login",
     "RelativePath": "api/login",
