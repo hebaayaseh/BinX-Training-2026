@@ -35,7 +35,23 @@
     "ContainingType": "CardioTrack.Controllers.Profile.EditProfileController",
     "Method": "ConfirmEmail",
     "RelativePath": "api/editprofile/confirm-email",
-    "HttpMethod": "PUT",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CardioTrack.DTOs.EditProfile.CodeVerify",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CardioTrack.Controllers.Profile.EditProfileController",
+    "Method": "ConfirmPassword",
+    "RelativePath": "api/editprofile/confirm-password",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -65,6 +81,22 @@
   },
   {
     "ContainingType": "CardioTrack.Controllers.Profile.EditProfileController",
+    "Method": "EditPasswod",
+    "RelativePath": "api/editprofile/edit-password",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CardioTrack.DTOs.EditProfile.EditPasswordRequestDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CardioTrack.Controllers.Profile.EditProfileController",
     "Method": "EditProfile",
     "RelativePath": "api/editprofile/edit-profile",
     "HttpMethod": "PUT",
@@ -77,6 +109,16 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CardioTrack.Controllers.GetStaff.GetStaffController",
+    "Method": "GetStaff",
+    "RelativePath": "api/getstaff/get-staff",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {

@@ -34,11 +34,11 @@ namespace CardioTrack.Controllers.Profile
         }
 
         [Authorize(Policy = "AllActors")]
-        [HttpPut("confirm-email")]
+        [HttpPost("confirm-email")]
         public async Task<IActionResult> ConfirmEmail([FromBody] CodeVerify request)
         {
-            int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
-            var result = await profile.ConfirmEmailCode(userId, request);
+           
+            var result = await profile.ConfirmEmailCode( request);
             return Ok(result);
         }
 
@@ -52,11 +52,10 @@ namespace CardioTrack.Controllers.Profile
         }
 
         [Authorize(Policy = "AllActors")]
-        [HttpPut("confirm-password")]
+        [HttpPost("confirm-password")]
         public async Task<IActionResult> ConfirmPassword([FromBody] CodeVerify request)
         {
-            int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
-            var result = await profile.ConfirmPasswordCode(userId, request);
+            var result = await profile.ConfirmPasswordCode(request);
             return Ok(result);
         }
 

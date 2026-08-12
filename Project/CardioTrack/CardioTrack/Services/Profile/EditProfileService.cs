@@ -19,17 +19,17 @@ namespace CardioTrack.Services.Profile
             this.email = email;
         }
 
-        public async Task<string> ConfirmEmailCode(int userId, CodeVerify codeVerify)
+        public async Task<string> ConfirmEmailCode( CodeVerify codeVerify)
         {
             var user = await dbContext.users
-                .FirstOrDefaultAsync(u => u.Id == userId
+                .FirstOrDefaultAsync(u => u.Id == codeVerify.UserId
                                      && u.IsActive);
 
             if (user == null)
                 throw new InvalidTokenException("Auth unauthorized");
 
             var validCode = await dbContext.emailVerificationCodes
-                .Where(c => c.UserId == userId
+                .Where(c => c.UserId == codeVerify.UserId
                        && c.Purpose == "change-email"
                        && !c.IsUsed
                        && c.Code == codeVerify.Code
@@ -47,17 +47,17 @@ namespace CardioTrack.Services.Profile
             return "تم تعديل الايميل بنجاح";
         }
 
-        public async Task<string> ConfirmPasswordCode(int userId, CodeVerify codeVerify)
+        public async Task<string> ConfirmPasswordCode( CodeVerify codeVerify)
         {
             var user = await dbContext.users
-                .FirstOrDefaultAsync(u => u.Id == userId
+                .FirstOrDefaultAsync(u => u.Id == codeVerify.UserId
                                      && u.IsActive);
 
             if (user == null)
                 throw new InvalidTokenException("Auth unauthorized");
 
             var validCode = await dbContext.emailVerificationCodes
-                .Where(c => c.UserId == userId
+                .Where(c => c.UserId == codeVerify.UserId
                        && c.Purpose == "change-password"
                        && !c.IsUsed
                        && c.Code == codeVerify.Code
@@ -68,7 +68,7 @@ namespace CardioTrack.Services.Profile
             if (validCode == null || string.IsNullOrEmpty(validCode.PendingValue))
                 throw new ConflictException("Verfiy code");
 
-            user.Email = validCode.PendingValue;
+            user.PasswordHash = validCode.PendingValue;
             validCode.IsUsed = true;
             await dbContext.SaveChangesAsync();
 
@@ -111,6 +111,13 @@ namespace CardioTrack.Services.Profile
             if (user == null)
                 throw new InvalidTokenException("Auth unauthorized");
 
+            if (request.Password != request.ConfirmPassword)
+                throw new BadRequestException("Validation password mismatch");
+
+            var isSamePassword = BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash);
+            if (isSamePassword)
+                throw new BadRequestException("Validation same password");
+
             var code = new Random().Next(100000, 999999).ToString();
 
             await dbContext.emailVerificationCodes
@@ -125,7 +132,7 @@ namespace CardioTrack.Services.Profile
                 });
 
             await dbContext.SaveChangesAsync();
-            await email.SendOtpAsync(request.Password, code, "change-password");
+            await email.SendOtpAsync(user.Email, code,"change-password");
             return "تم ارسال الكود الى الايميل";
         }
 
