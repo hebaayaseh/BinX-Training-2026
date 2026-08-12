@@ -18,8 +18,18 @@ namespace CardioTrack.Services.Admin
             this.dbContext = dbContext;
             this.email = email;
         }
-        public async Task<string> AddDoctorAsync(AddDoctorRequestDto request)
+        public async Task<string> AddDoctorAsync(int userId , AddDoctorRequestDto request)
         {
+            var user = await dbContext.users
+                .FirstOrDefaultAsync(u => u.Id == userId
+                                     && u.IsActive);
+
+            if (user == null)
+                throw new InvalidTokenException("Auth unauthorized");
+
+            if (user.Role != UserRole.Admin)
+                throw new ForbiddenException("Auth forbidden");
+
             var doctor = await dbContext.users
                 .FirstOrDefaultAsync(e=>e.Email == request.Email);
             if (doctor != null)

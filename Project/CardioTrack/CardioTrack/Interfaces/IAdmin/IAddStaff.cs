@@ -4,6 +4,6 @@ namespace CardioTrack.Interfaces.IAdmin
 {
     public interface IAddStaff
     {
-        Task<string> AddDoctorAsync(AddDoctorRequestDto request);
+        Task<string> AddDoctorAsync(int userId , AddDoctorRequestDto request);
     }
 }

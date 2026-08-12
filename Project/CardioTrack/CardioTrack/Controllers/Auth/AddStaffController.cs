@@ -18,7 +18,8 @@ namespace CardioTrack.Controllers.Auth
         [HttpPost("add-doctor")]
         public async Task<IActionResult> AddDoctor([FromBody]AddDoctorRequestDto request)
         {
-            var result = await addStaff.AddDoctorAsync(request);
+            int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
+            var result = await addStaff.AddDoctorAsync(userId , request);
             return Ok(result);
         }
     }
