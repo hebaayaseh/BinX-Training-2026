@@ -161,6 +161,7 @@ namespace CardioTrack
             builder.Services.AddScoped<IGetPatient, GetPatientService>();
             builder.Services.AddScoped<IActiveDeactive, ActiveDeactiveActorService>();
             builder.Services.AddScoped<IGetPatients, GetPatientsService>();
+            builder.Services.AddScoped<IManageMedication, ManageMedicationService>();
 
             var app = builder.Build();
 

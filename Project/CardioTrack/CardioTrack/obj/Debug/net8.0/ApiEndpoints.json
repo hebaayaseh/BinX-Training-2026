@@ -94,6 +94,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "CardioTrack.Controllers.Doctor.ManageMedicationController",
+    "Method": "ManageMedication",
+    "RelativePath": "api/Doctor/manage-Medication",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CardioTrack.DTOs.Doctor.ManageMedicationRequestDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "CardioTrack.Controllers.Profile.EditProfileController",
     "Method": "ConfirmEmail",
     "RelativePath": "api/editprofile/confirm-email",
