@@ -42,8 +42,9 @@ namespace CardioTrack.Services.Doctor
                     Dosage = request.Dosage,
                     StartDate = request.StartDate,
                     EndDate = request.EndDate,
-                    PrescribedByDoctorId = doctor.Id
-                
+                    PrescribedByDoctorId = doctor.Id,
+                    IsActive = true
+
                 });
 
             await dbContext.SaveChangesAsync();

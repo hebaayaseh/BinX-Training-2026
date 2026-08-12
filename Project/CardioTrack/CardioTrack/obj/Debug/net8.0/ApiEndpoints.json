@@ -84,6 +84,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "CardioTrack.Controllers.Doctor.MedicalHistoryController",
+    "Method": "AddMedicalHistory",
+    "RelativePath": "api/Doctor/add-medical-history",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CardioTrack.DTOs.Doctor.MedicalHistoryRequestDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "CardioTrack.Controllers.Doctor.GetPatientsController",
     "Method": "GetPatients",
     "RelativePath": "api/Doctor/get-patients",
