@@ -33,6 +33,38 @@
   },
   {
     "ContainingType": "CardioTrack.Controllers.Profile.EditProfileController",
+    "Method": "ConfirmEmail",
+    "RelativePath": "api/editprofile/confirm-email",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CardioTrack.DTOs.EditProfile.CodeVerify",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CardioTrack.Controllers.Profile.EditProfileController",
+    "Method": "EditEmail",
+    "RelativePath": "api/editprofile/edit-email",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CardioTrack.DTOs.EditProfile.EditEmailRequestDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CardioTrack.Controllers.Profile.EditProfileController",
     "Method": "EditProfile",
     "RelativePath": "api/editprofile/edit-profile",
     "HttpMethod": "PUT",

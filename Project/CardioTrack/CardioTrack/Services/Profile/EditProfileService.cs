@@ -1,6 +1,7 @@
 ﻿using CardioTrack.Data;
 using CardioTrack.DTOs.EditProfile;
 using CardioTrack.ExceptionService;
+using CardioTrack.Interfaces.IEmail;
 using CardioTrack.Interfaces.IProfile;
 using CardioTrack.Models;
 using Microsoft.EntityFrameworkCore;
@@ -11,12 +12,67 @@ namespace CardioTrack.Services.Profile
     public class EditProfileService : IProfile
     {
         private readonly CardioTrackDbContext dbContext;
-        public EditProfileService(CardioTrackDbContext dbContext)
+        private readonly IEmail email;
+        public EditProfileService(CardioTrackDbContext dbContext,IEmail email)
         {
             this.dbContext = dbContext;
+            this.email = email;
         }
 
-        
+        public async Task<string> ConfirmCode(int userId, CodeVerify codeVerify)
+        {
+            var user = await dbContext.users
+                .FirstOrDefaultAsync(u => u.Id == userId
+                                     && u.IsActive);
+
+            if (user == null)
+                throw new InvalidTokenException("Auth unauthorized");
+
+            var validCode = await dbContext.emailVerificationCodes
+                .Where(c => c.UserId == userId
+                       && c.Purpose == "change-email"
+                       && !c.IsUsed
+                       && c.Code == codeVerify.Code
+                       && c.ExpiresAt > DateTime.UtcNow)
+                .OrderByDescending(c => c.CreatedAt)
+                .FirstOrDefaultAsync();
+
+            if (validCode == null || string.IsNullOrEmpty(validCode.PendingValue))
+                throw new ConflictException("Verfiy code");
+
+            user.Email = validCode.PendingValue;
+            validCode.IsUsed = true;
+            await dbContext.SaveChangesAsync();
+
+            return "تم تعديل الايميل بنجاح";
+        }
+
+        public async Task<string> EditEmailRequest(int userId, EditEmailRequestDto request)
+        {
+            var user = await dbContext.users
+                .FirstOrDefaultAsync(u => u.Id == userId
+                                     && u.IsActive);
+
+            if (user == null)
+                throw new InvalidTokenException("Auth unauthorized");
+
+            var code = new Random().Next(100000, 999999).ToString();
+
+            await dbContext.emailVerificationCodes
+                .AddAsync(new EmailVerificationCode
+                {
+                    UserId = userId,
+                    Code = code,
+                    ExpiresAt = DateTime.UtcNow.AddMinutes(10),
+                    Purpose = "change-email",
+                    PendingValue = request.Email,
+
+                });
+
+            await dbContext.SaveChangesAsync();
+            await email.SendOtpAsync(request.Email, code,"change-email");
+            return "تم ارسال الكود الى الايميل";
+        }
 
         public async Task<EditProfileResponseDto> EditProfileAsync(int userId, EditProfileRequestDto request)
         {
