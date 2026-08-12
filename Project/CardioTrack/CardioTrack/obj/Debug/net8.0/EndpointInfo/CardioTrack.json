@@ -5,6 +5,68 @@
     "version": "1.0"
   },
   "paths": {
+    "/api/active-deactive/active": {
+      "put": {
+        "tags": [
+          "ActiveDeactive"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActiveDeactiveDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActiveDeactiveDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActiveDeactiveDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/active-deactive/deactive": {
+      "put": {
+        "tags": [
+          "ActiveDeactive"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActiveDeactiveDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActiveDeactiveDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActiveDeactiveDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/add/staff/add-doctor": {
       "post": {
         "tags": [
@@ -253,6 +315,18 @@
         }
       }
     },
+    "/api/getpatient": {
+      "get": {
+        "tags": [
+          "GetPatient"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/getstaff/get-staff": {
       "get": {
         "tags": [
@@ -330,6 +404,16 @@
   },
   "components": {
     "schemas": {
+      "ActiveDeactiveDto": {
+        "type": "object",
+        "properties": {
+          "actorId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "AddDoctorRequestDto": {
         "type": "object",
         "properties": {

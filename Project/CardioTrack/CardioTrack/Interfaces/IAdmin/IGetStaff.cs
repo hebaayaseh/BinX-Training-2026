@@ -4,6 +4,6 @@ namespace CardioTrack.Interfaces.IAdmin
 {
     public interface IGetStaff
     {
-        Task<GetStaffResponseDto> GetStaffAsync(int userId);
+        Task<GetStaffResponseDto> GetStaffAsync(int userId); 
     }
 }
