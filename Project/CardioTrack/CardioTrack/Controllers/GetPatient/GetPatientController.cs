@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CardioTrack.Controllers.GetPatient
 {
     [ApiController]
-    [Route("api/getpatient")]
+    [Route("api/admin")]
     public class GetPatientController : ControllerBase
     {
         private readonly IGetPatient getPatient;

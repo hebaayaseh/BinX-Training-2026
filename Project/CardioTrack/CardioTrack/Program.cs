@@ -3,11 +3,13 @@ using CardioTrack.Data;
 using CardioTrack.Helper;
 using CardioTrack.Infrastructure.Services.TokenService;
 using CardioTrack.Interfaces.IAdmin;
+using CardioTrack.Interfaces.IDoctor;
 using CardioTrack.Interfaces.IEmail;
 using CardioTrack.Interfaces.IProfile;
 using CardioTrack.Interfaces.RefreshToken;
 using CardioTrack.Middleware;
 using CardioTrack.Services.Admin;
+using CardioTrack.Services.Doctor;
 using CardioTrack.Services.Email;
 using CardioTrack.Services.Profile;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -158,6 +160,7 @@ namespace CardioTrack
             builder.Services.AddScoped<IGetStaff, GetStaffService>();
             builder.Services.AddScoped<IGetPatient, GetPatientService>();
             builder.Services.AddScoped<IActiveDeactive, ActiveDeactiveActorService>();
+            builder.Services.AddScoped<IGetPatients, GetPatientsService>();
 
             var app = builder.Build();
 

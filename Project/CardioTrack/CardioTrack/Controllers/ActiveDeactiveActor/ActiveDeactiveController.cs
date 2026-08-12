@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CardioTrack.Controllers.ActiveDeactiveActor
 {
     [ApiController]
-    [Route("api/active-deactive")]
+    [Route("api/admin")]
     public class ActiveDeactiveController : ControllerBase
     {
         private readonly IActiveDeactive activeDeactive;

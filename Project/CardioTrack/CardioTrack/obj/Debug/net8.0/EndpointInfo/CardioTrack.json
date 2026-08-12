@@ -5,7 +5,7 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/active-deactive/active": {
+    "/api/admin/active": {
       "put": {
         "tags": [
           "ActiveDeactive"
@@ -36,7 +36,7 @@
         }
       }
     },
-    "/api/active-deactive/deactive": {
+    "/api/admin/deactive": {
       "put": {
         "tags": [
           "ActiveDeactive"
@@ -67,7 +67,7 @@
         }
       }
     },
-    "/add/staff/add-doctor": {
+    "/api/admin/add-doctor": {
       "post": {
         "tags": [
           "AddStaff"
@@ -98,7 +98,7 @@
         }
       }
     },
-    "/add/staff/add-nurse": {
+    "/api/admin/add-nurse": {
       "post": {
         "tags": [
           "AddStaff"
@@ -315,7 +315,7 @@
         }
       }
     },
-    "/api/getpatient": {
+    "/api/admin": {
       "get": {
         "tags": [
           "GetPatient"
@@ -327,7 +327,19 @@
         }
       }
     },
-    "/api/getstaff/get-staff": {
+    "/api/Doctor/get-patients": {
+      "get": {
+        "tags": [
+          "GetPatients"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/admin/get-staff": {
       "get": {
         "tags": [
           "GetStaff"

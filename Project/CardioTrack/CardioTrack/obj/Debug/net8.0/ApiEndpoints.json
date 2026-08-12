@@ -1,8 +1,34 @@
 [
   {
+    "ContainingType": "CardioTrack.Controllers.GetPatient.GetPatientController",
+    "Method": "GetPatient",
+    "RelativePath": "api/admin",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CardioTrack.Controllers.ActiveDeactiveActor.ActiveDeactiveController",
+    "Method": "ActiveActor",
+    "RelativePath": "api/admin/active",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CardioTrack.DTOs.Admin.ActiveDeactiveDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "CardioTrack.Controllers.Auth.AddStaffController",
     "Method": "AddDoctor",
-    "RelativePath": "add/staff/add-doctor",
+    "RelativePath": "api/admin/add-doctor",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -18,7 +44,7 @@
   {
     "ContainingType": "CardioTrack.Controllers.Auth.AddStaffController",
     "Method": "AddNurse",
-    "RelativePath": "add/staff/add-nurse",
+    "RelativePath": "api/admin/add-nurse",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -33,8 +59,8 @@
   },
   {
     "ContainingType": "CardioTrack.Controllers.ActiveDeactiveActor.ActiveDeactiveController",
-    "Method": "ActiveActor",
-    "RelativePath": "api/active-deactive/active",
+    "Method": "DeactiveActor",
+    "RelativePath": "api/admin/deactive",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -48,19 +74,23 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "CardioTrack.Controllers.ActiveDeactiveActor.ActiveDeactiveController",
-    "Method": "DeactiveActor",
-    "RelativePath": "api/active-deactive/deactive",
-    "HttpMethod": "PUT",
+    "ContainingType": "CardioTrack.Controllers.GetStaff.GetStaffController",
+    "Method": "GetStaff",
+    "RelativePath": "api/admin/get-staff",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "request",
-        "Type": "CardioTrack.DTOs.Admin.ActiveDeactiveDto",
-        "IsRequired": true
-      }
-    ],
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CardioTrack.Controllers.Doctor.GetPatientsController",
+    "Method": "GetPatients",
+    "RelativePath": "api/Doctor/get-patients",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -141,26 +171,6 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "CardioTrack.Controllers.GetPatient.GetPatientController",
-    "Method": "GetPatient",
-    "RelativePath": "api/getpatient",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "CardioTrack.Controllers.GetStaff.GetStaffController",
-    "Method": "GetStaff",
-    "RelativePath": "api/getstaff/get-staff",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
     "ReturnTypes": []
   },
   {

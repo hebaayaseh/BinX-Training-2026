@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CardioTrack.Controllers.Auth
 {
     [ApiController]
-    [Route("add/staff")]
+    [Route("api/admin")]
     public class AddStaffController :ControllerBase
     {
         private readonly IAddStaff addStaff;
