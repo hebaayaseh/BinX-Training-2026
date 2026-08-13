@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CardioTrack.DTOs.Doctor
 {
-    public class AddApointmentRequestDto
+    public class AddAppointmentRequestDto
     {
         public int PatientId { get; set; }
         public int DoctorId { get; set; }

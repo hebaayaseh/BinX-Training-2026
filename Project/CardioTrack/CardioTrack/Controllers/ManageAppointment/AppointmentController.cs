@@ -16,10 +16,19 @@ namespace CardioTrack.Controllers.ManageAppointment
         }
         [Authorize(Policy = "DoctorOrNurse")]
         [HttpPost("add-appointment")]
-        public async Task<IActionResult> AddAppointment([FromBody]AddApointmentRequestDto request)
+        public async Task<IActionResult> AddAppointment([FromBody]AddAppointmentRequestDto request)
         {
             int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
             var result = await appointment.AddAppointmentAsync(userId, request);
+            return Ok(result);
+        }
+
+        [Authorize(Policy = "DoctorOrNurse")]
+        [HttpPost("complete-appointment")]
+        public async Task<IActionResult> CompleteAppointment([FromBody] CompleteAppointmentRequestDto request)
+        {
+            int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
+            var result = await appointment.CompleteAppointmentAsync(userId, request);
             return Ok(result);
         }
     }

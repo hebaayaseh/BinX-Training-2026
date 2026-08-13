@@ -138,17 +138,48 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AddApointmentRequestDto"
+                "$ref": "#/components/schemas/AddAppointmentRequestDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/AddApointmentRequestDto"
+                "$ref": "#/components/schemas/AddAppointmentRequestDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/AddApointmentRequestDto"
+                "$ref": "#/components/schemas/AddAppointmentRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/DoctorAndNurse/complete-appointment": {
+      "post": {
+        "tags": [
+          "Appointment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompleteAppointmentRequestDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompleteAppointmentRequestDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompleteAppointmentRequestDto"
               }
             }
           }
@@ -519,7 +550,7 @@
         },
         "additionalProperties": false
       },
-      "AddApointmentRequestDto": {
+      "AddAppointmentRequestDto": {
         "type": "object",
         "properties": {
           "patientId": {
@@ -587,6 +618,20 @@
           "code": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CompleteAppointmentRequestDto": {
+        "type": "object",
+        "properties": {
+          "appointmentId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "doctorId": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false

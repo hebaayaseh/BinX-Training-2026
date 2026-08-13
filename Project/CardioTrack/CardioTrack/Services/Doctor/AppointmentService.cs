@@ -15,7 +15,7 @@ namespace CardioTrack.Services.Doctor
         {
             this.dbContext = dbContext;
         }
-        public async Task<AddAppointmentResponseDto> AddAppointmentAsync(int userId, AddApointmentRequestDto request)
+        public async Task<AddAppointmentResponseDto> AddAppointmentAsync(int userId, AddAppointmentRequestDto request)
         {
             var user = await dbContext.users
                  .FirstOrDefaultAsync(u => u.Id == userId
@@ -62,6 +62,31 @@ namespace CardioTrack.Services.Doctor
                 DoctorId = request.DoctorId
             };
 
+        }
+
+        public async Task<string> CompleteAppointmentAsync(int userId, CompleteAppointmentRequestDto request)
+        {
+            var user = await dbContext.users
+                 .FirstOrDefaultAsync(u => u.Id == userId
+                         && u.IsActive
+                         && (u.Role == UserRole.Doctor
+                             || u.Role == UserRole.Nurse));
+
+            if (user == null)
+                throw new ForbiddenException("Auth forbidden");
+
+            var appointment = await dbContext.appointments
+                .Include(d=>d.Doctor)
+                .FirstOrDefaultAsync(a => a.Id == request.AppointmentId
+                                     && a.DoctorId == request.DoctorId
+                                     && a.Status == AppointmentStatus.Scheduled);
+
+            if (appointment == null)
+                throw new BadRequestException("Appointment not found");
+
+            appointment.Status = AppointmentStatus.Completed;
+            await dbContext.SaveChangesAsync();
+            return "تم اكتمال الموعد.";
         }
     }
 }
