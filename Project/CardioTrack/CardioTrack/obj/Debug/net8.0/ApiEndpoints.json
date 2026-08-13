@@ -207,6 +207,22 @@
   },
   {
     "ContainingType": "CardioTrack.Controllers.VitalSigns.VitalSignsController",
+    "Method": "AddVitalSigns",
+    "RelativePath": "api/DoctorOrNurse/add-vitalsign",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CardioTrack.DTOs.VitalSign.AddVitalSignRequestDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CardioTrack.Controllers.VitalSigns.VitalSignsController",
     "Method": "ViewVitalSigns",
     "RelativePath": "api/DoctorOrNurse/view-vitalsign",
     "HttpMethod": "POST",

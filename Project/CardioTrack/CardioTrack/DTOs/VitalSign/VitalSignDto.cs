@@ -1,6 +1,6 @@
 ﻿namespace CardioTrack.DTOs.VitalSign
 {
-    public class VitalSign
+    public class VitalSignDto
     {
         public int VitalSignId{ get; set; }
         public string PatientFullName { get; set; }

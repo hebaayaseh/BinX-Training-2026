@@ -2,6 +2,7 @@
 {
     public class AddVitalSignRequestDto
     {
+        public int PatientId { get; set; }
         public double HeartRate { get; set; }
         public double BloodPressureSystolic { get; set; }
         public double BloodPressureDiastolic { get; set; }

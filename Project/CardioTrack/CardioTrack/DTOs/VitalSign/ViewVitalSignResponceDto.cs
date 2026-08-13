@@ -2,6 +2,6 @@
 {
     public class ViewVitalSignResponceDto
     {
-        public List<VitalSign> VitalSigns { get; set; }
+        public List<VitalSignDto> VitalSigns { get; set; }
     }
 }

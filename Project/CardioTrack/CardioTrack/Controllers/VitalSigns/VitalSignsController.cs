@@ -1,5 +1,5 @@
 ﻿using CardioTrack.DTOs.VitalSign;
-using CardioTrack.Interfaces.IDoctor;
+using CardioTrack.Interfaces.IVitalSign;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +21,15 @@ namespace CardioTrack.Controllers.VitalSigns
         {
             int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
             var result = await vitalSign.ViewVitalSign(userId, request);    
+            return Ok(result);
+        }
+
+        [Authorize("DoctorOrNurse")]
+        [HttpPost("add-vitalsign")]
+        public async Task<IActionResult> AddVitalSigns([FromBody] AddVitalSignRequestDto request)
+        {
+            int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
+            var result = await vitalSign.AddVitalSign(userId, request);
             return Ok(result);
         }
     }

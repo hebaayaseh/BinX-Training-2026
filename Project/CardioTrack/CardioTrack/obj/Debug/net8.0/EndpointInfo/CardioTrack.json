@@ -672,6 +672,37 @@
           }
         }
       }
+    },
+    "/api/DoctorOrNurse/add-vitalsign": {
+      "post": {
+        "tags": [
+          "VitalSigns"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddVitalSignRequestDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddVitalSignRequestDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddVitalSignRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -740,6 +771,36 @@
           "phoneNumber": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AddVitalSignRequestDto": {
+        "type": "object",
+        "properties": {
+          "patientId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "heartRate": {
+            "type": "number",
+            "format": "double"
+          },
+          "bloodPressureSystolic": {
+            "type": "number",
+            "format": "double"
+          },
+          "bloodPressureDiastolic": {
+            "type": "number",
+            "format": "double"
+          },
+          "temperature": {
+            "type": "number",
+            "format": "double"
+          },
+          "oxygenSaturation": {
+            "type": "number",
+            "format": "double"
           }
         },
         "additionalProperties": false
