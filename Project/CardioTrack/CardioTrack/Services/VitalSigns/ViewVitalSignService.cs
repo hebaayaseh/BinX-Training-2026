@@ -131,9 +131,26 @@ namespace CardioTrack.Services.VitalSigns
             };
         }
 
-        public Task<string> NurseResoleVitalSign(int userId, ResoleVitalSignAlertRequestDto request)
+        public async Task<string> NurseResoleVitalSign(int userId, ResoleVitalSignAlertRequestDto request)
         {
-            throw new NotImplementedException();
+            var doctor = await dbContext.users
+                .FirstOrDefaultAsync(u => u.Id == userId
+                                     && u.IsActive
+                                     && u.Role == UserRole.Nurse);
+
+            if (doctor == null)
+                throw new ForbiddenException("Auth forbidden");
+
+            var alert = await dbContext.vitalSignAlerts
+                .FirstOrDefaultAsync(a => a.IsResolved == false
+                                    && a.Id == request.VilateSignAlertId);
+
+            if (alert == null)
+                throw new BadRequestException("Vital sing alert not found");
+
+            alert.IsResolved = true;
+            await dbContext.SaveChangesAsync();
+            return "تم الحل بنجاح.";
         }
 
         public async Task<NurseViewVitalSignAlertResponceDto> NurseViewVitalSignAlert(int userId)

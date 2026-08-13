@@ -249,6 +249,22 @@
   },
   {
     "ContainingType": "CardioTrack.Controllers.VitalSigns.VitalSignsController",
+    "Method": "NurseResolveVitalSignsAlert",
+    "RelativePath": "api/DoctorOrNurse/nurse-resolve-vitalsignalert",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CardioTrack.DTOs.VitalSign.ResoleVitalSignAlertRequestDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CardioTrack.Controllers.VitalSigns.VitalSignsController",
     "Method": "NurseViewVitalSignsAlert",
     "RelativePath": "api/DoctorOrNurse/nurse-view-vitalsignalert",
     "HttpMethod": "GET",
