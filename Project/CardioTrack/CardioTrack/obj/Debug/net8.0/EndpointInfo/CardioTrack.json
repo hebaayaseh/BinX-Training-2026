@@ -222,6 +222,37 @@
         }
       }
     },
+    "/api/DoctorAndNurse/get-appointments-by-status-to-nurse": {
+      "post": {
+        "tags": [
+          "Appointment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetAppointmentsRequestDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetAppointmentsRequestDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetAppointmentsRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/login": {
       "post": {
         "tags": [
@@ -639,6 +670,14 @@
         },
         "additionalProperties": false
       },
+      "AppointmentStatus": {
+        "enum": [
+          "Scheduled",
+          "Completed",
+          "Canceled"
+        ],
+        "type": "string"
+      },
       "CancelAppointmentRequestDto": {
         "type": "object",
         "properties": {
@@ -715,6 +754,19 @@
           "phoneNumber": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetAppointmentsRequestDto": {
+        "type": "object",
+        "properties": {
+          "appointmentStatus": {
+            "$ref": "#/components/schemas/AppointmentStatus"
+          },
+          "doctorId": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false

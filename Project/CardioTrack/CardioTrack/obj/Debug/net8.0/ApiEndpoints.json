@@ -174,6 +174,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "CardioTrack.Controllers.ManageAppointment.AppointmentController",
+    "Method": "GetAppointments",
+    "RelativePath": "api/DoctorAndNurse/get-appointments-by-status-to-nurse",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CardioTrack.DTOs.Doctor.GetAppointmentsRequestDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "CardioTrack.Controllers.Profile.EditProfileController",
     "Method": "ConfirmEmail",
     "RelativePath": "api/editprofile/confirm-email",
