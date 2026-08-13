@@ -114,7 +114,7 @@ namespace CardioTrack.Services.Doctor
             return "تم اكتمال الموعد.";
         }
 
-        public async Task<GetAppointmentResponseDto> GetAppointmentAsync(int userId, GetAppointmentsRequestDto request)
+        public async Task<GetAppointmentResponseDto> GetAppointmentToNurseAsync(int userId, GetAppointmentsRequestDto request)
         {
             var user = await dbContext.users
                  .FirstOrDefaultAsync(u => u.Id == userId
@@ -138,6 +138,7 @@ namespace CardioTrack.Services.Doctor
                        && a.DoctorId == request.DoctorId)
                 .Select(d => new AppointmentDto 
                 { 
+                    AppointmentId = d.Id,
                     AppointmentDate = d.AppointmentDate
                 }).ToListAsync();
 
@@ -148,5 +149,35 @@ namespace CardioTrack.Services.Doctor
 
 
         }
+
+        public async Task<GetAppointmentResponseDto> GetAppointmentToDuctorAsync(int userId, GetDoctorAppointmentRequestDto request)
+        {
+            var user = await dbContext.users
+                  .FirstOrDefaultAsync(u => u.Id == userId
+                          && u.IsActive
+                          && u.Role == UserRole.Doctor);
+
+            if (user == null)
+                throw new ForbiddenException("Auth forbidden");
+
+           
+
+            var appointments = await dbContext.appointments
+                .Include(d => d.Doctor)
+                .Where(a => a.Status == request.AppointmentStatus
+                       && a.DoctorId == user.Id)
+                .Select(d => new AppointmentDto
+                {
+                    AppointmentId = d.Id,
+                    AppointmentDate = d.AppointmentDate
+                }).ToListAsync();
+
+            return new GetAppointmentResponseDto
+            {
+                Appointments = appointments
+            };
+        }
+
+        
     }
 }

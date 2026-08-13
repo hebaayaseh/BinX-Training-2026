@@ -46,7 +46,16 @@ namespace CardioTrack.Controllers.ManageAppointment
         public async Task<IActionResult> GetAppointments([FromBody] GetAppointmentsRequestDto request)
         {
             int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
-            var result = await appointment.GetAppointmentAsync(userId, request);
+            var result = await appointment.GetAppointmentToNurseAsync(userId, request);
+            return Ok(result);
+        }
+
+        [Authorize(Policy = "DoctorOnly")]
+        [HttpPost("get-appointments-by-status-to-doctor")]
+        public async Task<IActionResult> GetAppointmentsToDoctor([FromBody] GetDoctorAppointmentRequestDto request)
+        {
+            int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
+            var result = await appointment.GetAppointmentToDuctorAsync(userId, request);
             return Ok(result);
         }
 

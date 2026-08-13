@@ -253,6 +253,37 @@
         }
       }
     },
+    "/api/DoctorAndNurse/get-appointments-by-status-to-doctor": {
+      "post": {
+        "tags": [
+          "Appointment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetDoctorAppointmentRequestDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetDoctorAppointmentRequestDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetDoctorAppointmentRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/login": {
       "post": {
         "tags": [
@@ -767,6 +798,15 @@
           "doctorId": {
             "type": "integer",
             "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetDoctorAppointmentRequestDto": {
+        "type": "object",
+        "properties": {
+          "appointmentStatus": {
+            "$ref": "#/components/schemas/AppointmentStatus"
           }
         },
         "additionalProperties": false
