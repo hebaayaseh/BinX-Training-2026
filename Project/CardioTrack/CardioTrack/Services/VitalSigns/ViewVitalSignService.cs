@@ -78,18 +78,44 @@ namespace CardioTrack.Services.VitalSigns
 
         }
 
+        public async Task<string> DoctorResoleVitalSign(int userId, ResoleVitalSignAlertRequestDto request)
+        {
+            var doctor = await dbContext.users
+                .FirstOrDefaultAsync(u => u.Id == userId
+                                     && u.IsActive
+                                     && u.Role == UserRole.Doctor);
+
+            if (doctor == null)
+                throw new ForbiddenException("Auth forbidden");
+
+            var alert = await dbContext.vitalSignAlerts
+                .Include(p => p.Patient)
+                .FirstOrDefaultAsync(a => a.Patient.DoctorId == userId
+                                    && a.IsResolved == false
+                                    && a.Id == request.VilateSignAlertId);
+
+            if (alert == null)
+                throw new BadRequestException("Vital sing alert not found");
+
+            alert.IsResolved = true;
+            await dbContext.SaveChangesAsync();
+            return "تم الحل بنجاح.";
+        }
+
         public async Task<DoctorViewVitalSignAlertResponceDto> DoctorViewVitalSignAlert(int userId)
         {
             var doctor = await dbContext.users
                 .FirstOrDefaultAsync(u => u.Id == userId
-                                     && u.IsActive);
+                                     && u.IsActive
+                                     && u.Role == UserRole.Doctor);
 
             if (doctor == null)
                 throw new ForbiddenException("Auth forbidden");
 
             var alerts = await dbContext.vitalSignAlerts
                 .Include(p => p.Patient)
-                .Where(a => a.Patient.DoctorId == userId)
+                .Where(a => a.Patient.DoctorId == userId
+                       && a.IsResolved == false)
                 .Select(r=>new DoctorAlertDto
                 {
                     PatientId = r.PatientId,
@@ -97,11 +123,17 @@ namespace CardioTrack.Services.VitalSigns
                     Severity = r.Severity,
                     CreatedAt = r.CreatedAt,
                     AlterType=r.AlterType
-                }).ToListAsync();
+                }).OrderBy(c=>c.CreatedAt)
+                .ToListAsync();
             return new DoctorViewVitalSignAlertResponceDto
             {
                 alerts = alerts
             };
+        }
+
+        public Task<string> NurseResoleVitalSign(int userId, ResoleVitalSignAlertRequestDto request)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<NurseViewVitalSignAlertResponceDto> NurseViewVitalSignAlert(int userId)
@@ -117,6 +149,7 @@ namespace CardioTrack.Services.VitalSigns
             var alerts = await dbContext.vitalSignAlerts
                 .Include(p=>p.Patient)
                 .ThenInclude(d=>d.Doctor)
+                .Where(a=>a.IsResolved == false)
                 .Select(r => new NurseAlertDto
                 {
                     DoctorId = r.Patient.DoctorId,
@@ -126,7 +159,8 @@ namespace CardioTrack.Services.VitalSigns
                     Severity = r.Severity,
                     CreatedAt = r.CreatedAt,
                     AlterType = r.AlterType
-                }).ToListAsync();
+                }).OrderBy(c=>c.CreatedAt)
+                .ToListAsync();
 
             return new NurseViewVitalSignAlertResponceDto
             {

@@ -727,6 +727,37 @@
           }
         }
       }
+    },
+    "/api/DoctorOrNurse/doctor-resolve-vitalsignalert": {
+      "put": {
+        "tags": [
+          "VitalSigns"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResoleVitalSignAlertRequestDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResoleVitalSignAlertRequestDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResoleVitalSignAlertRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1022,6 +1053,16 @@
           "refreshToken": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ResoleVitalSignAlertRequestDto": {
+        "type": "object",
+        "properties": {
+          "vilateSignAlertId": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false

@@ -8,5 +8,7 @@ namespace CardioTrack.Interfaces.IVitalSign
         Task<VitalSignDto> AddVitalSign(int userId, AddVitalSignRequestDto request);
         Task<DoctorViewVitalSignAlertResponceDto> DoctorViewVitalSignAlert(int userId);
         Task<NurseViewVitalSignAlertResponceDto> NurseViewVitalSignAlert(int userId);
+        Task<string> DoctorResoleVitalSign(int userId, ResoleVitalSignAlertRequestDto request);
+        Task<string> NurseResoleVitalSign(int userId, ResoleVitalSignAlertRequestDto request);
     }
 }

@@ -51,6 +51,13 @@ namespace CardioTrack.Controllers.VitalSigns
             return Ok(result);
         }
 
-
+        [Authorize("DoctorOnly")]
+        [HttpPut("doctor-resolve-vitalsignalert")]
+        public async Task<IActionResult> DoctorResolveVitalSignsAlert([FromBody]ResoleVitalSignAlertRequestDto request)
+        {
+            int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
+            var result = await vitalSign.DoctorResoleVitalSign(userId,request);
+            return Ok(result);
+        }
     }
 }
