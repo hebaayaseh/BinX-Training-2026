@@ -78,7 +78,58 @@ namespace CardioTrack.Services.VitalSigns
 
         }
 
-        public async Task<ViewVitalSignResponceDto> ViewVitalSign(int userId, ViewVitalSignRequestDto request)
+        public async Task<DoctorViewVitalSignAlertResponceDto> DoctorViewVitalSignAlert(int userId)
+        {
+            var doctor = await dbContext.users
+                .FirstOrDefaultAsync(u => u.Id == userId
+                                     && u.IsActive);
+
+            if (doctor == null)
+                throw new ForbiddenException("Auth forbidden");
+
+            var alerts = await dbContext.vitalSignAlerts
+                .Include(p => p.Patient)
+                .Where(a => a.Patient.DoctorId == userId)
+                .Select(r=>new DoctorAlertDto
+                {
+                    PatientId = r.PatientId,
+                    PatientName=r.Patient.FullName,
+                    Severity = r.Severity,
+                    CreatedAt = r.CreatedAt,
+                    AlterType=r.AlterType
+                }).ToListAsync();
+            return new DoctorViewVitalSignAlertResponceDto
+            {
+                alerts = alerts
+            };
+        }
+
+        public async Task<DoctorViewVitalSignAlertResponceDto> NurseViewVitalSignAlert(int userId)
+        {
+            var doctor = await dbContext.users
+                .FirstOrDefaultAsync(u => u.Id == userId
+                                     && u.IsActive
+                                     && u.Role == UserRole.Nurse);
+
+            if (doctor == null)
+                throw new ForbiddenException("Auth forbidden");
+
+            var alerts = await dbContext.vitalSignAlerts
+                .Select(r => new DoctorAlertDto
+                {
+                    PatientId = r.PatientId,
+                    PatientName = r.Patient.FullName,
+                    Severity = r.Severity,
+                    CreatedAt = r.CreatedAt,
+                    AlterType = r.AlterType
+                }).ToListAsync();
+            return new DoctorViewVitalSignAlertResponceDto
+            {
+                alerts = alerts
+            };
+        }
+
+        public async Task<ViewVitalSignResponseDto> ViewVitalSign(int userId, ViewVitalSignRequestDto request)
         {
             var user = await dbContext.users
                 .FirstOrDefaultAsync(u => u.Id == userId
@@ -112,7 +163,7 @@ namespace CardioTrack.Services.VitalSigns
                 .OrderBy(d => d.RecordedAt)
                 .ToListAsync();
 
-            return new ViewVitalSignResponceDto
+            return new ViewVitalSignResponseDto
             {
                 VitalSigns = vitalSign
             };

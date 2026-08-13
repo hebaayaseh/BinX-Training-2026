@@ -32,5 +32,16 @@ namespace CardioTrack.Controllers.VitalSigns
             var result = await vitalSign.AddVitalSign(userId, request);
             return Ok(result);
         }
+
+        [Authorize("DoctorOnly")]
+        [HttpGet("doctor-view-vitalsignalert")]
+        public async Task<IActionResult> DoctorViewVitalSignsAlert()
+        {
+            int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
+            var result = await vitalSign.DoctorViewVitalSignAlert(userId);
+            return Ok(result);
+        }
+
+
     }
 }

@@ -4,7 +4,9 @@ namespace CardioTrack.Interfaces.IVitalSign
 {
     public interface IVitalSign
     {
-        Task<ViewVitalSignResponceDto> ViewVitalSign(int userId , ViewVitalSignRequestDto request);
+        Task<ViewVitalSignResponseDto> ViewVitalSign(int userId , ViewVitalSignRequestDto request);
         Task<VitalSignDto> AddVitalSign(int userId, AddVitalSignRequestDto request);
+        Task<DoctorViewVitalSignAlertResponceDto> DoctorViewVitalSignAlert(int userId);
+        Task<NurseViewVitalSignAlertResponceDto> NurseViewVitalSignAlert(int userId);
     }
 }

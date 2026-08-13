@@ -223,6 +223,16 @@
   },
   {
     "ContainingType": "CardioTrack.Controllers.VitalSigns.VitalSignsController",
+    "Method": "DoctorViewVitalSignsAlert",
+    "RelativePath": "api/DoctorOrNurse/doctor-view-vitalsignalert",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CardioTrack.Controllers.VitalSigns.VitalSignsController",
     "Method": "ViewVitalSigns",
     "RelativePath": "api/DoctorOrNurse/view-vitalsign",
     "HttpMethod": "POST",

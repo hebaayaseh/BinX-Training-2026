@@ -1,6 +1,6 @@
 ﻿namespace CardioTrack.DTOs.VitalSign
 {
-    public class ViewVitalSignResponceDto
+    public class ViewVitalSignResponseDto
     {
         public List<VitalSignDto> VitalSigns { get; set; }
     }
