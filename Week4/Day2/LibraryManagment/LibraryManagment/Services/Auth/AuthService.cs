@@ -29,7 +29,7 @@ namespace LibraryManagment.Services.Auth
                 return new LoginResponseDto
                 {
                     IsSuccess = false,
-                    Errors = new List<string> { "Invalid Email or Password" }
+                    Errors = new List<string> { "Invalid Email" }
                 };
             }
             var result = await signInManager.CheckPasswordSignInAsync(user, request.Password, false);
@@ -38,7 +38,7 @@ namespace LibraryManagment.Services.Auth
                 return new LoginResponseDto
                 {
                     IsSuccess = false,
-                    Errors = new List<string> { "Invalid Email or Password" }
+                    Errors = new List<string> { "Invalid Password" }
                 };
             }
             var token = GenerateJwtToken(user);
