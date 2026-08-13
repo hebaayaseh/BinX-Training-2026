@@ -145,6 +145,7 @@ namespace CardioTrack
                 options.AddPolicy("MedicalStaff", policy => policy.RequireRole("Admin", "Doctor", "Nurse"));
                 options.AddPolicy("DoctorOnly", policy => policy.RequireRole("Doctor"));
                 options.AddPolicy("NurseOnly", policy => policy.RequireRole("Nurse"));
+                options.AddPolicy("DoctorOrNurse", policy => policy.RequireRole("Doctor","Nurse"));
                 options.AddPolicy("PatientOnly", policy => policy.RequireRole("Patient"));
                 options.AddPolicy("AllActors", policy => policy.RequireRole("Admin", "Doctor", "Nurse", "Patient"));
             });
@@ -163,6 +164,7 @@ namespace CardioTrack
             builder.Services.AddScoped<IGetPatients, GetPatientsService>();
             builder.Services.AddScoped<IManageMedication, ManageMedicationService>();
             builder.Services.AddScoped<IMedicalHistory, MedicalHistoryService>();
+            builder.Services.AddScoped<IAppointment, AppointmentService>();
 
             var app = builder.Build();
 
