@@ -59,6 +59,14 @@ namespace CardioTrack.Controllers.Profile
             return Ok(result);
         }
 
+        [Authorize(Policy = "AllActors")]
+        [HttpGet("staff-view-profile")]
+        public async Task<IActionResult> StaffViewProfie()
+        {
+            int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
+            var result = await profile.viewProfile(userId);
+            return Ok(result);
+        }
 
     }
 }

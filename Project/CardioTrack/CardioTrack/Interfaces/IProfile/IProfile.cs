@@ -9,5 +9,6 @@ namespace CardioTrack.Interfaces.IProfile
         Task<string> ConfirmEmailCode( CodeVerify codeVerify);
         Task<string> EditPasswordRequest(int userId, EditPasswordRequestDto request);
         Task<string> ConfirmPasswordCode(CodeVerify codeVerify);
+        Task<ViewProfileResponseDto> viewProfile(int userId);
     }
 }

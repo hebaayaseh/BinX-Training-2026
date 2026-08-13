@@ -1,5 +1,6 @@
 ﻿using CardioTrack.Data;
 using CardioTrack.DTOs.EditProfile;
+using CardioTrack.Enums;
 using CardioTrack.ExceptionService;
 using CardioTrack.Interfaces.IEmail;
 using CardioTrack.Interfaces.IProfile;
@@ -159,6 +160,27 @@ namespace CardioTrack.Services.Profile
                 PhoneNumber=user.PhoneNumber,
                 FullName = user.FullName,
             };
+
+        }
+
+        public async Task<ViewProfileResponseDto> viewProfile(int userId)
+        {
+            var user = await dbContext.users
+                .Include(p=>p.LinkedPatient)
+                .FirstOrDefaultAsync(u => u.Id == userId
+                                     && u.IsActive
+                                     && u.Role!=UserRole.Patient);
+
+            if (user == null)
+                throw new ForbiddenException("Auth fornidden");
+
+            return new ViewProfileResponseDto
+            {
+                Email = user.Email,
+                PhoneNumber =user.PhoneNumber,
+                FullName = user.FullName,
+            };
+
 
         }
     }

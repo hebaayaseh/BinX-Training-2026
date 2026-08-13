@@ -470,6 +470,18 @@
         }
       }
     },
+    "/api/editprofile/staff-view-profile": {
+      "get": {
+        "tags": [
+          "EditProfile"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/admin": {
       "get": {
         "tags": [

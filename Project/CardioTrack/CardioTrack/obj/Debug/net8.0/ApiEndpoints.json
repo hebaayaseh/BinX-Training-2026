@@ -286,6 +286,16 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "CardioTrack.Controllers.Profile.EditProfileController",
+    "Method": "StaffViewProfie",
+    "RelativePath": "api/editprofile/staff-view-profile",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "CardioTrack.Controllers.Auth.AuthController",
     "Method": "Login",
     "RelativePath": "api/login",
