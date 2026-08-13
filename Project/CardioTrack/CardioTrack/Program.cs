@@ -14,6 +14,7 @@ using CardioTrack.Services.Doctor;
 using CardioTrack.Services.Email;
 using CardioTrack.Services.Profile;
 using CardioTrack.Services.VitalSigns;
+using CardioTrack.VitalSignsAlert;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -168,6 +169,7 @@ namespace CardioTrack
             builder.Services.AddScoped<IMedicalHistory, MedicalHistoryService>();
             builder.Services.AddScoped<IAppointment, AppointmentService>();
             builder.Services.AddScoped<IVitalSign, ViewVitalSignService>();
+            builder.Services.AddScoped<VitalSignAlertEvaluator>();
 
             var app = builder.Build();
 

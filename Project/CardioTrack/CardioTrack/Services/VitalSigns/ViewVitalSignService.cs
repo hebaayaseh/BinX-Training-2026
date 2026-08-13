@@ -31,6 +31,15 @@ namespace CardioTrack.Services.VitalSigns
             if (user == null)
                 throw new ForbiddenException("Auth forbidden");
 
+            if(user.Role==UserRole.Doctor)
+            {
+                var DoctorPatient = await dbContext.patients
+                    .FirstOrDefaultAsync(p => p.DoctorId == userId
+                                        && p.Id == request.PatientId);
+                if(DoctorPatient == null)
+                    throw new ForbiddenException("Auth forbidden");
+            }
+
             var patient = await dbContext.patients
                 .FirstOrDefaultAsync(u => u.Id == request.PatientId);
             if (patient == null)
@@ -49,13 +58,22 @@ namespace CardioTrack.Services.VitalSigns
                 RecordedByUserId = userId,
             };
             await dbContext.AddAsync(vitalsign);
-            await dbContext.SaveChangesAsync();
-            signAlertEvaluator.TemperatureEvaluate(vitalsign.Id,request.Temperature);
-            signAlertEvaluator.BloodPressureSystolic(vitalsign.Id, request.BloodPressureSystolic);
-            signAlertEvaluator.OxygenSaturation(vitalsign.Id, request.OxygenSaturation);
-            signAlertEvaluator.HeartRate(vitalsign.Id, request.HeartRate);
 
+            await signAlertEvaluator.EvaluateAllAsync(vitalsign);
+            await dbContext.SaveChangesAsync();                    
 
+            return new VitalSignDto
+            {
+                PatientFullName = patient.FullName,
+                BloodPressureDiastolic = request.BloodPressureDiastolic,
+                BloodPressureSystolic = request.BloodPressureSystolic,
+                OxygenSaturation = request.OxygenSaturation,
+                HeartRate = request.HeartRate,
+                Temperature = request.Temperature,
+                RecordedAt = vitalsign.RecordedAt,
+                RecordedByUseName = user.FullName,
+                RecordedByUserId = user.Id
+            };
 
 
         }
