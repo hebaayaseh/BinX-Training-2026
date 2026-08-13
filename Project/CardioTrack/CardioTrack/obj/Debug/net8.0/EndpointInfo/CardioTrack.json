@@ -715,6 +715,18 @@
           }
         }
       }
+    },
+    "/api/DoctorOrNurse/nurse-view-vitalsignalert": {
+      "get": {
+        "tags": [
+          "VitalSigns"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {

@@ -104,7 +104,7 @@ namespace CardioTrack.Services.VitalSigns
             };
         }
 
-        public async Task<DoctorViewVitalSignAlertResponceDto> NurseViewVitalSignAlert(int userId)
+        public async Task<NurseViewVitalSignAlertResponceDto> NurseViewVitalSignAlert(int userId)
         {
             var doctor = await dbContext.users
                 .FirstOrDefaultAsync(u => u.Id == userId
@@ -115,15 +115,20 @@ namespace CardioTrack.Services.VitalSigns
                 throw new ForbiddenException("Auth forbidden");
 
             var alerts = await dbContext.vitalSignAlerts
-                .Select(r => new DoctorAlertDto
+                .Include(p=>p.Patient)
+                .ThenInclude(d=>d.Doctor)
+                .Select(r => new NurseAlertDto
                 {
+                    DoctorId = r.Patient.DoctorId,
+                    DoctorName = r.Patient.Doctor.FullName,
                     PatientId = r.PatientId,
                     PatientName = r.Patient.FullName,
                     Severity = r.Severity,
                     CreatedAt = r.CreatedAt,
                     AlterType = r.AlterType
                 }).ToListAsync();
-            return new DoctorViewVitalSignAlertResponceDto
+
+            return new NurseViewVitalSignAlertResponceDto
             {
                 alerts = alerts
             };
