@@ -206,6 +206,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "CardioTrack.Controllers.VitalSigns.VitalSignsController",
+    "Method": "ViewVitalSigns",
+    "RelativePath": "api/DoctorOrNurse/view-vitalsign",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CardioTrack.DTOs.VitalSign.ViewVitalSignRequestDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "CardioTrack.Controllers.Profile.EditProfileController",
     "Method": "ConfirmEmail",
     "RelativePath": "api/editprofile/confirm-email",
