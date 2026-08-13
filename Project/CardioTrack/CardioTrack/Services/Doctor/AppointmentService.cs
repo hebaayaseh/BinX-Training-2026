@@ -64,6 +64,31 @@ namespace CardioTrack.Services.Doctor
 
         }
 
+        public async Task<string> CancelAppointmentAsync(int userId, CancelAppointmentRequestDto request)
+        {
+            var user = await dbContext.users
+                 .FirstOrDefaultAsync(u => u.Id == userId
+                         && u.IsActive
+                         && (u.Role == UserRole.Doctor
+                             || u.Role == UserRole.Nurse));
+
+            if (user == null)
+                throw new ForbiddenException("Auth forbidden");
+
+            var appointment = await dbContext.appointments
+                .Include(d => d.Doctor)
+                .FirstOrDefaultAsync(a => a.Id == request.AppointmentId
+                                     && a.DoctorId == request.DoctorId
+                                     && a.Status == AppointmentStatus.Scheduled);
+
+            if (appointment == null)
+                throw new BadRequestException("Appointment not found");
+
+            appointment.Status = AppointmentStatus.Canceled;
+            await dbContext.SaveChangesAsync();
+            return "تم الغاء الموعد.";
+        }
+
         public async Task<string> CompleteAppointmentAsync(int userId, CompleteAppointmentRequestDto request)
         {
             var user = await dbContext.users

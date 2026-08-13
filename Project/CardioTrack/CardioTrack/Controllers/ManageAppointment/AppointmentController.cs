@@ -31,5 +31,15 @@ namespace CardioTrack.Controllers.ManageAppointment
             var result = await appointment.CompleteAppointmentAsync(userId, request);
             return Ok(result);
         }
+
+        [Authorize(Policy = "DoctorOrNurse")]
+        [HttpPost("cancel-appointment")]
+        public async Task<IActionResult> CancelAppointment([FromBody] CancelAppointmentRequestDto request)
+        {
+            int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
+            var result = await appointment.CancelAppointmentAsync(userId, request);
+            return Ok(result);
+        }
+
     }
 }
