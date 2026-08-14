@@ -18,11 +18,4 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.22.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Validators\Medication\" />
-    <Folder Include="Validators\MedicalHistory\" />
-    <Folder Include="Validators\Appointment\" />
-    <Folder Include="Validators\VitalSign\" />
-  </ItemGroup>
-
 </Project>

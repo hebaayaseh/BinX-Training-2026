@@ -17,10 +17,12 @@ using CardioTrack.Services.Patient;
 using CardioTrack.Services.Profile;
 using CardioTrack.Services.VitalSigns;
 using CardioTrack.VitalSignsAlert;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using FluentValidation.AspNetCore;
 using System.Text;
 
 namespace CardioTrack
@@ -175,6 +177,9 @@ namespace CardioTrack
             builder.Services.AddScoped<IActivePatient,ActivePatientService>();
             builder.Services.AddScoped<IPatient, PatientService>();
             builder.Services.AddScoped<IAddPatient, AddPatientService>();
+
+            builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+            
 
             var app = builder.Build();
 

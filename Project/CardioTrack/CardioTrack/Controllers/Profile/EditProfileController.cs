@@ -1,7 +1,10 @@
 ﻿using CardioTrack.DTOs.EditProfile;
+using CardioTrack.DTOs.VitalSign;
 using CardioTrack.Interfaces.IProfile;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace CardioTrack.Controllers.Profile
 {
@@ -17,8 +20,12 @@ namespace CardioTrack.Controllers.Profile
 
         [Authorize(Policy = "AllActors")]
         [HttpPut("edit-profile")]
-        public async Task<IActionResult> EditProfile([FromBody] EditProfileRequestDto request)
+        public async Task<IActionResult> EditProfile([FromBody] EditProfileRequestDto request, IValidator<EditProfileRequestDto> validator)
         {
+            var validationResult = await validator.ValidateAsync(request);
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
+
             int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
             var result = await profile.EditProfileAsync(userId, request);
             return Ok(result);
@@ -26,8 +33,12 @@ namespace CardioTrack.Controllers.Profile
 
         [Authorize(Policy = "AllActors")]
         [HttpPost("edit-email")]
-        public async Task<IActionResult> EditEmail([FromBody] EditEmailRequestDto request)
+        public async Task<IActionResult> EditEmail([FromBody] EditEmailRequestDto request, IValidator<EditEmailRequestDto> validator)
         {
+            var validationResult = await validator.ValidateAsync(request);
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
+
             int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
             var result = await profile.EditEmailRequest(userId, request);
             return Ok(result);
@@ -44,8 +55,12 @@ namespace CardioTrack.Controllers.Profile
 
         [Authorize(Policy = "AllActors")]
         [HttpPost("edit-password")]
-        public async Task<IActionResult> EditPasswod([FromBody] EditPasswordRequestDto request)
+        public async Task<IActionResult> EditPasswod([FromBody] EditPasswordRequestDto request, IValidator<EditPasswordRequestDto> validator)
         {
+            var validationResult = await validator.ValidateAsync(request);
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
+
             int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
             var result = await profile.EditPasswordRequest(userId, request);
             return Ok(result);

@@ -1,7 +1,9 @@
 ﻿using CardioTrack.DTOs.VitalSign;
 using CardioTrack.Interfaces.IVitalSign;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace CardioTrack.Controllers.VitalSigns
 {
@@ -26,8 +28,12 @@ namespace CardioTrack.Controllers.VitalSigns
 
         [Authorize("DoctorOrNurse")]
         [HttpPost("add-vitalsign")]
-        public async Task<IActionResult> AddVitalSigns([FromBody] AddVitalSignRequestDto request)
+        public async Task<IActionResult> AddVitalSigns([FromBody] AddVitalSignRequestDto request,IValidator<AddVitalSignRequestDto> validator)
         {
+            var validationResult = await validator.ValidateAsync(request);
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
+
             int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
             var result = await vitalSign.AddVitalSign(userId, request);
             return Ok(result);
