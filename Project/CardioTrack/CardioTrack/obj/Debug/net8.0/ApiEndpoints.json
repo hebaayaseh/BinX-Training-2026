@@ -438,6 +438,16 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "CardioTrack.Controllers.Patient.PatientController",
+    "Method": "ViewMedicalHestory",
+    "RelativePath": "api/patient/view-medical-history",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "CardioTrack.Controllers.Token.TokenController",
     "Method": "Logout",
     "RelativePath": "api/token/logout",

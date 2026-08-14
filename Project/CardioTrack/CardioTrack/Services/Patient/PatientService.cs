@@ -45,5 +45,35 @@ namespace CardioTrack.Services.Patient
             
             return new ViewAppointmentResponseDto { Appointments = Appointments };
         }
+
+        public async Task<ViewMedicalHistoryResponseDto> ViewMedicalHistory(int userId)
+        {
+            var user = await dbContext.users
+                .FirstOrDefaultAsync(p => p.Id == userId
+                                     && p.IsActive
+                                     && p.Role == UserRole.Patient);
+
+            if (user == null)
+                throw new ForbiddenException("Auth Forbidden");
+
+            var patient = await dbContext.patients
+                .FirstOrDefaultAsync(p => p.LinkedUserId == userId);
+
+            if (patient == null)
+                throw new ForbiddenException("Auth Forbidden");
+
+            var medicals = await dbContext.medicalHistories
+                .Where(m => m.PatientId == patient.Id)
+                .Select(h => new MidicalHistoyDto
+                {
+                    Condition = h.Condition,
+                    RecordedByDoctorId = h.RecordedByDoctorId,
+                    Id = h.Id,
+                    DiagnosisDate = h.DiagnosisDate,
+                    Note = h.Note
+                }).ToListAsync();
+
+            return new ViewMedicalHistoryResponseDto { Midicals = medicals };
+        }
     }
 }

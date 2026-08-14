@@ -23,5 +23,16 @@ namespace CardioTrack.Controllers.Patient
             var result = await patient.ViewAppointment(userId, request);
             return Ok(result);
         }
+
+        [Authorize(Policy = "PatientOnly")]
+        [HttpPost("view-medical-history")]
+        public async Task<IActionResult> ViewMedicalHestory()
+        {
+            int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
+            var result = await patient.ViewMedicalHistory(userId);
+            return Ok(result);
+        }
+
+
     }
 }

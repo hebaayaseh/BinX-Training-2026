@@ -654,6 +654,18 @@
         }
       }
     },
+    "/api/patient/view-medical-history": {
+      "post": {
+        "tags": [
+          "Patient"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/token/refresh-token": {
       "post": {
         "tags": [
