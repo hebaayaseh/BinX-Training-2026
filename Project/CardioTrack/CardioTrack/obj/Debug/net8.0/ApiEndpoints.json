@@ -423,6 +423,16 @@
   },
   {
     "ContainingType": "CardioTrack.Controllers.Patient.PatientController",
+    "Method": "ViewActiveMedications",
+    "RelativePath": "api/patient/view-active-medications",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CardioTrack.Controllers.Patient.PatientController",
     "Method": "ViewAppointment",
     "RelativePath": "api/patient/view-appointment",
     "HttpMethod": "POST",
@@ -441,6 +451,16 @@
     "ContainingType": "CardioTrack.Controllers.Patient.PatientController",
     "Method": "ViewMedicalHestory",
     "RelativePath": "api/patient/view-medical-history",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CardioTrack.Controllers.Patient.PatientController",
+    "Method": "ViewVitalSigns",
+    "RelativePath": "api/patient/view-vital-signs",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,

@@ -666,6 +666,30 @@
         }
       }
     },
+    "/api/patient/view-vital-signs": {
+      "post": {
+        "tags": [
+          "Patient"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/patient/view-active-medications": {
+      "post": {
+        "tags": [
+          "Patient"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/token/refresh-token": {
       "post": {
         "tags": [

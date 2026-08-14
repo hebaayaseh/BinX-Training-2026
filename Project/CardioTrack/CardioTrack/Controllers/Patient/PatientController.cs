@@ -33,6 +33,24 @@ namespace CardioTrack.Controllers.Patient
             return Ok(result);
         }
 
+        [Authorize(Policy = "PatientOnly")]
+        [HttpPost("view-vital-signs")]
+        public async Task<IActionResult> ViewVitalSigns()
+        {
+            int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
+            var result = await patient.PatientViewVitalSignReponse(userId);
+            return Ok(result);
+        }
+
+        [Authorize(Policy = "PatientOnly")]
+        [HttpPost("view-active-medications")]
+        public async Task<IActionResult> ViewActiveMedications()
+        {
+            int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
+            var result = await patient.ViewMedication(userId);
+            return Ok(result);
+        }
+
 
     }
 }
