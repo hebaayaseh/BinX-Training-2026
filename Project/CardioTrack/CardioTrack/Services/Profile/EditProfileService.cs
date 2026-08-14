@@ -1,5 +1,6 @@
 ﻿using CardioTrack.Data;
 using CardioTrack.DTOs.EditProfile;
+using CardioTrack.DTOs.Patient;
 using CardioTrack.Enums;
 using CardioTrack.ExceptionService;
 using CardioTrack.Interfaces.IEmail;
@@ -163,10 +164,34 @@ namespace CardioTrack.Services.Profile
 
         }
 
+        public async Task<PatientViewProfileResponseDto> PatientViewProfile(int userId)
+        {
+            var user = await dbContext.users
+                .Include(p => p.LinkedPatient)
+                .FirstOrDefaultAsync(u => u.Id == userId
+                                     && u.IsActive
+                                     && u.Role == UserRole.Patient);
+
+            if (user == null)
+                throw new ForbiddenException("Auth fornidden");
+
+            return new PatientViewProfileResponseDto 
+            {
+                PatientFullName = user.FullName,
+                PatientId = userId,
+                PhoneNumber = user.PhoneNumber,
+                Address = user.LinkedPatient.Address,
+                Gender = user.LinkedPatient.Gender,
+                BloodType = user.LinkedPatient.BloodType,
+                DateOfBirth = user.LinkedPatient.DateOfBirth,
+                Email = user.Email
+            };
+
+        }
+
         public async Task<ViewProfileResponseDto> viewProfile(int userId)
         {
             var user = await dbContext.users
-                .Include(p=>p.LinkedPatient)
                 .FirstOrDefaultAsync(u => u.Id == userId
                                      && u.IsActive
                                      && u.Role!=UserRole.Patient);

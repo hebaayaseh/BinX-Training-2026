@@ -387,6 +387,16 @@
   },
   {
     "ContainingType": "CardioTrack.Controllers.Profile.EditProfileController",
+    "Method": "PatientViewProfie",
+    "RelativePath": "api/editprofile/patient-view-profile",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CardioTrack.Controllers.Profile.EditProfileController",
     "Method": "StaffViewProfie",
     "RelativePath": "api/editprofile/staff-view-profile",
     "HttpMethod": "GET",
@@ -406,6 +416,22 @@
       {
         "Name": "request",
         "Type": "CardioTrack.DTOs.LogIn.LoginRequestDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CardioTrack.Controllers.Patient.PatientController",
+    "Method": "ViewAppointment",
+    "RelativePath": "api/patient/view-appointment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CardioTrack.DTOs.Patient.ViewAppointmentRequestDto",
         "IsRequired": true
       }
     ],

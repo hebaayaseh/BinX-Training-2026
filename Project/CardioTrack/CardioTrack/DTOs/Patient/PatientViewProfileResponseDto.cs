@@ -5,7 +5,7 @@ namespace CardioTrack.DTOs.Patient
     public class PatientViewProfileResponseDto
     {
         public int PatientId { get; set; }
-        public string PatientName { get; set; }
+        public string PatientFullName { get; set; }
         public BloodType BloodType { get; set; }
         public Gender Gender { get; set; }
         public string Email {  get; set; }

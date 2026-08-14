@@ -513,6 +513,18 @@
         }
       }
     },
+    "/api/editprofile/patient-view-profile": {
+      "get": {
+        "tags": [
+          "EditProfile"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/admin": {
       "get": {
         "tags": [
@@ -600,6 +612,37 @@
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/MedicalHistoryRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/patient/view-appointment": {
+      "post": {
+        "tags": [
+          "Patient"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ViewAppointmentRequestDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ViewAppointmentRequestDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ViewAppointmentRequestDto"
               }
             }
           }
@@ -1139,6 +1182,15 @@
           "vilateSignAlertId": {
             "type": "integer",
             "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ViewAppointmentRequestDto": {
+        "type": "object",
+        "properties": {
+          "appointmentStatus": {
+            "$ref": "#/components/schemas/AppointmentStatus"
           }
         },
         "additionalProperties": false

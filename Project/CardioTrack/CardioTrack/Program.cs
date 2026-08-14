@@ -5,6 +5,7 @@ using CardioTrack.Infrastructure.Services.TokenService;
 using CardioTrack.Interfaces.IAdmin;
 using CardioTrack.Interfaces.IDoctor;
 using CardioTrack.Interfaces.IEmail;
+using CardioTrack.Interfaces.IPetient;
 using CardioTrack.Interfaces.IProfile;
 using CardioTrack.Interfaces.IVitalSign;
 using CardioTrack.Interfaces.RefreshToken;
@@ -12,6 +13,7 @@ using CardioTrack.Middleware;
 using CardioTrack.Services.Admin;
 using CardioTrack.Services.Doctor;
 using CardioTrack.Services.Email;
+using CardioTrack.Services.Patient;
 using CardioTrack.Services.Profile;
 using CardioTrack.Services.VitalSigns;
 using CardioTrack.VitalSignsAlert;
@@ -171,6 +173,7 @@ namespace CardioTrack
             builder.Services.AddScoped<IVitalSign, ViewVitalSignService>();
             builder.Services.AddScoped<VitalSignAlertEvaluator>();
             builder.Services.AddScoped<IActivePatient,ActivePatientService>();
+            builder.Services.AddScoped<IPatient, PatientService>();
 
             var app = builder.Build();
 

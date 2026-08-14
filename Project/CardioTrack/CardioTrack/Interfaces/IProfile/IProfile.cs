@@ -1,4 +1,5 @@
 ﻿using CardioTrack.DTOs.EditProfile;
+using CardioTrack.DTOs.Patient;
 
 namespace CardioTrack.Interfaces.IProfile
 {
@@ -10,5 +11,6 @@ namespace CardioTrack.Interfaces.IProfile
         Task<string> EditPasswordRequest(int userId, EditPasswordRequestDto request);
         Task<string> ConfirmPasswordCode(CodeVerify codeVerify);
         Task<ViewProfileResponseDto> viewProfile(int userId);
+        Task<PatientViewProfileResponseDto> PatientViewProfile(int userId);
     }
 }
