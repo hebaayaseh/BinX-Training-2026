@@ -174,6 +174,7 @@ namespace CardioTrack
             builder.Services.AddScoped<VitalSignAlertEvaluator>();
             builder.Services.AddScoped<IActivePatient,ActivePatientService>();
             builder.Services.AddScoped<IPatient, PatientService>();
+            builder.Services.AddScoped<IAddPatient, AddPatientService>();
 
             var app = builder.Build();
 
