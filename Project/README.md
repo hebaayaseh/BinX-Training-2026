@@ -1,4 +1,4 @@
-﻿# CardioTrack 🫀
+﻿# CardioTrack 
 
 CardioTrack is a backend REST API for a cardiac patient monitoring system.
 
