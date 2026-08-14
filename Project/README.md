@@ -10,7 +10,7 @@ API verification.
 
 ---
 
-## 📌 Project Overview
+##  Project Overview
 
 CardioTrack provides a backend system for managing patients and their cardiac
 health-related information.
@@ -32,7 +32,7 @@ Patients have restricted access to their own information.
 
 ---
 
-## 🎯 Project Objectives
+##  Project Objectives
 
 The main objectives of this project are to demonstrate:
 
@@ -57,7 +57,7 @@ The main objectives of this project are to demonstrate:
 
 ---
 
-# 🛠️ Technologies
+#  Technologies
 
 ## Backend
 
@@ -93,7 +93,7 @@ The main objectives of this project are to demonstrate:
 
 ---
 
-# 👥 User Roles
+#  User Roles
 
 ## Admin
 
@@ -172,7 +172,7 @@ The system also supports temporary-password and email verification flows.
 
 ---
 
-# 🔐 Authentication & Authorization
+#  Authentication & Authorization
 
 CardioTrack uses JWT Bearer Authentication.
 
