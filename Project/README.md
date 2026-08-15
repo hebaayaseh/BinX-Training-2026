@@ -224,7 +224,7 @@ Protected Endpoint
 ```
 # Test Accounts Information
 ## Admin 
-Email : heba.ayaseh04@hmail.com
+Email : heba.ayaseh04@gmail.com
 Password : Heba1234@
 
 ## Doctor 
