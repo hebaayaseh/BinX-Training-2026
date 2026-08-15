@@ -129,7 +129,9 @@ namespace CardioTrack.Services.Patient
 
             var activeMedications = await dbContext.medications
                 .Where(m => m.PatientId == patient.Id
-                       && m.EndDate <= DateTime.UtcNow)
+                       && m.IsActive
+                       && (m.EndDate == null 
+                       || m.EndDate > DateTime.UtcNow))
                 .Select(a => new MedicationResponseDto
                 {
                     PrescribedByDoctorId = a.PrescribedByDoctorId,

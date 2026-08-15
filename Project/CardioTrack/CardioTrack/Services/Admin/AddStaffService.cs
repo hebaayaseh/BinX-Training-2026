@@ -79,8 +79,8 @@ namespace CardioTrack.Services.Admin
                 FullName = request.FullName,
                 Email = request.Email,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(password),
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
                 IsActive = true,
                 PhoneNumber = request.PhoneNumber,
                 Role = UserRole.Nurse

@@ -30,7 +30,8 @@ namespace CardioTrack.Services.Doctor
 
             var patient = await dbContext.patients
                 .FirstOrDefaultAsync(p => p.Id == request.PatientId
-                                     && p.DoctorId == userId);
+                                     && p.DoctorId == userId
+                                     && p.LinkedUserId!=null);
 
             if(patient == null)
                 throw new ForbiddenException("Auth forbidden");

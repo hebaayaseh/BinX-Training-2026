@@ -26,6 +26,9 @@ namespace CardioTrack.Services.Doctor
             if (user == null)
                 throw new ForbiddenException("Auth forbidden");
 
+            if (user.Role == UserRole.Doctor && request.DoctorId != user.Id)
+                throw new ForbiddenException("Doctors can only manage their own appointments");
+
             var patient = await dbContext.patients
                 .Include(u => u.Doctor)
                 .FirstOrDefaultAsync(p => p.Id == request.PatientId

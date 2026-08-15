@@ -42,7 +42,7 @@ namespace CardioTrack.Services.Admin
                                      && u.IsActive);
 
             if (user == null)
-                throw new InvalidTokenException("");
+                throw new InvalidTokenException("Auth Unothoeized");
 
             var actor = await dbContext.users
                 .FirstOrDefaultAsync(a => a.Id == Actor.ActorId

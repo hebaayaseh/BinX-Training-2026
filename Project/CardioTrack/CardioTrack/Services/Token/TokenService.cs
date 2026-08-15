@@ -1,6 +1,7 @@
 ﻿using CardioTrack.Data;
 using CardioTrack.DTOs.Token;
 using CardioTrack.Enums;
+using CardioTrack.ExceptionService;
 using CardioTrack.Helper;
 using CardioTrack.Interfaces.RefreshToken;
 using CardioTrack.Models;
@@ -51,11 +52,11 @@ namespace CardioTrack.Infrastructure.Services.TokenService
                 .FirstOrDefaultAsync(t => t.Token == hashedInput);
 
             if (existing == null || existing.IsRevoked || existing.ExpiresAt < DateTime.UtcNow)
-                throw new Exception("Auth invalid refresh token");
+                throw new InvalidTokenException("Invalid or expired refresh token");
 
             var user = await dbContext.users.FindAsync(existing.UserId);
             if (user == null)
-                throw new Exception("Auth invalid refresh token");
+                throw new InvalidTokenException("Invalid or expired refresh token");
 
             existing.IsRevoked = true;
 

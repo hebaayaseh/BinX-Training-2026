@@ -25,7 +25,6 @@ namespace CardioTrack.Services.Admin
                 throw new InvalidTokenException("");
 
             var doctors = await dbContext.users
-                .Include(p=>p.LinkedPatient)
                 .Where(d => d.Role == UserRole.Doctor)
                 .Select(d => new DoctorPatientDto
                 {

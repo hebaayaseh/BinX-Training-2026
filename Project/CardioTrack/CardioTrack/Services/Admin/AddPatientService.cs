@@ -31,16 +31,16 @@ namespace CardioTrack.Services.Admin
                                      && d.IsActive
                                      && d.Role == UserRole.Doctor);
 
-            if (user == null)
+            if (doctor == null)
                 throw new BadRequestException("Doctor not found");
 
             var patient = new Models.Patient
             {
                 FullName = request.FullName,
-                PhoneNumber = request.phoneNumber,
+                PhoneNumber = request.PhoneNumber,
                 Address = request.Address,
                 BloodType = request.BloodType,
-                DateOfBirth = request.DatrOfBirth,
+                DateOfBirth = request.DateOfBirth,
                 DoctorId = request.DoctorId,
                 Gender = request.Gender
             };
