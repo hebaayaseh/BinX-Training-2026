@@ -172,7 +172,7 @@ namespace CardioTrack
             builder.Services.AddScoped<IAppointment, AppointmentService>();
             builder.Services.AddScoped<IVitalSign, ViewVitalSignService>();
             builder.Services.AddScoped<VitalSignAlertEvaluator>();
-            builder.Services.AddScoped<IActivePatient,ActivePatientService>();
+            builder.Services.AddScoped<IActiveDeactivePatient,ActiveOrDeactivePatientService>();
             builder.Services.AddScoped<IPatient, PatientService>();
             builder.Services.AddScoped<IAddPatient, AddPatientService>();
 

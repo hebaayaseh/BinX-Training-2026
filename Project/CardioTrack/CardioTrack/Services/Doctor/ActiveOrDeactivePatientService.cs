@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CardioTrack.Services.Doctor
 {
-    public class ActivePatientService : IActivePatient
+    public class ActiveOrDeactivePatientService : IActiveDeactivePatient
     {
         private readonly CardioTrackDbContext dbContext;
         private readonly IEmail email;
-        public ActivePatientService(CardioTrackDbContext dbContext,IEmail email)
+        public ActiveOrDeactivePatientService(CardioTrackDbContext dbContext,IEmail email)
         {
             this.dbContext = dbContext;
             this.email = email;
@@ -57,6 +57,39 @@ namespace CardioTrack.Services.Doctor
             return "تم تسجيل الجساب بنجاح";
 
         }
+
+        public async Task<string> DeactivePatientProofile(int userId, GetPatientRequestDto request)
+        {
+            var doctor = await dbContext.users
+                .FirstOrDefaultAsync(u => u.Id == userId
+                                     && u.IsActive
+                                     && u.Role == UserRole.Doctor);
+
+            if (doctor == null)
+                throw new ForbiddenException("Auth forbidden");
+
+            var patient = await dbContext.patients
+                .FirstOrDefaultAsync(p => p.Id == request.PatientId
+                                     && p.DoctorId == userId
+                                     && p.LinkedUserId != null);
+
+            if (patient == null)
+                throw new ForbiddenException("Auth forbidden");
+
+            var user = await dbContext.users
+                .FirstOrDefaultAsync(u => u.Id == patient.LinkedUserId
+                                     && u.IsActive);
+
+            if (user == null)
+                throw new BadRequestException("Patient not found");
+
+            patient.LinkedUserId = null;
+            user.IsActive = false;
+            await dbContext.SaveChangesAsync();
+
+            return "تم تعطيل الحساب بنجاح";
+        }
+
         private string GenerateTempPassword()
         {
             const string chars = "ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789";
