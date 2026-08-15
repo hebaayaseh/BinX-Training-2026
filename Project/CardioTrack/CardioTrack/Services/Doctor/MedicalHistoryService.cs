@@ -87,5 +87,33 @@ namespace CardioTrack.Services.Doctor
             return new ViewMedicalHistoryResponseDto { Midicals = medicals };
 
         }
+        public async Task<string> UpdateMedicalHistoryAsync(int userId, UpdateMedicalHistoryRequestDto request)
+        {
+            var doctor = await dbContext.users
+                .FirstOrDefaultAsync(u => u.Id == userId
+                                     && u.IsActive
+                                     && u.Role == UserRole.Doctor);
+
+            if (doctor == null)
+                throw new ForbiddenException("Auth forbidden");
+
+            var history = await dbContext.medicalHistories
+                .Include(h => h.Patient)
+                .FirstOrDefaultAsync(h => h.Id == request.MedicalHistoryId
+                                     && h.Patient.DoctorId == doctor.Id);
+
+            if (history == null)
+                throw new BadRequestException("Medical history not found");
+
+            if (!string.IsNullOrEmpty(request.Condition))
+                history.Condition = request.Condition;
+
+            if (!string.IsNullOrEmpty(request.Note))
+                history.Note = request.Note;
+
+            await dbContext.SaveChangesAsync();
+
+            return "تم تعديل البيانات بنجاح";
+        }
     }
 }

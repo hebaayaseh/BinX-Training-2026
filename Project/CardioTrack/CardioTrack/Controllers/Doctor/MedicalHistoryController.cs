@@ -41,5 +41,18 @@ namespace CardioTrack.Controllers.Doctor
             var result = await medicalHistory.ViewPatientMedicalHistoryAsync(userId, request);
             return Ok(result);
         }
+
+        [Authorize(Policy = "DoctorOnly")]
+        [HttpPut("update-medical-history")]
+        public async Task<IActionResult> UpdateMedicalHistory( [FromBody] UpdateMedicalHistoryRequestDto request,IValidator<UpdateMedicalHistoryRequestDto> validator)
+        {
+            var validationResult = await validator.ValidateAsync(request);
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
+
+            int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
+            var result = await medicalHistory.UpdateMedicalHistoryAsync(userId, request);
+            return Ok(result);
+        }
     }
 }
