@@ -17,9 +17,9 @@ namespace CardioTrack.Tests.Controllers
         {
             // Arrange
             var medicalHistoryMock = new Mock<IMedicalHistory>();
-            var validatorMock = new Mock<IValidator<MedicalHistoryRequestDto>>();   
+            var validatorMock = new Mock<IValidator<AddHistoryRequestDto>>();   
 
-            var request = new MedicalHistoryRequestDto
+            var request = new AddHistoryRequestDto
             {
                 PatientId = 1,
                 Condition = "Hypertension",
@@ -28,9 +28,9 @@ namespace CardioTrack.Tests.Controllers
             };
 
             validatorMock
-                .Setup(v => v.ValidateAsync(It.IsAny<MedicalHistoryRequestDto>(), default))
+                .Setup(v => v.ValidateAsync(It.IsAny<AddHistoryRequestDto>(), default))
                 .ReturnsAsync(new FluentValidation.Results.ValidationResult());  
-            var expectedResult = new MedicalHistoryResponseDto
+            var expectedResult = new AddMedicalHistoryResponseDto
             {
                 PatientId = 1,
                 PatientName = "Test Patient",
@@ -65,13 +65,13 @@ namespace CardioTrack.Tests.Controllers
         [Fact]
         public async Task AddMedicalHistory_InvalidRequest_ReturnsBadRequest()
         {
-            var validatorMock = new Mock<IValidator<MedicalHistoryRequestDto>>();
+            var validatorMock = new Mock<IValidator<AddHistoryRequestDto>>();
             var failures = new List<FluentValidation.Results.ValidationFailure>
     {
         new FluentValidation.Results.ValidationFailure("Condition", "Condition is required")
     };
             validatorMock
-                .Setup(v => v.ValidateAsync(It.IsAny<MedicalHistoryRequestDto>(), default))
+                .Setup(v => v.ValidateAsync(It.IsAny<AddHistoryRequestDto>(), default))
                 .ReturnsAsync(new FluentValidation.Results.ValidationResult(failures));
 
             var controller = new MedicalHistoryController(new Mock<IMedicalHistory>().Object);
@@ -81,7 +81,7 @@ namespace CardioTrack.Tests.Controllers
                 HttpContext = new DefaultHttpContext { User = new ClaimsPrincipal(new ClaimsIdentity(claims, "TestAuth")) }
             };
 
-            var result = await controller.AddMedicalHistory(new MedicalHistoryRequestDto(), validatorMock.Object);
+            var result = await controller.AddMedicalHistory(new AddHistoryRequestDto(), validatorMock.Object);
 
             Assert.IsType<BadRequestObjectResult>(result);
         }

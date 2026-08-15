@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace CardioTrack.Validators.MedicalHistory
 {
-    public class MedicalHistoryValidtor :AbstractValidator<MedicalHistoryRequestDto>
+    public class MedicalHistoryValidtor :AbstractValidator<AddHistoryRequestDto>
     {
         public MedicalHistoryValidtor()
         {

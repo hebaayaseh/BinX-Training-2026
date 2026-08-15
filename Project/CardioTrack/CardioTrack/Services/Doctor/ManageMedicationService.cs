@@ -62,9 +62,26 @@ namespace CardioTrack.Services.Doctor
 
         }
 
-        public Task<string> DeactiveMedicationAsync(int userId, DeactiveMedicationRequestDto request)
+        public async Task<string> DeactiveMedicationAsync(int userId, DeactiveMedicationRequestDto request)
         {
-            throw new NotImplementedException();
+            var doctor = await dbContext.users
+                .FirstOrDefaultAsync(u => u.Id == userId
+                                     && u.IsActive
+                                     && u.Role == UserRole.Doctor);
+
+            if (doctor == null)
+                throw new ForbiddenException("Auth forbidden");
+
+            var medication = await dbContext.medications
+                .FirstOrDefaultAsync(m => m.PrescribedByDoctorId == userId);
+
+            if (medication == null)
+                throw new BadRequestException("Medication not found");
+
+            medication.IsActive = false;
+            await dbContext.SaveChangesAsync();
+            return "تم تعطيل الوصفة الطبية بنجاح"; 
+
         }
 
         public async Task<GetPatientMedicationResponseDto> GetPatientMedication(int userId, GetPatientRequestDto request)

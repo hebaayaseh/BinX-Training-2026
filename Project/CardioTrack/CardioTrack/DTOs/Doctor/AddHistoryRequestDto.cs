@@ -2,7 +2,7 @@
 
 namespace CardioTrack.DTOs.Doctor
 {
-    public class MedicalHistoryRequestDto
+    public class AddHistoryRequestDto
     {
         public string Condition { get; set; }
         public string Note { get; set; }

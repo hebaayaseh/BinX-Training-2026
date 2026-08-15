@@ -52,5 +52,15 @@ namespace CardioTrack.Controllers.Doctor
             var result = await manage.UpdateMedicationAsync(userId, request);
             return Ok(result);
         }
+
+        [Authorize(Policy = "DoctorOnly")]
+        [HttpPost("deactive-Medication")]
+        public async Task<IActionResult> DeactiveMedication([FromBody] DeactiveMedicationRequestDto request)
+        {
+
+            int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
+            var result = await manage.DeactiveMedicationAsync(userId, request);
+            return Ok(result);
+        }
     }
 }
