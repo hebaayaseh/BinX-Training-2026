@@ -6,10 +6,10 @@ namespace CardioTrack.Controllers.GetPatient
 {
     [ApiController]
     [Route("api/admin")]
-    public class GetPatientController : ControllerBase
+    public class GetPatientsController : ControllerBase
     {
         private readonly IGetPatient getPatient;
-        public GetPatientController(IGetPatient getPatient)
+        public GetPatientsController(IGetPatient getPatient)
         {
             this.getPatient= getPatient;
         }

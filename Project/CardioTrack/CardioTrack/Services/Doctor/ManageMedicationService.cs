@@ -15,7 +15,7 @@ namespace CardioTrack.Services.Doctor
         {
             this.dbContext = dbContext;
         }
-        public async Task<ManageMedicationResponseDto> ManageMedicationAsync(int userId, ManageMedicationRequestDto request)
+        public async Task<ManageMedicationResponseDto> AddMedicationAsync(int userId, ManageMedicationRequestDto request)
         {
             var doctor = await dbContext.users
                 .FirstOrDefaultAsync(u=>u.Id == userId
