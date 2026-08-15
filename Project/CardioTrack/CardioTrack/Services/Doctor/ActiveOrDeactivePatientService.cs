@@ -30,11 +30,20 @@ namespace CardioTrack.Services.Doctor
 
             var patient = await dbContext.patients
                 .FirstOrDefaultAsync(p => p.Id == request.PatientId
-                                     && p.DoctorId == userId
-                                     && p.LinkedUserId!=null);
+                                     && p.DoctorId == userId);
 
             if(patient == null)
                 throw new ForbiddenException("Auth forbidden");
+
+            var EmailExsist = await dbContext.users
+                .FirstOrDefaultAsync(u => u.Id == patient.LinkedUserId
+                                     && u.Email == request.Email);
+            if (EmailExsist != null && EmailExsist.IsActive == false)
+            {
+                EmailExsist.IsActive = true;
+                await dbContext.SaveChangesAsync();
+                return "تم اعادة تفعيل الحساب";
+            }
 
             var password = GenerateTempPassword();
 
@@ -51,10 +60,11 @@ namespace CardioTrack.Services.Doctor
             };
             await dbContext.AddAsync(user);
             patient.LinkedUser = user;
-            await email.SendTempPasswordAsync(request.Email, patient.FullName, password);
             await dbContext.SaveChangesAsync();
+            await email.SendTempPasswordAsync(request.Email, patient.FullName, password);
+            
 
-            return "تم تسجيل الجساب بنجاح";
+            return "تم تسجيل الحساب بنجاح";
 
         }
 
@@ -83,7 +93,6 @@ namespace CardioTrack.Services.Doctor
             if (user == null)
                 throw new BadRequestException("Patient not found");
 
-            patient.LinkedUserId = null;
             user.IsActive = false;
             await dbContext.SaveChangesAsync();
 
