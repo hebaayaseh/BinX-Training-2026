@@ -1,4 +1,5 @@
-﻿using CardioTrack.DTOs.VitalSign;
+﻿using CardioTrack.DTOs.Doctor;
+using CardioTrack.DTOs.VitalSign;
 using CardioTrack.Interfaces.IVitalSign;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
@@ -19,8 +20,12 @@ namespace CardioTrack.Controllers.VitalSigns
 
         [Authorize("DoctorOrNurse")]
         [HttpPost("view-vitalsign")]
-        public async Task<IActionResult> ViewVitalSigns([FromBody] ViewVitalSignRequestDto request)
+        public async Task<IActionResult> ViewVitalSigns([FromBody] ViewVitalSignRequestDto request , IValidator<GetPatientRequestDto> validator)
         {
+            var validationResult = await validator.ValidateAsync(request);
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
+
             int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
             var result = await vitalSign.ViewVitalSign(userId, request);    
             return Ok(result);
@@ -59,8 +64,12 @@ namespace CardioTrack.Controllers.VitalSigns
 
         [Authorize("DoctorOnly")]
         [HttpPut("doctor-resolve-vitalsignalert")]
-        public async Task<IActionResult> DoctorResolveVitalSignsAlert([FromBody]ResoleVitalSignAlertRequestDto request)
+        public async Task<IActionResult> DoctorResolveVitalSignsAlert([FromBody]ResoleVitalSignAlertRequestDto request , IValidator<ResoleVitalSignAlertRequestDto> validator)
         {
+            var validationResult = await validator.ValidateAsync(request);
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
+
             int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
             var result = await vitalSign.DoctorResoleVitalSign(userId,request);
             return Ok(result);

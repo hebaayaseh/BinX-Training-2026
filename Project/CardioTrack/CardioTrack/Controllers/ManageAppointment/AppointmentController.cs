@@ -32,8 +32,12 @@ namespace CardioTrack.Controllers.ManageAppointment
 
         [Authorize(Policy = "DoctorOrNurse")]
         [HttpPost("complete-appointment")]
-        public async Task<IActionResult> CompleteAppointment([FromBody] CompleteAppointmentRequestDto request)
+        public async Task<IActionResult> CompleteAppointment([FromBody] CompleteAppointmentRequestDto request, IValidator<CompleteAppointmentRequestDto> validator)
         {
+            var validationResult = await validator.ValidateAsync(request);
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
+
             int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
             var result = await appointment.CompleteAppointmentAsync(userId, request);
             return Ok(result);
@@ -41,8 +45,12 @@ namespace CardioTrack.Controllers.ManageAppointment
 
         [Authorize(Policy = "DoctorOrNurse")]
         [HttpPost("cancel-appointment")]
-        public async Task<IActionResult> CancelAppointment([FromBody] CancelAppointmentRequestDto request)
+        public async Task<IActionResult> CancelAppointment([FromBody] CancelAppointmentRequestDto request,IValidator<CancelAppointmentRequestDto> validator)
         {
+            var validationResult = await validator.ValidateAsync(request);
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
+
             int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
             var result = await appointment.CancelAppointmentAsync(userId, request);
             return Ok(result);
@@ -50,8 +58,12 @@ namespace CardioTrack.Controllers.ManageAppointment
 
         [Authorize(Policy = "NurseOnly")]
         [HttpPost("get-appointments-by-status-to-nurse")]
-        public async Task<IActionResult> GetAppointments([FromBody] GetAppointmentsRequestDto request)
+        public async Task<IActionResult> GetAppointments([FromBody] GetAppointmentsRequestDto request,IValidator<GetAppointmentsRequestDto> validator)
         {
+            var validationResult = await validator.ValidateAsync(request);
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
+
             int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
             var result = await appointment.GetAppointmentToNurseAsync(userId, request);
             return Ok(result);
@@ -59,8 +71,12 @@ namespace CardioTrack.Controllers.ManageAppointment
 
         [Authorize(Policy = "DoctorOnly")]
         [HttpPost("get-appointments-by-status-to-doctor")]
-        public async Task<IActionResult> GetAppointmentsToDoctor([FromBody] GetDoctorAppointmentRequestDto request)
+        public async Task<IActionResult> GetAppointmentsToDoctor([FromBody] GetDoctorAppointmentRequestDto request, IValidator<GetDoctorAppointmentRequestDto> validator)
         {
+            var validationResult = await validator.ValidateAsync(request);
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
+
             int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
             var result = await appointment.GetAppointmentToDuctorAsync(userId, request);
             return Ok(result);

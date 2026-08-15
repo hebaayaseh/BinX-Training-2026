@@ -15,7 +15,7 @@ namespace CardioTrack.Controllers.GetPatient
         }
 
         [Authorize(Policy = "AdminOnly")]
-        [HttpGet]
+        [HttpGet("get-patient-by-doctor")]
         public async Task<IActionResult> GetPatient()
         {
             int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);

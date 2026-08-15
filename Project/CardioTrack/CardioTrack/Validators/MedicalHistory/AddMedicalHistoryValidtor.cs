@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace CardioTrack.Validators.MedicalHistory
 {
-    public class MedicalHistoryValidtor :AbstractValidator<AddHistoryRequestDto>
+    public class AddMedicalHistoryValidtor :AbstractValidator<AddHistoryRequestDto>
     {
-        public MedicalHistoryValidtor()
+        public AddMedicalHistoryValidtor()
         {
             RuleFor(x => x.PatientId).GreaterThan(0);
             RuleFor(x=> x.Condition).NotEmpty().MaximumLength(200);

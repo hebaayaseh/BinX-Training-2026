@@ -1,7 +1,9 @@
 ﻿using CardioTrack.DTOs.Admin;
 using CardioTrack.Interfaces.IAdmin;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace CardioTrack.Controllers.Auth
 {
@@ -16,8 +18,12 @@ namespace CardioTrack.Controllers.Auth
         }
         [Authorize(Policy = "AdminOnly")]
         [HttpPost("add-doctor")]
-        public async Task<IActionResult> AddDoctor([FromBody]AddDoctorRequestDto request)
+        public async Task<IActionResult> AddDoctor([FromBody]AddDoctorRequestDto request, IValidator<AddDoctorRequestDto> validator)
         {
+            var validationResult = await validator.ValidateAsync(request);
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
+
             int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
             var result = await addStaff.AddDoctorAsync(userId , request);
             return Ok(result);
@@ -25,8 +31,12 @@ namespace CardioTrack.Controllers.Auth
 
         [Authorize(Policy = "AdminOnly")]
         [HttpPost("add-nurse")]
-        public async Task<IActionResult> AddNurse([FromBody] AddNurseRequestDto request)
+        public async Task<IActionResult> AddNurse([FromBody] AddNurseRequestDto request, IValidator<AddNurseRequestDto> validator)
         {
+            var validationResult = await validator.ValidateAsync(request);
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
+
             int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
             var result = await addStaff.AddNurseAsync(userId, request);
             return Ok(result);
