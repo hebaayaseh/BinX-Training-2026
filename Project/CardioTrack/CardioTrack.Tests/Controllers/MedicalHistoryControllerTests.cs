@@ -17,7 +17,7 @@ namespace CardioTrack.Tests.Controllers
         {
             // Arrange
             var medicalHistoryMock = new Mock<IMedicalHistory>();
-            var validatorMock = new Mock<IValidator<MedicalHistoryRequestDto>>();
+            var validatorMock = new Mock<IValidator<MedicalHistoryRequestDto>>();   
 
             var request = new MedicalHistoryRequestDto
             {
@@ -28,15 +28,29 @@ namespace CardioTrack.Tests.Controllers
             };
 
             validatorMock
-                .Setup(v => v.ValidateAsync(request, default))
-                .ReturnsAsync(new FluentValidation.Results.ValidationResult());   
+                .Setup(v => v.ValidateAsync(It.IsAny<MedicalHistoryRequestDto>(), default))
+                .ReturnsAsync(new FluentValidation.Results.ValidationResult());  
+            var expectedResult = new MedicalHistoryResponseDto
+            {
+                PatientId = 1,
+                PatientName = "Test Patient",
+                DiagnosisDate = request.DiagnosisDate,
+                Condition = request.Condition,
+                Note = request.Note
+            };
 
-            var expectedResult = new MedicalHistoryResponseDto { };
             medicalHistoryMock
                 .Setup(x => x.AddMedicalHistoryAsync(1, request))
                 .ReturnsAsync(expectedResult);
 
             var controller = new MedicalHistoryController(medicalHistoryMock.Object);
+
+            var claims = new List<Claim> { new Claim(ClaimTypes.NameIdentifier, "1") };
+            var identity = new ClaimsIdentity(claims, "TestAuth");
+            controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext { User = new ClaimsPrincipal(identity) }
+            };
 
             // Act
             var result = await controller.AddMedicalHistory(request, validatorMock.Object);   
@@ -44,6 +58,8 @@ namespace CardioTrack.Tests.Controllers
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
             Assert.Equal(expectedResult, okResult.Value);
+
+            medicalHistoryMock.Verify(x => x.AddMedicalHistoryAsync(1, request), Times.Once);
         }
 
         [Fact]
@@ -59,6 +75,12 @@ namespace CardioTrack.Tests.Controllers
                 .ReturnsAsync(new FluentValidation.Results.ValidationResult(failures));
 
             var controller = new MedicalHistoryController(new Mock<IMedicalHistory>().Object);
+            var claims = new List<Claim> { new Claim(ClaimTypes.NameIdentifier, "1") };
+            controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext { User = new ClaimsPrincipal(new ClaimsIdentity(claims, "TestAuth")) }
+            };
+
             var result = await controller.AddMedicalHistory(new MedicalHistoryRequestDto(), validatorMock.Object);
 
             Assert.IsType<BadRequestObjectResult>(result);
