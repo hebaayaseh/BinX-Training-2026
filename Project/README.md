@@ -221,3 +221,20 @@ Authorization Policy
   │
   ▼
 Protected Endpoint
+```
+# Test Accounts Information
+## Admin 
+Email : heba.ayaseh04@hmail.com
+Password : Heba1234@
+
+## Doctor 
+Email : ahmadayaseh@gmail.com
+Password : Ahmad1234@
+
+## Nurse 
+Email : sameerayaseh@gmail.com
+Password : Samerr1234@
+
+## Patient 
+Email : hebaayaseh17@gmail.com
+Password : ibrahem1234@
