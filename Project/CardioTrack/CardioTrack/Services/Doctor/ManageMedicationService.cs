@@ -106,9 +106,41 @@ namespace CardioTrack.Services.Doctor
 
         }
 
-        public Task<string> UpdateMedicationAsync(int userId, UpdateMedicationRequestDto request)
+        public async Task<string> UpdateMedicationAsync(int userId, UpdateMedicationRequestDto request)
         {
-            throw new NotImplementedException();
+            var doctor = await dbContext.users
+                .FirstOrDefaultAsync(u => u.Id == userId
+                                     && u.IsActive
+                                     && u.Role == UserRole.Doctor);
+
+            if (doctor == null)
+                throw new ForbiddenException("Auth forbidden");
+
+
+            var medication = await dbContext.medications
+                .FirstOrDefaultAsync(m => m.PrescribedByDoctorId == userId);
+
+            if (medication == null)
+                throw new BadRequestException("Medication not found");
+
+            if (request.EndDate != null)
+                medication.EndDate = request.EndDate;
+
+            if (request.DrugName != null)
+                medication.DrugName = request.DrugName;
+
+            if (request.Frequency != null)
+                medication.Frequency = request.Frequency;
+
+            if (request.Dosage != null)
+                medication.Dosage = request.Dosage;
+
+            if (request.StartDate != null)
+                medication.StartDate = (DateTime)request.StartDate;
+
+            await dbContext.SaveChangesAsync();
+            return "تم تعديل البيانات بنجاح";
+            
         }
     }
 }

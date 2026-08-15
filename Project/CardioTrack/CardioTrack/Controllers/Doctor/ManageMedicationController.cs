@@ -42,5 +42,15 @@ namespace CardioTrack.Controllers.Doctor
             var result = await manage.GetPatientMedication(userId, request);
             return Ok(result);
         }
+
+        [Authorize(Policy = "DoctorOnly")]
+        [HttpPost("update-Medication")]
+        public async Task<IActionResult> UpdateMedication([FromBody] UpdateMedicationRequestDto request)
+        {
+           
+            int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
+            var result = await manage.UpdateMedicationAsync(userId, request);
+            return Ok(result);
+        }
     }
 }
