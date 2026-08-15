@@ -15,9 +15,6 @@ namespace CardioTrack.Tests.Services
             evaluator = new VitalSignAlertEvaluator(null!);
         }
 
-        // =========================
-        // Temperature Tests
-        // =========================
 
         [Fact]
         public void CheckTemperature_Normal_ReturnsNoAlert()
@@ -95,9 +92,6 @@ namespace CardioTrack.Tests.Services
         }
 
 
-        // =========================
-        // Heart Rate Tests
-        // =========================
 
         [Fact]
         public void CheckHeartRate_Normal_ReturnsNoAlert()
@@ -188,9 +182,7 @@ namespace CardioTrack.Tests.Services
         }
 
 
-        // =========================
-        // Oxygen Saturation Tests
-        // =========================
+        
 
         [Fact]
         public void CheckOxygenSaturation_Normal_ReturnsNoAlert()
@@ -252,9 +244,6 @@ namespace CardioTrack.Tests.Services
         }
 
 
-        // =========================
-        // Blood Pressure Tests
-        // =========================
 
         [Fact]
         public async Task EvaluateAllAsync_BloodPressureBelowNormal_CreatesHighAlert()
@@ -372,9 +361,6 @@ namespace CardioTrack.Tests.Services
         }
 
 
-        // =========================
-        // EvaluateAllAsync Tests
-        // =========================
 
         [Fact]
         public async Task EvaluateAllAsync_WhenHeartRateIsCritical_CreatesAlert()
@@ -477,9 +463,6 @@ namespace CardioTrack.Tests.Services
         }
 
 
-        // =========================
-        // Helper Methods
-        // =========================
 
         private static CardioTrackDbContext CreateDbContext()
         {
