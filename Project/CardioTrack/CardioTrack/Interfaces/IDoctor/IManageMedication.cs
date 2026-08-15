@@ -4,6 +4,11 @@ namespace CardioTrack.Interfaces.IDoctor
 {
     public interface IManageMedication
     {
-        Task<ManageMedicationResponseDto> AddMedicationAsync(int userId , ManageMedicationRequestDto request);
+        Task<AddMedicationResponseDto> AddMedicationAsync(int userId , AddMedicationRequestDto request);
+        Task<string> UpdateMedicationAsync(int userId,UpdateMedicationRequestDto request);
+        Task<GetPatientMedicationResponseDto> GetPatientMedication(int userId,GetPatientRequestDto request);
+        Task<string> DeactiveMedicationAsync(int userId, DeactiveMedicationRequestDto request);
+        
+        
     }
 }

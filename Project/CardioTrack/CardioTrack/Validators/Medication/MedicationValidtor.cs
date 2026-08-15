@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace CardioTrack.Validators.Medication
 {
-    public class MedicationValidtor : AbstractValidator<ManageMedicationRequestDto>
+    public class MedicationValidtor : AbstractValidator<AddMedicationRequestDto>
     {
         public MedicationValidtor()
         {

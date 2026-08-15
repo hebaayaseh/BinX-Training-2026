@@ -1,10 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace CardioTrack.DTOs.Doctor
+﻿namespace CardioTrack.DTOs.Doctor
 {
-    public class ManageMedicationRequestDto
+    public class GetPatientMedicationResponseDto
     {
-        public int PatientId { get; set; }
+        public int MedicationId { get; set; }
+        public string PatientName { get; set; }
         public string DrugName { get; set; }
         public string Dosage { get; set; }
         public string Frequency { get; set; }

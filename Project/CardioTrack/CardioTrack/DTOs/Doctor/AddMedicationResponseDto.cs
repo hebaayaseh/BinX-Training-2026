@@ -1,6 +1,6 @@
 ﻿namespace CardioTrack.DTOs.Doctor
 {
-    public class ManageMedicationResponseDto
+    public class AddMedicationResponseDto
     {
         public int PatientId { get; set; }
         public string PatientName { get; set; }

@@ -19,7 +19,7 @@ namespace CardioTrack.Controllers.Doctor
 
         [Authorize(Policy = "DoctorOnly")]
         [HttpPost("add-Medication")]
-        public async Task<IActionResult> AddMedication([FromBody] ManageMedicationRequestDto request, IValidator<ManageMedicationRequestDto> validator)
+        public async Task<IActionResult> AddMedication([FromBody] AddMedicationRequestDto request, IValidator<AddMedicationRequestDto> validator)
         {
             var validationResult = await validator.ValidateAsync(request);
             if (!validationResult.IsValid)
@@ -27,6 +27,19 @@ namespace CardioTrack.Controllers.Doctor
 
             int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
             var result = await manage.AddMedicationAsync(userId, request);
+            return Ok(result);
+        }
+
+        [Authorize(Policy = "DoctorOnly")]
+        [HttpPost("get-patient-Medication")]
+        public async Task<IActionResult> GetPatientMedication([FromBody] GetPatientRequestDto request, IValidator<GetPatientRequestDto> validator)
+        {
+            var validationResult = await validator.ValidateAsync(request);
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
+
+            int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
+            var result = await manage.GetPatientMedication(userId, request);
             return Ok(result);
         }
     }
