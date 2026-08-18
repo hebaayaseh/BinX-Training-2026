@@ -1,0 +1,12 @@
+﻿namespace CardioTrack.DTOs.Doctor
+{
+    public class UpdateMedicationRequestDto
+    {
+        public int MedicationId { get; set; }
+        public string? DrugName { get; set; }
+        public string? Dosage { get; set; }
+        public string? Frequency { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+    }
+}
