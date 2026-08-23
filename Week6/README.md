@@ -1,0 +1,7 @@
+# Week 6 – CORE ROUTES & DATABASE SCHEMA
+
+
+
+
+
+
