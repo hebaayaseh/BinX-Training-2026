@@ -262,6 +262,7 @@ namespace CardioTrack.Data
 
                 entity.HasIndex(e => new { e.PatientId, e.Status });
 
+
                 entity.HasOne(e => e.LabRequest)
                 .WithOne(r => r.LabResult)   
                 .HasForeignKey<LabResult>(e => e.LabRequestId)
@@ -283,6 +284,21 @@ namespace CardioTrack.Data
                 .HasForeignKey(e => e.PatientId)
                 .OnDelete(DeleteBehavior.Cascade);   
             });
+
+            // Has Data must generate migration 
+            modelBuilder.Entity<Medication>().HasData(
+                new Medication
+                {
+                    Id = 3,
+                    PatientId = 3,
+                    DrugName = "Amlodipine",
+                    Dosage = "10mg",
+                    Frequency = "Once Daily",
+                    StartDate = new DateTime(2026, 8, 24),
+                    EndDate = new DateTime(2027, 2, 15),
+                    PrescribedByDoctorId = 5,
+                    IsActive = true
+                });
 
         }
 
