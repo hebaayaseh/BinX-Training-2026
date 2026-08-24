@@ -18,6 +18,11 @@ namespace CardioTrack.Data
         public DbSet<EmailVerificationCode> emailVerificationCodes => Set<EmailVerificationCode>();
         public DbSet<RefreshToken> refreshTokens => Set<RefreshToken>();
         public DbSet<AuditLog> auditLogs =>Set<AuditLog>();
+        public DbSet<Doctorschedule> doctorschedules => Set<Doctorschedule>();
+        public DbSet<LabRequest> labRequests => Set<LabRequest>();
+        public DbSet<LabResult> labResults => Set<LabResult>();
+        public DbSet<EmergencyContact> emergencyContact => Set<EmergencyContact>();
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -213,6 +218,70 @@ namespace CardioTrack.Data
                 .WithMany(u=>u.AuditLogs)
                 .HasForeignKey(e => e.PerformedByUserId)
                 .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            // DoctorSchedule
+            modelBuilder.Entity<Doctorschedule>(entity =>
+            {
+                entity.ToTable("DoctorSchedules");
+                entity.HasKey(e => e.Id);
+
+                entity.HasOne(e => e.Doctor)
+                .WithMany(d => d.DoctorSchedules)   
+                .HasForeignKey(e => e.DoctorId)
+                .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            // LabRequest
+            modelBuilder.Entity<LabRequest>(entity =>
+            {
+                entity.ToTable("LabRequests");
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.TestName).IsRequired().HasMaxLength(100);
+                entity.Property(e => e.Status).HasConversion<string>();
+
+                entity.HasOne(e => e.Patient)
+                .WithMany(p => p.LabRequests)   
+                .HasForeignKey(e => e.PatientId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(e => e.RequestedByDoctor)
+                .WithMany(d => d.LabRequestsOrdered)   
+                .HasForeignKey(e => e.RequestedByDoctorId)
+                .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            // LabResult
+            modelBuilder.Entity<LabResult>(entity =>
+            {
+                entity.ToTable("LabResults");
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.Status).HasConversion<string>();
+
+                entity.HasIndex(e => new { e.PatientId, e.Status });
+
+                entity.HasOne(e => e.LabRequest)
+                .WithOne(r => r.LabResult)   
+                .HasForeignKey<LabResult>(e => e.LabRequestId)
+                .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            // EmergencyContact
+            modelBuilder.Entity<EmergencyContact>(entity =>
+            {
+                entity.ToTable("EmergencyContacts");
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.FullName).IsRequired().HasMaxLength(100);
+                entity.Property(e => e.Relationship).HasMaxLength(50);
+                entity.Property(e => e.PhoneNumber).IsRequired().HasMaxLength(15);
+
+                entity.HasOne(e => e.Patient)
+                .WithMany(p => p.EmergencyContacts)   
+                .HasForeignKey(e => e.PatientId)
+                .OnDelete(DeleteBehavior.Cascade);   
             });
 
         }

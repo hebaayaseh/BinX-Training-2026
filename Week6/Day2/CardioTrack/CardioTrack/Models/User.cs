@@ -33,6 +33,8 @@ namespace CardioTrack.Models
         public ICollection<EmailVerificationCode>? EmailVerificationCodes { get; set; } = new List<EmailVerificationCode>();
         public ICollection<RefreshToken>? RefreshTokens { get; set; } = new List<RefreshToken>();
         public ICollection<AuditLog>? AuditLogs { get; set; } = new List<AuditLog>();
+        public ICollection<Doctorschedule>? DoctorSchedules { get; set; } = new List<Doctorschedule>();
+        public ICollection<LabRequest>? LabRequestsOrdered { get; set; } = new List<LabRequest>();
 
     }
 }

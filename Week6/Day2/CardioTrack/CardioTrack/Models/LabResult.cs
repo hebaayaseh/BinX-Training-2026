@@ -14,9 +14,7 @@ namespace CardioTrack.Models
 
         public string? ResultFileUrl { get; set; }
         public int? LabRequestId { get; set; }
-        public string? AiSummary { get; set; }
         public LabStatus Status { get; set; } = LabStatus.Pending;
-        public int? PaymentId { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
 

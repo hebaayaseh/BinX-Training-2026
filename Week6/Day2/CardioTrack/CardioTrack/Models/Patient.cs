@@ -29,6 +29,9 @@ namespace CardioTrack.Models
         public ICollection<VitalSignAlert>? VitalSignAlerts { get; set; } = new List<VitalSignAlert>();
         public ICollection<Medication>? Medications { get; set; } = new List<Medication>();
         public ICollection<Appointment>? Appointments { get; set; } = new List<Appointment>();
+        public ICollection<EmergencyContact>? EmergencyContacts { get; set; } = new List<EmergencyContact>();
+        public ICollection<LabRequest>? LabRequests { get; set; } = new List<LabRequest>();
+        public ICollection<LabResult>? LabResults { get; set; } = new List<LabResult>();
         
     }
 }
