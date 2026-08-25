@@ -27,6 +27,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using Serilog;
+using CardioTrack.Interfaces.IQuery;
+using CardioTrack.Services;
 
 namespace CardioTrack
 {
@@ -181,6 +183,7 @@ namespace CardioTrack
             builder.Services.AddScoped<IActiveDeactivePatient,ActiveOrDeactivePatientService>();
             builder.Services.AddScoped<IPatient, PatientService>();
             builder.Services.AddScoped<IAddPatient, AddPatientService>();
+            builder.Services.AddScoped<IQuery, QueryService>();
             builder.Services.AddScoped<IAuditLog,AuditLogService>();
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddValidatorsFromAssemblyContaining<Program>();
