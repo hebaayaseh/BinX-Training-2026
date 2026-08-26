@@ -29,8 +29,6 @@ using System.Text;
 using Serilog;
 using CardioTrack.Interfaces.IQuery;
 using CardioTrack.Services;
-using CardioTrack.Interfaces.IMedicationOrder;
-using CardioTrack.Services.MedicationOrder;
 
 namespace CardioTrack
 {
@@ -187,7 +185,6 @@ namespace CardioTrack
             builder.Services.AddScoped<IAddPatient, AddPatientService>();
             builder.Services.AddScoped<IQuery, QueryService>();
             builder.Services.AddScoped<IAuditLog,AuditLogService>();
-            builder.Services.AddScoped<IMedicationOrder, MedicationOrderService>();
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddValidatorsFromAssemblyContaining<Program>();
             

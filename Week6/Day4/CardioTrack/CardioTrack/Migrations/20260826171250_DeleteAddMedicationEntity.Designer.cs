@@ -4,6 +4,7 @@ using CardioTrack.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CardioTrack.Migrations
 {
     [DbContext(typeof(CardioTrackDbContext))]
-    partial class CardioTrackDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260826171250_DeleteAddMedicationEntity")]
+    partial class DeleteAddMedicationEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,9 +41,6 @@ namespace CardioTrack.Migrations
 
                     b.Property<int>("DoctorId")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("Fee")
-                        .HasColumnType("decimal(65,30)");
 
                     b.Property<int>("PatientId")
                         .HasColumnType("int");

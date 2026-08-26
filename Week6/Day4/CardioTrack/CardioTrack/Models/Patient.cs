@@ -32,7 +32,6 @@ namespace CardioTrack.Models
         public ICollection<EmergencyContact>? EmergencyContacts { get; set; } = new List<EmergencyContact>();
         public ICollection<LabRequest>? LabRequests { get; set; } = new List<LabRequest>();
         public ICollection<LabResult>? LabResults { get; set; } = new List<LabResult>();
-        public ICollection<MedicationOrder>? MedicationOrders { get; set; } = new List<MedicationOrder>();
 
     }
 }

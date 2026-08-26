@@ -1,50 +1,61 @@
-﻿# Day 3 — CardioTrack Query, Filtering & Audit Logging
+﻿# Day 4 — CardioTrack Appointment Booking & Transactions
 
 ## Overview
 
-On Day 3, I implemented query functionality for retrieving patients with filtering, sorting, and pagination. I also implemented an Audit Log system to track actions performed by authenticated users within the CardioTrack application.
+On Day 4, I enhanced the Appointment functionality in the CardioTrack application by implementing appointment availability checks, dynamic appointment fee calculation, and database transactions.
+
+The goal was to apply important backend concepts such as validation before processing data, calculating values based on business rules, and ensuring data consistency using transactions.
 
 ## Steps Completed
 
-* Implemented a `QueryService` for retrieving patients assigned to the authenticated doctor.
-* Added authorization validation to ensure that the requesting user exists, has the `Doctor` role, and is active.
-* Implemented filtering functionality for patients based on:
+Enhanced the existing Appointment functionality without creating any additional tables.
 
-  * `Gender`
-  * `BloodType`
-* Added dynamic sorting functionality based on the requested `SortBy` field.
-* Implemented sorting by:
+Added validation to ensure that the authenticated user exists, is active, and has the appropriate role to create appointments.
 
-  * `FullName`
-  * `DateOfBirth`
-* Added support for ascending and descending sorting using the `SortDescending` option.
-* Implemented pagination using `PageNumber` and `PageSize`.
-* Added calculation for:
+Validated that the selected patient exists and is assigned to the requested doctor.
 
-  * `TotalCount`
-  * `TotalPages`
-  * Current `PageNumber`
-  * Current `PageSize`
-* Created DTOs to return paginated patient data in a structured response.
-* Implemented an `AuditLogService` to record important actions performed within the system.
-* Used `IHttpContextAccessor` to retrieve the currently authenticated user's ID from JWT claims.
-* Stored the following audit log information:
+Implemented an availability check to prevent scheduling multiple appointments for the same doctor at the same time.
 
-  * User ID
-  * Action
-  * Entity Name
-  * Entity ID
-  * Old Value
-  * New Value
-  * Timestamp
-* Used `JsonSerializer` to serialize old and new entity values before storing them in the database.
-* Created an Admin-only endpoint for retrieving audit logs.
-* Protected the Audit Log endpoint using the `AdminOnly` authorization policy.
+Added conflict validation to ensure that an already scheduled time slot cannot be booked again.
 
-## Migration Note
+Implemented appointment fee calculation based on the appointment reason.
 
-> **Note:** The `HasData` seed data configuration has been temporarily commented out inside the project to avoid migration-related errors. It can be enabled again when the migration and seed data configuration are ready to be applied correctly.
+Added a `Fee` property to the Appointment entity to store the calculated appointment cost.
+
+Added support for an optional `RelatedAlertId` when an appointment is created as a response to a Vital Sign Alert.
+
+Implemented a database transaction to ensure that multiple related operations are completed successfully as a single unit.
+
+The transaction handles:
+
+* Creating the new appointment.
+* Resolving the related Vital Sign Alert when `RelatedAlertId` is provided.
+* Saving both changes together.
+
+Implemented transaction rollback handling to ensure that if any operation fails, all changes are reverted and the database remains consistent.
+
+Implemented transaction commit only after all operations are successfully completed.
+
+## Key Concepts Applied
+
+### Availability Check
+
+Before creating an appointment, the system checks whether the selected doctor already has a scheduled appointment at the requested date and time.
+
+This prevents double booking and ensures proper appointment scheduling.
+
+### Appointment Fee Calculation
+
+The appointment fee is calculated dynamically based on the provided appointment reason.
+
+A dedicated method was created to handle the business logic for calculating appointment costs.
+
+### Database Transactions
+
+A transaction is used to guarantee data consistency when creating an appointment and resolving a related alert.
+
+Both operations must succeed together. If any error occurs during the process, the transaction is rolled back and no partial changes are saved.
 
 ## Tools
 
-Entity Framework Core · ASP.NET Core Web API · SQL Server · JWT Authentication · LINQ · Visual Studio · .NET SDK
+Entity Framework Core · ASP.NET Core Web API · SQL Server · LINQ · Database Transactions · JWT Authentication · Visual Studio · .NET SDK

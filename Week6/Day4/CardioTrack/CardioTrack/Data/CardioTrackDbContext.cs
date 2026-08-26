@@ -22,9 +22,6 @@ namespace CardioTrack.Data
         public DbSet<LabRequest> labRequests => Set<LabRequest>();
         public DbSet<LabResult> labResults => Set<LabResult>();
         public DbSet<EmergencyContact> emergencyContact => Set<EmergencyContact>();
-        public DbSet<PharmacyStock> pharmacyStocks => Set<PharmacyStock>();
-        public DbSet<MedicationOrder> medicationOrders => Set<MedicationOrder>();
-        public DbSet<MedicationOrderItem> medicationOrderItems => Set<MedicationOrderItem>();
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -288,59 +285,6 @@ namespace CardioTrack.Data
                 .OnDelete(DeleteBehavior.Cascade);   
             });
 
-            // PharmacyStock
-            modelBuilder.Entity<PharmacyStock>(entity =>
-            {
-                entity.ToTable("PharmacyStocks");
-                entity.HasKey(e => e.Id);
-                entity.HasIndex(e => e.Id);
-
-                entity.Property(e => e.DrugName).IsRequired().HasMaxLength(100);
-                entity.Property(e => e.UnitPrice).HasColumnType("decimal(10,2)");
-            });
-
-            // MedicationOrder
-            modelBuilder.Entity<MedicationOrder>(entity =>
-            {
-                entity.ToTable("MedicationOrders");
-                entity.HasKey(e => e.Id);
-                entity.HasIndex(e => e.Id);
-
-                entity.Property(e => e.TotalAmount).HasColumnType("decimal(10,2)");
-                entity.Property(e => e.Status)
-                .HasConversion<string>();
-
-                entity.HasOne(e => e.Patient)
-                .WithMany(p => p.MedicationOrders)
-                .HasForeignKey(e => e.PatientId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-                entity.HasOne(e => e.OrderedByUser)
-                .WithMany(u => u.MedicationOrdersPlaced)
-                .HasForeignKey(e => e.OrderedByUserId)
-                .OnDelete(DeleteBehavior.Restrict);
-            });
-
-            // MedicationOrderItem
-            modelBuilder.Entity<MedicationOrderItem>(entity =>
-            {
-                entity.ToTable("MedicationOrderItems");
-                entity.HasKey(e => e.Id);
-                entity.HasIndex(e => e.Id);
-
-                entity.Property(e => e.UnitPrice).HasColumnType("decimal(10,2)");
-                entity.Property(e => e.LineTotal).HasColumnType("decimal(10,2)");
-
-                entity.HasOne(e => e.MedicationOrder)
-                .WithMany(o => o.OrderItems)
-                .HasForeignKey(e => e.MedicationOrderId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-                entity.HasOne(e => e.PharmacyStock)
-                .WithMany(s => s.MedicationOrderItems)
-                .HasForeignKey(e => e.PharmacyStockId)
-                .OnDelete(DeleteBehavior.Restrict);
-            });
 
             // Has Data must generate migration 
             //modelBuilder.Entity<Medication>().HasData(

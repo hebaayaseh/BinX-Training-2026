@@ -22,54 +22,78 @@ namespace CardioTrack.Services.Doctor
         public async Task<AddAppointmentResponseDto> AddAppointmentAsync(int userId, AddAppointmentRequestDto request)
         {
             var user = await dbContext.users
-                 .FirstOrDefaultAsync(u => u.Id == userId
-                         && u.IsActive
-                         && (u.Role == UserRole.Doctor
-                             || u.Role == UserRole.Nurse));
-
+                .FirstOrDefaultAsync(u => u.Id == userId && u.IsActive
+                                     && (u.Role == UserRole.Doctor || u.Role == UserRole.Nurse));
             if (user == null)
                 throw new ForbiddenException("Auth forbidden");
 
-            if (user.Role == UserRole.Doctor && request.DoctorId != user.Id)
-                throw new ForbiddenException("Doctors can only manage their own appointments");
-
             var patient = await dbContext.patients
-                .Include(u => u.Doctor)
-                .FirstOrDefaultAsync(p => p.Id == request.PatientId
-                                     && p.DoctorId == request.DoctorId);
-
+                .FirstOrDefaultAsync(p => p.Id == request.PatientId && p.DoctorId == request.DoctorId);
             if (patient == null)
                 throw new BadRequestException("Patient not found");
 
-            var appointments = await dbContext.appointments
-                .Include(d => d.Doctor)
-                .FirstOrDefaultAsync(a => a.AppointmentDate == request.AppointmentDate
-                                     && a.DoctorId == request.DoctorId);
+            var conflictExists = await dbContext.appointments
+                .AnyAsync(a => a.DoctorId == request.DoctorId
+                          && a.AppointmentDate == request.AppointmentDate
+                          && a.Status == AppointmentStatus.Scheduled);
+            if (conflictExists)
+                throw new ConflictException("This time slot is already booked for the selected doctor");
 
-            if (appointments != null)
-                throw new BadRequestException("Date not invalid");
+            decimal fee = CalculateAppointmentFee(request.Reason);
 
-            var appointment = new Appointment
-                { 
+            await using var transaction = await dbContext.Database.BeginTransactionAsync();
+            try
+            {
+                var appointment = new Appointment
+                {
                     PatientId = request.PatientId,
                     AppointmentDate = request.AppointmentDate,
                     DoctorId = request.DoctorId,
                     Status = AppointmentStatus.Scheduled,
                     Reason = request.Reason,
+                    Fee = fee,
                     CreatedByUserId = user.Id
                 };
+                await dbContext.AddAsync(appointment);
 
-            await dbContext.AddAsync(appointment);
-            await log.LogAsync("Schedule appointment ", "Appointment", appointment.Id, null, appointment);
-            await dbContext.SaveChangesAsync();
-            return new AddAppointmentResponseDto
+                if (request.RelatedAlertId.HasValue)
+                {
+                    var alert = await dbContext.vitalSignAlerts
+                        .FirstOrDefaultAsync(a => a.Id == request.RelatedAlertId.Value && !a.IsResolved);
+
+                    if (alert == null)
+                        throw new BadRequestException("Related alert not found or already resolved");
+
+                    alert.IsResolved = true;
+                }
+
+                await dbContext.SaveChangesAsync();
+                await transaction.CommitAsync();
+
+                return new AddAppointmentResponseDto
+                {
+                    AppointmentId = appointment.Id,
+                    PatientName = patient.FullName,
+                    AppointmentDate = request.AppointmentDate,
+                    DoctorId = request.DoctorId
+                };
+            }
+            catch
             {
-                AppointmentId = appointment.Id,
-                PatientName = patient.FullName,
-                AppointmentDate = request.AppointmentDate,
-                DoctorId = request.DoctorId
-            };
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
 
+        private decimal CalculateAppointmentFee(string reason)
+        {
+            return reason?.ToLower() switch
+            {
+                var r when r != null && r.Contains("emergency") => 150m,
+                var r when r != null && r.Contains("follow-up") => 50m,
+                var r when r != null && r.Contains("routine") => 75m,
+                _ => 100m   
+            };
         }
 
         public async Task<string> CancelAppointmentAsync(int userId, CancelAppointmentRequestDto request)

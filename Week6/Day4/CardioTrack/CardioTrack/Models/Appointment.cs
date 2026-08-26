@@ -14,6 +14,7 @@ namespace CardioTrack.Models
         public string Reason { get; set; }
         public AppointmentStatus Status { get; set; }
         public int CreatedByUserId { get; set; }
+        public decimal Fee { get; set; }
         // Navigation properties
         public Patient? Patient { get; set; }
         public User? Doctor { get; set; }
