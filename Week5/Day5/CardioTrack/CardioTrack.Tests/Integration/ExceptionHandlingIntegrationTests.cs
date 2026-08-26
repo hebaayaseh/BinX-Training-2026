@@ -3,6 +3,7 @@ using Xunit;
 
 namespace CardioTrack.Tests.Integration
 {
+    // ProblemDetails
     public class ExceptionHandlingIntegrationTests : IClassFixture<CustomWebApplicationFactory>
     {
         private readonly HttpClient _client;

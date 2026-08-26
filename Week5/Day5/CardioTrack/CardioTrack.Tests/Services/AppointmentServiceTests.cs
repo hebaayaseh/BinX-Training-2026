@@ -10,6 +10,7 @@ namespace CardioTrack.Tests.Services
 {
     public class AppointmentServiceTests
     {
+        // UseInMemory
         private static CardioTrackDbContext CreateDbContext()
         {
             var options = new DbContextOptionsBuilder<CardioTrackDbContext>()
