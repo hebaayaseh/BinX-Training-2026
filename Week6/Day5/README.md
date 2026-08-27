@@ -1,61 +1,54 @@
-﻿# Day 4 — CardioTrack Appointment Booking & Transactions
-
+﻿## Day 5 — CardioTrack Lab Management, Doctor Scheduling, Emergency Contacts & Audit Logging
 ## Overview
 
-On Day 4, I enhanced the Appointment functionality in the CardioTrack application by implementing appointment availability checks, dynamic appointment fee calculation, and database transactions.
-
-The goal was to apply important backend concepts such as validation before processing data, calculating values based on business rules, and ensuring data consistency using transactions.
+On this day, I extended the CardioTrack application with several new backend features covering lab test workflows, doctor scheduling, patient emergency contacts, and centralized audit logging. The goal was to apply core backend engineering concepts such as role-based validation, business rule enforcement, database transactions, and safe entity serialization when integrating cross-cutting concerns like audit logging.
 
 ## Steps Completed
 
-Enhanced the existing Appointment functionality without creating any additional tables.
+- Lab Request Management
 
-Added validation to ensure that the authenticated user exists, is active, and has the appropriate role to create appointments.
+Implemented an endpoint allowing doctors to create one or more lab test requests for a patient in a single call.
+Validated that the requesting doctor exists, is active, and holds the correct role before allowing request creation.
+Validated that the target patient exists, and that an optional linked appointment belongs to that patient.
+Implemented role-scoped viewing of lab requests: patients see only their own requests, doctors see only requests they created, and technicians/admins can view all requests.
+Implemented manual status transitions (e.g., Seen, Collected, Cancelled) for lab requests, restricted to technicians and admins.
+Prevented manually setting a request's status to "Completed," since that transition is only allowed to happen automatically when a result is uploaded.
 
-Validated that the selected patient exists and is assigned to the requested doctor.
+- Lab Result Management
 
-Implemented an availability check to prevent scheduling multiple appointments for the same doctor at the same time.
+Implemented an endpoint allowing technicians to upload a lab result file for a patient, optionally linked to an existing lab request.
+Added file upload handling that stores the result file on disk and saves its relative URL on the result record.
+Prevented uploading more than one result against the same lab request.
+Implemented an automatic status update: when a result is successfully created and linked to a lab request, the related lab request's status is automatically set to "Completed" within the same operation.
+Implemented role-scoped viewing of lab results, following the same access rules as lab requests.
+Added a manual status update endpoint for lab results (e.g., Checked, Delivered), restricted to technicians and admins.
 
-Added conflict validation to ensure that an already scheduled time slot cannot be booked again.
+- Doctor Schedule Management
 
-Implemented appointment fee calculation based on the appointment reason.
+Implemented an endpoint for doctors to add a weekly schedule slot, with conflict validation to prevent overlapping time ranges for the same doctor.
+Implemented schedule updates that deactivate the old slot and create a new one, while automatically flagging any already-scheduled appointments that fall on the old slot as postponed.
 
-Added a `Fee` property to the Appointment entity to store the calculated appointment cost.
+- Emergency Contact Management
 
-Added support for an optional `RelatedAlertId` when an appointment is created as a response to a Vital Sign Alert.
+Implemented full CRUD operations (add, update, delete, view) for a patient's emergency contacts.
 
-Implemented a database transaction to ensure that multiple related operations are completed successfully as a single unit.
+- Audit Log Integration
 
-The transaction handles:
+Integrated the existing IAuditLog service into every new feature above (lab requests, lab results, doctor schedules, emergency contacts), so that every create/update/status-change operation is recorded with the acting user, action, entity type, and before/after values.
+Key Concepts Applied
 
-* Creating the new appointment.
-* Resolving the related Vital Sign Alert when `RelatedAlertId` is provided.
-* Saving both changes together.
+- Transactional Consistency
+Creating a lab result and auto-completing its related lab request are treated as a single unit of work, ensuring the database never ends up with a result that exists without its request being marked complete, or vice versa.
 
-Implemented transaction rollback handling to ensure that if any operation fails, all changes are reverted and the database remains consistent.
+- Role-Based Authorization
+Each endpoint enforces access using policy-based authorization (Doctor-only, Technician/Admin-only, or role-scoped viewers), rather than relying on ad-hoc checks scattered in controllers.
 
-Implemented transaction commit only after all operations are successfully completed.
+Safe Audit Logging & Avoiding Serialization Cycles
+While wiring up IAuditLog across the new services, I ran into a System.Text.Json circular reference exception. Because Entity Framework Core automatically fixes up navigation properties between tracked entities (e.g., a Patient already tracked in the same DbContext gets linked back-and-forth with its LabRequests, or a Doctor with the Patients assigned to them), passing raw entity objects directly into the audit log caused infinite reference loops during JSON serialization. The fix was to always log lightweight anonymous snapshots containing only the relevant primitive fields, instead of the tracked entity itself — this is now a standing rule I follow for every log.LogAsync(...) call in the project.
 
-## Key Concepts Applied
-
-### Availability Check
-
-Before creating an appointment, the system checks whether the selected doctor already has a scheduled appointment at the requested date and time.
-
-This prevents double booking and ensures proper appointment scheduling.
-
-### Appointment Fee Calculation
-
-The appointment fee is calculated dynamically based on the provided appointment reason.
-
-A dedicated method was created to handle the business logic for calculating appointment costs.
-
-### Database Transactions
-
-A transaction is used to guarantee data consistency when creating an appointment and resolving a related alert.
-
-Both operations must succeed together. If any error occurs during the process, the transaction is rolled back and no partial changes are saved.
+- Data Scoping by Role
+Query results for lab requests and lab results are filtered based on the caller's role and their relationship to the data (own patient record, own requested patients, or full visibility for lab/admin staff), rather than returning all records and filtering client-side.
 
 ## Tools
 
-Entity Framework Core · ASP.NET Core Web API · SQL Server · LINQ · Database Transactions · JWT Authentication · Visual Studio · .NET SDK
+Entity Framework Core · ASP.NET Core Web API · MySQL (Pomelo) · LINQ · FluentValidation · Database Transactions · JWT Authentication · Visual Studio · .NET SDK
