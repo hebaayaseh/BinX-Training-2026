@@ -15,7 +15,7 @@ namespace BookNest.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);   // ✅ لازم أول شي، عشان يبني جداول Identity
+            base.OnModelCreating(modelBuilder);  
 
             modelBuilder.Entity<ApplicationUser>(entity =>
             {

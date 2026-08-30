@@ -60,8 +60,6 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>(options =>
 
 
 
-// ... بعد builder.Services.AddIdentity(...)
-
 builder.Services.AddSingleton<JwtTokenGenerator>();
 
 var jwtKey = builder.Configuration["Jwt:Key"]!;
@@ -102,7 +100,6 @@ builder.Services.AddAuthorization(options =>
 
 var app = builder.Build();
 
-// Migration + Role Seeding عند الإقلاع
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<BookNestDbContext>();
@@ -116,7 +113,6 @@ using (var scope = app.Services.CreateScope())
             await roleManager.CreateAsync(new IdentityRole<int>(role));
     }
 
-    // Seed Admin تجريبي + كتاب تجريبي
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
     if (await userManager.FindByEmailAsync("admin@booknest.com") == null)
     {
