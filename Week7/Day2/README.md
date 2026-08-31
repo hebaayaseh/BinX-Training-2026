@@ -1,6 +1,4 @@
-# Day 1 — Sprint 2 Planning & Wiring Identity into the Capstone 
-
-# Hands-On Lab — Registration & Login with Linked Domain Entity (BookNest)
+# Day 2 — Registration & Login with Linked Domain Entity 
 
 ## Overview
 Extended BookNest's Identity setup by introducing a separate domain entity 
