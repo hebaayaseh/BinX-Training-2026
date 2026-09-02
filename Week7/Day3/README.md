@@ -1,4 +1,4 @@
-# Day 2 — Apply RBAC and Ownership Checks 
+# Day 3 — Apply RBAC and Ownership Checks 
 
 ## Overview
 Audited every endpoint in BookNest against its correct access requirement 
