@@ -87,15 +87,25 @@ namespace BookNest.Controllers
 
             var roles = await userManager.GetRolesAsync(user);
 
-            var profile = await dbContext.MemberProfiles
-                .FirstOrDefaultAsync(p => p.ApplicationUserId == user.Id);
 
-            if (profile == null)
-                return Unauthorized("Member profile not found for this account");
+            int? memberProfileId = null;
+            string displayName = user.Email!;
 
-            var token = jwtGenerator.GenerateToken(user.Id, user.Email!, profile.Id, profile.FullName, roles);
+            if (roles.Contains("Member"))
+            {
+                var profile = await dbContext.MemberProfiles
+                    .FirstOrDefaultAsync(p => p.ApplicationUserId == user.Id);
 
-            return Ok(new { AccessToken = token, MemberProfileId = profile.Id, profile.FullName, Roles = roles });
+                if (profile == null)
+                    return Unauthorized("Member profile not found for this account");
+
+                memberProfileId = profile.Id;
+                displayName = profile.FullName;
+            }
+
+            var token = jwtGenerator.GenerateToken(user.Id, user.Email!, memberProfileId, displayName, roles);
+
+            return Ok(new { AccessToken = token, Roles = roles });
         }
     }
 }

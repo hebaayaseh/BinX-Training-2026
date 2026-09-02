@@ -14,20 +14,24 @@ namespace BookNest.Helper
             _config = config;
         }
 
-        public string GenerateToken(int applicationUserId, string email, int memberProfileId, string fullName, IList<string> roles)
+        public string GenerateToken(int applicationUserId, string email, int? memberProfileId, string displayName, IList<string> roles)
         {
             var claims = new List<Claim>
     {
-        new Claim(ClaimTypes.NameIdentifier, applicationUserId.ToString()),   
+        new Claim(ClaimTypes.NameIdentifier, applicationUserId.ToString()),
         new Claim(ClaimTypes.Email, email),
-        new Claim(ClaimTypes.Name, fullName),
-        new Claim("memberProfileId", memberProfileId.ToString()),   
+        new Claim(ClaimTypes.Name, displayName),
     };
+
+            if (memberProfileId.HasValue)
+                claims.Add(new Claim("memberProfileId", memberProfileId.Value.ToString()));
 
             foreach (var role in roles)
                 claims.Add(new Claim(ClaimTypes.Role, role));
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
+        
+
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
