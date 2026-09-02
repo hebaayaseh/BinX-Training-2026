@@ -1,4 +1,4 @@
-# Day 4 — Custom Middleware & Pull Request (BookNest)
+# Day 4 — Custom Middleware 
 
 ## Overview
 Identified centralized exception handling as a genuine cross-cutting 
