@@ -1,0 +1,15 @@
+﻿using CardioTrack.Enums;
+
+namespace CardioTrack.DTOs.VitalSign
+{
+    public class NurseAlertDto
+    {
+        public int DoctorId { get; set; }
+        public string DoctorName { get; set; }
+        public int PatientId { get; set; }
+        public string PatientName { get; set; }
+        public Severity Severity { get; set; }
+        public AlterType AlterType { get; set; }
+        public DateTime CreatedAt { get; set; }
+    }
+}
