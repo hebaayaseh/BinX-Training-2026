@@ -34,14 +34,14 @@ composite indexes — with measured before/after performance evidence.
 **Query time after:** 10ms
 
 ### Index 2: IX_VitalSignAlerts_PatientId_IsResolved (composite)
-**Query:** WHERE PatientId = X AND IsResolved = false
-**Before:** type=ALL, rows examined=[total alert rows]
-**After:** type=ref, rows examined=[matching rows only]
+**Query:** WHERE PatientId = 3 AND IsResolved = false
+**Before:** type=ALL, rows examined=150
+**After:** type=ref, rows examined=6
 
 ### Index 3: IX_Appointments_DoctorId_Status (composite)
-**Query:** WHERE DoctorId = X AND Status = 'Scheduled'
-**Before:** type=ALL, rows examined=[total appointment rows]
-**After:** type=ref, rows examined=[matching rows only]
+**Query:** WHERE DoctorId = 5 AND Status = 'Scheduled'
+**Before:** type=ALL, rows examined = 60
+**After:** type=ref, rows examined=29
 
 ### Note on scale
 With the current seed data (55 patients, 150+ vital signs, 60+ 
