@@ -1,0 +1,14 @@
+﻿using CardioTrack.Enums;
+using System.ComponentModel.DataAnnotations;
+
+namespace CardioTrack.DTOs.Doctor
+{
+    public class AddDoctorScheduleRequestDto
+    {
+        public int PatientId { get; set; }
+        public int DoctorId { get; set; }
+        public DateTime AppointmentDate { get; set; }
+        public string Reason { get; set; } = string.Empty;
+        public int? RelatedAlertId { get; set; }   
+    }
+}
