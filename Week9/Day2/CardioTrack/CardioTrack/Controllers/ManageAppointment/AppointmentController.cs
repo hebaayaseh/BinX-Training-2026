@@ -17,19 +17,8 @@ namespace CardioTrack.Controllers.ManageAppointment
         {
             this.appointment = appointment;
         }
-        /// <summary>
-        /// Schedules a new appointment for a patient with a doctor.
-        /// </summary>
-        /// <remarks>
-        /// Rejects the request if the doctor already has a scheduled appointment 
-        /// at the exact same date/time. The appointment fee is calculated 
-        /// automatically based on the reason for the visit. If a RelatedAlertId is 
-        /// provided, the referenced vital sign alert is resolved as part of the 
-        /// same database transaction — both succeed or both roll back together.
-        /// </remarks>
-        /// <response code="200">Appointment created successfully.</response>
-        /// <response code="400">Patient not found or invalid related alert.</response>
-        /// <response code="409">Doctor already has an appointment at this exact time.</response>
+        
+
         [Authorize(Policy = "DoctorOrNurse")]
         [HttpPost("add-appointment")]
         public async Task<IActionResult> AddAppointment([FromBody]AddDoctorScheduleRequestDto request, IValidator<AddDoctorScheduleRequestDto> validator)

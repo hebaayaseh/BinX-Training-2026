@@ -33,4 +33,10 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+    <Folder Include="Integration\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>

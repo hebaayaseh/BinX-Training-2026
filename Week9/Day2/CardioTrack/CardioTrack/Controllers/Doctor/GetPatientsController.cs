@@ -15,17 +15,7 @@ namespace CardioTrack.Controllers.Doctor
         {
             this.getPatients = getPatients;
         }
-        /// <summary>
-        /// Retrieves a paginated, filterable, sortable list of the requesting doctor's patients.
-        /// </summary>
-        /// <remarks>
-        /// Only returns patients assigned to the authenticated doctor. Results are 
-        /// cached per doctor for 5 minutes using Redis; the cache is invalidated 
-        /// immediately on any patient create or update.
-        /// </remarks>
-        /// <param name="query">Pagination, filtering, and sorting options.</param>
-        /// <response code="200">Returns the paginated patient list.</response>
-        /// <response code="401">Caller is not authenticated as a doctor.</response>
+        
         [Authorize(Policy = "DoctorOnly")]
         [HttpGet("get-patients")]
         public async Task<IActionResult> GetPatients([FromQuery] GetPatientsQueryRequestDto query)

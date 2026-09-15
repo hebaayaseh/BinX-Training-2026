@@ -84,9 +84,7 @@ namespace CardioTrack
                         Array.Empty<string>()
                     }
                 });
-                var xmlFilename = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFilename);
-                options.IncludeXmlComments(xmlPath);
+                
             });
             // 3. Connection Database
             builder.Services.AddDbContext<CardioTrackDbContext>(options =>

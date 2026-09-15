@@ -15,17 +15,7 @@ namespace CardioTrack.Controllers.Auth
         {
             this.auth = auth;
         }
-        /// <summary>
-        /// Authenticates a user and issues JWT access and refresh tokens.
-        /// </summary>
-        /// <remarks>
-        /// Works for all roles (Admin, Doctor, Nurse, Patient). The returned access 
-        /// token includes the user's role as a claim, used by all protected endpoints.
-        /// </remarks>
-        /// <param name="request">Email and password credentials.</param>
-        /// <response code="200">Login succeeded, tokens returned.</response>
-        /// <response code="400">Missing or invalid request format.</response>
-        /// <response code="401">Invalid email or password.</response>
+        
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginRequestDto request, IValidator<LoginRequestDto> validator)
         {

@@ -30,19 +30,7 @@ namespace CardioTrack.Controllers.VitalSigns
             var result = await vitalSign.ViewVitalSign(userId, request);    
             return Ok(result);
         }
-        /// <summary>
-        /// Records a new vital sign measurement for a patient.
-        /// </summary>
-        /// <remarks>
-        /// Automatically evaluates the recorded values (heart rate, blood pressure, 
-        /// oxygen saturation, temperature) against medical thresholds. If any value 
-        /// falls outside the normal range, a VitalSignAlert is generated automatically 
-        /// as part of the same operation — no separate call is needed.
-        /// </remarks>
-        /// <param name="request">The measured vital sign values and the patient they belong to.</param>
-        /// <response code="200">Vital sign recorded successfully.</response>
-        /// <response code="400">Invalid values or patient not found.</response>
-        /// <response code="403">Caller is not authorized to record vitals for this patient.</response>
+
         [Authorize("DoctorOrNurse")]
         [HttpPost("add-vitalsign")]
         public async Task<IActionResult> AddVitalSigns([FromBody] AddVitalSignRequestDto request,IValidator<AddVitalSignRequestDto> validator)

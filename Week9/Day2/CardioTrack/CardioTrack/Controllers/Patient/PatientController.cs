@@ -32,16 +32,8 @@ namespace CardioTrack.Controllers.Patient
             var result = await patient.ViewMedicalHistoryAsync(userId);
             return Ok(result);
         }
-        /// <summary>
-        /// Returns the vital sign history for the authenticated patient's own record.
-        /// </summary>
-        /// <remarks>
-        /// Read-only. The patient can only ever see their own data — the linked 
-        /// Patient record is resolved from the authenticated user's ID, never from 
-        /// a client-supplied ID, preventing access to other patients' records.
-        /// </remarks>
-        /// <response code="200">Returns the patient's vital sign history.</response>
-        /// <response code="403">Caller has no linked patient record.</response>
+        
+
         [Authorize(Policy = "PatientOnly")]
         [HttpPost("view-vital-signs")]
         public async Task<IActionResult> ViewVitalSigns()
