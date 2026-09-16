@@ -51,10 +51,7 @@ namespace CardioTrack.Services.Patient
 
         }
 
-        public async Task PatientViewVitalSignReponse(int id)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         public async Task<ViewAppointmentResponseDto> ViewAppointmentAsync(int userId, ViewAppointmentRequestDto request)
         {

@@ -4,6 +4,12 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
+
+		<!-- NEW -->
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<!-- 1591 = "missing XML comment for publicly visible type" — otherwise you get
+       hundreds of warnings for every DTO property you haven't documented yet -->
+		<NoWarn>$(NoWarn);1591</NoWarn>
 	</PropertyGroup>
 	
   <ItemGroup>

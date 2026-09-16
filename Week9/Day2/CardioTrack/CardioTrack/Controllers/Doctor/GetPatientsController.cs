@@ -15,7 +15,6 @@ namespace CardioTrack.Controllers.Doctor
         {
             this.getPatients = getPatients;
         }
-        
         [Authorize(Policy = "DoctorOnly")]
         [HttpGet("get-patients")]
         public async Task<IActionResult> GetPatients([FromQuery] GetPatientsQueryRequestDto query)

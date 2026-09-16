@@ -21,7 +21,7 @@ namespace CardioTrack.Services.Admin
             var user = await dbContext.users
                 .FirstOrDefaultAsync(u => u.Email == request.Email);
 
-            if (user == null) throw new ForbiddenException("Email not exist!");
+            if (user == null || !user.IsActive) throw new ForbiddenException("Email not exist!");
 
             var passwordValid = BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash);
             if (!passwordValid) throw new ForbiddenException("Invalid Password!");

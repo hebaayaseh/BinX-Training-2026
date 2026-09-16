@@ -17,8 +17,6 @@ namespace CardioTrack.Controllers.ManageAppointment
         {
             this.appointment = appointment;
         }
-        
-
         [Authorize(Policy = "DoctorOrNurse")]
         [HttpPost("add-appointment")]
         public async Task<IActionResult> AddAppointment([FromBody]AddDoctorScheduleRequestDto request, IValidator<AddDoctorScheduleRequestDto> validator)

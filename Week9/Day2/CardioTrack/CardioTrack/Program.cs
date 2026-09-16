@@ -84,7 +84,23 @@ namespace CardioTrack
                         Array.Empty<string>()
                     }
                 });
-                
+                options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "CardioTrack API",
+                    Description = "Cardiac patient tracking API — patients, appointments, medications, "
+                + "vital signs with automatic alerting, and the lab request/result workflow.",
+                    Contact = new Microsoft.OpenApi.Models.OpenApiContact
+                    {
+                        Name = "CardioTrack Team"
+                    }
+                });
+
+                var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                if (File.Exists(xmlPath))
+                    options.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
+                options.SchemaFilter<Swagger.ExampleSchemaFilter>();
             });
             // 3. Connection Database
             builder.Services.AddDbContext<CardioTrackDbContext>(options =>

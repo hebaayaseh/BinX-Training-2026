@@ -17,7 +17,7 @@ namespace CardioTrack.Models
         [Required]
         public string PasswordHash { get; set; }
         [MaxLength(15)]
-        public string PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; } = string.Empty;
         public bool IsActive { get; set; }
         public UserRole Role { get; set; }
         public DateTime CreatedAt { get; set; }

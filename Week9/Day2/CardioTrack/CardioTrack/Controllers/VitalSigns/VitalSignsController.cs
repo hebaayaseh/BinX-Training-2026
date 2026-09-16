@@ -30,10 +30,42 @@ namespace CardioTrack.Controllers.VitalSigns
             var result = await vitalSign.ViewVitalSign(userId, request);    
             return Ok(result);
         }
-
+        /// <summary>
+        /// Records a vital-sign reading for a patient and evaluates it for alerts.
+        /// </summary>
+        /// <remarks>
+        /// After the reading is saved it is passed through <c>VitalSignAlertEvaluator</c>,
+        /// which compares temperature, heart rate, oxygen saturation and blood pressure
+        /// against clinical thresholds. Any reading outside the normal range creates a
+        /// <c>VitalSignAlert</c> with Medium or High severity, visible to the treating
+        /// doctor and to nursing staff. You do not create alerts yourself.
+        ///
+        /// Sample request:
+        ///
+        ///     POST /api/DoctorOrNurse/add-vitalsign
+        ///     {
+        ///        "patientId": 12,
+        ///        "temperature": 38.9,
+        ///        "heartRate": 122,
+        ///        "oxygenSaturation": 91,
+        ///        "systolic": 158,
+        ///        "diastolic": 96
+        ///     }
+        ///
+        /// </remarks>
+        /// <param name="request">The reading to record.</param>
+        /// <param name="validator">Injected FluentValidation validator.</param>
+        /// <response code="200">Reading saved. Alerts, if any, were created automatically.</response>
+        /// <response code="400">Validation failed, or the patient does not exist.</response>
+        /// <response code="401">Missing or expired access token.</response>
+        /// <response code="403">Caller is not a Doctor or Nurse, or is not linked to this patient.</response>
         [Authorize("DoctorOrNurse")]
         [HttpPost("add-vitalsign")]
-        public async Task<IActionResult> AddVitalSigns([FromBody] AddVitalSignRequestDto request,IValidator<AddVitalSignRequestDto> validator)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public async Task<IActionResult> AddVitalSigns([FromBody] AddVitalSignRequestDto request, IValidator<AddVitalSignRequestDto> validator)
         {
             var validationResult = await validator.ValidateAsync(request);
             if (!validationResult.IsValid)

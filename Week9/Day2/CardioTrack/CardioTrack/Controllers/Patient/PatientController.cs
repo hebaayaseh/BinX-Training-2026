@@ -32,7 +32,6 @@ namespace CardioTrack.Controllers.Patient
             var result = await patient.ViewMedicalHistoryAsync(userId);
             return Ok(result);
         }
-        
 
         [Authorize(Policy = "PatientOnly")]
         [HttpPost("view-vital-signs")]

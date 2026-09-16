@@ -15,10 +15,38 @@ namespace CardioTrack.Controllers.Auth
         public AddStaffController(IAddStaff addStaff)
         {
             this.addStaff = addStaff;
-        }
+        }/// <summary>
+         /// Creates a Doctor account and emails the new doctor a temporary password.
+         /// </summary>
+         /// <remarks>
+         /// Admin only. The password is generated server side, hashed with BCrypt, and
+         /// sent by email — it is never returned in the response and never logged. The
+         /// new account is active immediately; use <c>PUT /api/admin/deactive</c> to
+         /// disable it later.
+         ///
+         /// Sample request:
+         ///
+         ///     POST /api/admin/add-doctor
+         ///     {
+         ///        "fullName": "Dr. Sara Khalil",
+         ///        "email": "sara.khalil@cardiotrack.com",
+         ///        "phoneNumber": "0599123456"
+         ///     }
+         ///
+         /// </remarks>
+         /// <param name="request">Name, email and phone number of the new doctor.</param>
+         /// <param name="validator">Injected FluentValidation validator.</param>
+         /// <response code="200">Account created and the temporary password was emailed.</response>
+         /// <response code="400">Email is malformed or the phone number is missing.</response>
+         /// <response code="401">Missing or expired access token.</response>
+         /// <response code="403">Caller is not an Admin, or the email is already registered.</response>
         [Authorize(Policy = "AdminOnly")]
         [HttpPost("add-doctor")]
-        public async Task<IActionResult> AddDoctor([FromBody]AddDoctorRequestDto request, IValidator<AddDoctorRequestDto> validator)
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public async Task<IActionResult> AddDoctor([FromBody] AddDoctorRequestDto request, IValidator<AddDoctorRequestDto> validator)
         {
             var validationResult = await validator.ValidateAsync(request);
             if (!validationResult.IsValid)
