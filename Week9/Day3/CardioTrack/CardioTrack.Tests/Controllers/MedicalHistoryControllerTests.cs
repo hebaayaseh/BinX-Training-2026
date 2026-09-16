@@ -1,0 +1,89 @@
+﻿using CardioTrack.Controllers.Doctor;
+using CardioTrack.DTOs.Doctor;
+using CardioTrack.Interfaces.IDoctor;
+using FluentValidation;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Moq;
+using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
+
+namespace CardioTrack.Tests.Controllers
+{
+    public class MedicalHistoryControllerTests
+    {
+        [Fact]
+        public async Task AddMedicalHistory_ValidRequest_ReturnsOk()
+        {
+            // Arrange
+            var medicalHistoryMock = new Mock<IMedicalHistory>();
+            var validatorMock = new Mock<IValidator<AddHistoryRequestDto>>();   
+
+            var request = new AddHistoryRequestDto
+            {
+                PatientId = 1,
+                Condition = "Hypertension",
+                DiagnosisDate = DateTime.UtcNow,
+                Note = "Patient requires follow-up"
+            };
+
+            validatorMock
+                .Setup(v => v.ValidateAsync(It.IsAny<AddHistoryRequestDto>(), default))
+                .ReturnsAsync(new FluentValidation.Results.ValidationResult());  
+            var expectedResult = new AddMedicalHistoryResponseDto
+            {
+                PatientId = 1,
+                PatientName = "Test Patient",
+                DiagnosisDate = request.DiagnosisDate,
+                Condition = request.Condition,
+                Note = request.Note
+            };
+
+            medicalHistoryMock
+                .Setup(x => x.AddMedicalHistoryAsync(1, request))
+                .ReturnsAsync(expectedResult);
+
+            var controller = new MedicalHistoryController(medicalHistoryMock.Object);
+
+            var claims = new List<Claim> { new Claim(ClaimTypes.NameIdentifier, "1") };
+            var identity = new ClaimsIdentity(claims, "TestAuth");
+            controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext { User = new ClaimsPrincipal(identity) }
+            };
+
+            // Act
+            var result = await controller.AddMedicalHistory(request, validatorMock.Object);   
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            Assert.Equal(expectedResult, okResult.Value);
+
+            medicalHistoryMock.Verify(x => x.AddMedicalHistoryAsync(1, request), Times.Once);
+        }
+
+        [Fact]
+        public async Task AddMedicalHistory_InvalidRequest_ReturnsBadRequest()
+        {
+            var validatorMock = new Mock<IValidator<AddHistoryRequestDto>>();
+            var failures = new List<FluentValidation.Results.ValidationFailure>
+    {
+        new FluentValidation.Results.ValidationFailure("Condition", "Condition is required")
+    };
+            validatorMock
+                .Setup(v => v.ValidateAsync(It.IsAny<AddHistoryRequestDto>(), default))
+                .ReturnsAsync(new FluentValidation.Results.ValidationResult(failures));
+
+            var controller = new MedicalHistoryController(new Mock<IMedicalHistory>().Object);
+            var claims = new List<Claim> { new Claim(ClaimTypes.NameIdentifier, "1") };
+            controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext { User = new ClaimsPrincipal(new ClaimsIdentity(claims, "TestAuth")) }
+            };
+
+            var result = await controller.AddMedicalHistory(new AddHistoryRequestDto(), validatorMock.Object);
+
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
+    }
+}

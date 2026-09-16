@@ -1,0 +1,11 @@
+# Place this file at: Week9/Day2/CardioTrack/.dockerignore
+
+**/bin
+**/obj
+**/.vs
+**/.vscode
+CardioTrack.Tests/
+*.postman_collection.json
+lab-results.txt
+.gitignore
+.gitKeep
