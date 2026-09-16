@@ -1,38 +1,127 @@
-﻿### CI Failure Verification
-Deliberately broke `CheckHeartRate_Normal_ReturnsNoAlert` by asserting the 
-wrong severity. Pipeline correctly failed at the Test step with:
-`Expected: Severity.High, Actual: null`
-Confirms the pipeline reliably catches test failures, not just build errors.
+﻿# Capstone API – Live Deployment & CI/CD
 
-# CardioTrack
+##  Overview
 
-[![CI Pipeline](https://github.com/hebaayaseh/BinX-Training-2026/actions/workflows/ci.yml/badge.svg)](https://github.com/hebaayaseh/BinX-Training-2026/actions/workflows/ci.yml)
+This project is the capstone API developed as part of the training program.
+The API is built using **ASP.NET Core** and includes authentication, database integration, JWT-based authorization, and Redis support.
 
-Backend REST API for a Cardiac Patient Monitoring Center...
+This lab focuses on deploying the API to a live environment and automating the deployment process using **GitHub Actions**.
 
-# Day 3 - Build and Verify the CI Pipeline
+---
 
-## Overview
-Built a GitHub Actions CI pipeline that automatically builds and tests 
-CardioTrack on every push, verified it correctly detects both success and 
-failure, and added a live status badge to the README.
+##  Deployment
 
-## Steps Completed
--  Wrote `.github/workflows/ci.yml` — checks out code, sets up .NET 8, 
-      restores, builds, and runs the full test suite.
--  Pushed and confirmed the pipeline ran successfully on a normal commit.
--  Deliberately broke a test (`CheckHeartRate_Normal_ReturnsNoAlert`) and 
-      confirmed the pipeline failed visibly at the Test step with a clear 
-      assertion error message.
--  Fixed the test and confirmed the pipeline returned to a passing state.
--  Added a live status badge to the top of the README.
+The API was manually deployed to a cloud hosting platform:
 
-## Pipeline Configuration
-- Trigger: push and pull requests to `main`
-- Steps: checkout → setup .NET 8 → restore → build (Release) → test (Release)
-- All integration tests use EF Core's InMemory provider, so no external 
-  MySQL or Redis dependency is required in CI
+* **Platform:** Azure App Service / Railway
+* **Environment:** Production
+* **Deployment Type:** Manual deployment followed by automated CI/CD
 
-## Tools Used
-- GitHub Actions
-- .NET 8 SDK (`actions/setup-dotnet`)
+###  Live API
+
+**Live URL:**
+`[ADD YOUR LIVE API URL HERE]`
+
+The live URL can be used to verify that the API is publicly accessible.
+
+---
+
+##  Production Secrets
+
+Production secrets are configured through the hosting platform's **Secrets / Environment Variables** management.
+
+The following sensitive values are **not stored in the source code or GitHub repository**:
+
+| Secret                                 | Description                                         |
+| -------------------------------------- | --------------------------------------------------- |
+| `ConnectionStrings__DefaultConnection` | Production database connection string               |
+| `Jwt__Key`                             | Secret key used to generate and validate JWT tokens |
+| `Redis__ConnectionString`              | Redis server connection string                      |
+
+These values are configured directly in the production environment.
+
+> ⚠️ Never commit production secrets, passwords, JWT keys, or connection strings to GitHub.
+
+---
+
+## ⚙ CI/CD Pipeline
+
+The project uses **GitHub Actions** to automate the CI/CD process.
+
+The workflow performs the following steps:
+
+```text
+Push / Pull Request
+        ↓
+    Build
+        ↓
+     Tests
+        ↓
+ Tests Passed?
+    ↙       ↘
+  No         Yes
+  ↓           ↓
+Stop       Deploy
+              ↓
+       Production API
+```
+
+### Pipeline Stages
+
+1. **Build**
+
+   * Restores dependencies.
+   * Builds the ASP.NET Core API.
+   * Ensures the project compiles successfully.
+
+2. **Test**
+
+   * Runs the automated test suite.
+   * Deployment only continues if all tests pass.
+
+3. **Deploy**
+
+   * Runs only after successful build and tests.
+   * Deploys the application to the production environment.
+
+### Deployment Condition
+
+The deployment job is configured to run only when:
+
+* The workflow is triggered from the `main` branch.
+* The build succeeds.
+* All tests pass.
+
+---
+
+##  Testing the Deployment
+
+After deployment, the live API was tested to confirm that it is reachable through the public URL.
+
+A small change was pushed to the repository to verify the complete automated pipeline.
+
+The expected pipeline execution is:
+
+```text
+Build → Test → Deploy
+```
+
+The successful workflow confirms that the application can be automatically deployed after passing the test stage.
+
+---
+
+##  Technologies Used
+
+* **C#**
+* **ASP.NET Core Web API**
+* **Entity Framework Core**
+* **SQL Server**
+* **JWT Authentication**
+* **Redis**
+* **Git & GitHub**
+* **GitHub Actions**
+* **Azure App Service / Railway**
+
+---
+
+
