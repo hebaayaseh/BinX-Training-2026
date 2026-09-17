@@ -1,127 +1,138 @@
-﻿# Capstone API – Live Deployment & CI/CD
+﻿# CardioTrack API
 
-##  Overview
+[![CI](https://github.com/hebaayaseh/BinX-Training-2026/actions/workflows/ci.yml/badge.svg)](https://github.com/hebaayaseh/BinX-Training-2026/actions/workflows/ci.yml)
 
-This project is the capstone API developed as part of the training program.
-The API is built using **ASP.NET Core** and includes authentication, database integration, JWT-based authorization, and Redis support.
+> Replace `<YOUR-USERNAME>/<YOUR-REPO>` with your actual GitHub path or the badge
+> will render as "not found".
 
-This lab focuses on deploying the API to a live environment and automating the deployment process using **GitHub Actions**.
-
----
-
-##  Deployment
-
-The API was manually deployed to a cloud hosting platform:
-
-* **Platform:** Azure App Service / Railway
-* **Environment:** Production
-* **Deployment Type:** Manual deployment followed by automated CI/CD
-
-###  Live API
-
-**Live URL:**
-`[ADD YOUR LIVE API URL HERE]`
-
-The live URL can be used to verify that the API is publicly accessible.
+A cardiac patient tracking API for a clinic. It manages patients, appointments,
+medications, medical history, vital signs with automatic alerting, and the lab
+request / lab result workflow, across five roles: Admin, Doctor, Nurse,
+Technician and Patient.
 
 ---
 
-##  Production Secrets
+## Tech stack
 
-Production secrets are configured through the hosting platform's **Secrets / Environment Variables** management.
-
-The following sensitive values are **not stored in the source code or GitHub repository**:
-
-| Secret                                 | Description                                         |
-| -------------------------------------- | --------------------------------------------------- |
-| `ConnectionStrings__DefaultConnection` | Production database connection string               |
-| `Jwt__Key`                             | Secret key used to generate and validate JWT tokens |
-| `Redis__ConnectionString`              | Redis server connection string                      |
-
-These values are configured directly in the production environment.
-
-> ⚠️ Never commit production secrets, passwords, JWT keys, or connection strings to GitHub.
+| Layer | Technology |
+|---|---|
+| Framework | ASP.NET Core 8 (Web API) |
+| ORM | Entity Framework Core 8 + Pomelo MySQL provider |
+| Database | MySQL 8 |
+| Cache | Redis (via `StackExchangeRedis` distributed cache) |
+| Auth | JWT Bearer + refresh token rotation, BCrypt password hashing |
+| Validation | FluentValidation |
+| Logging | Serilog |
+| API docs | Swashbuckle / Swagger |
+| Testing | xUnit, Moq, WebApplicationFactory, EF Core InMemory |
+| CI | GitHub Actions |
 
 ---
 
-## ⚙ CI/CD Pipeline
 
-The project uses **GitHub Actions** to automate the CI/CD process.
+## Roles and authorization policies
 
-The workflow performs the following steps:
+| Policy | Roles allowed |
+|---|---|
+| `AdminOnly` | Admin |
+| `DoctorOnly` | Doctor |
+| `NurseOnly` | Nurse |
+| `TechnicianOnly` | Technician |
+| `DoctorOrNurse` | Doctor, Nurse |
+| `PatientOnly` | Patient |
+| `MedicalStaff` | Admin, Doctor, Nurse, Technician |
+| `LabViewer` | Patient, Technician, Doctor |
+| `AllActors` | Admin, Doctor, Nurse, Patient |
 
-```text
-Push / Pull Request
-        ↓
-    Build
-        ↓
-     Tests
-        ↓
- Tests Passed?
-    ↙       ↘
-  No         Yes
-  ↓           ↓
-Stop       Deploy
-              ↓
-       Production API
+Auth flow: `POST /api/login` returns an access token (30 min) and a refresh
+token (7 days). Use `POST /api/token/refresh-token` to rotate — the old refresh
+token is revoked on use. `POST /api/token/logout` revokes it immediately.
+
+---
+
+## Documentation
+
+- **Swagger UI:** run in Development and open `/swagger`
+- **OpenAPI JSON:** `/swagger/v1/swagger.json`
+- **Postman collection:** [`CardioTrack Copy.postman_collection.json`](./CardioTrack%20Copy.postman_collection.json)
+- **Test coverage audit:** [`docs/Test-Coverage-Audit.md`](./docs/Test-Coverage-Audit.md)
+
+### Using the Postman collection
+
+1. Import the collection.
+2. Create an environment with `baseUrl`, `accessToken` and `refreshToken` variables.
+3. Run **Auth → Login** first; its test script stores the tokens automatically.
+4. Every other request inherits the bearer token from the collection.
+
+---
+
+## Running the tests
+
+```bash
+dotnet test CardioTrack.sln
 ```
 
-### Pipeline Stages
+The test suite needs **no MySQL and no Redis** — unit tests use EF Core InMemory
+and the integration tests use `WebApplicationFactory` with an in-memory database
+seeded by `CustomWebApplicationFactory`.
 
-1. **Build**
+With coverage:
 
-   * Restores dependencies.
-   * Builds the ASP.NET Core API.
-   * Ensures the project compiles successfully.
-
-2. **Test**
-
-   * Runs the automated test suite.
-   * Deployment only continues if all tests pass.
-
-3. **Deploy**
-
-   * Runs only after successful build and tests.
-   * Deploys the application to the production environment.
-
-### Deployment Condition
-
-The deployment job is configured to run only when:
-
-* The workflow is triggered from the `main` branch.
-* The build succeeds.
-* All tests pass.
-
----
-
-##  Testing the Deployment
-
-After deployment, the live API was tested to confirm that it is reachable through the public URL.
-
-A small change was pushed to the repository to verify the complete automated pipeline.
-
-The expected pipeline execution is:
-
-```text
-Build → Test → Deploy
+```bash
+dotnet test CardioTrack.sln --collect:"XPlat Code Coverage"
 ```
 
-The successful workflow confirms that the application can be automatically deployed after passing the test stage.
+---
+
+## CI
+
+`.github/workflows/ci.yml` runs on every push and pull request to `main`,
+`master` and `develop`. It checks out the code, sets up .NET 8, restores,
+builds in Release, runs the full test suite, and uploads the `.trx` results and
+coverage report as artifacts. A failing test fails the workflow and the badge
+above turns red.
 
 ---
 
-##  Technologies Used
+## Project structure
 
-* **C#**
-* **ASP.NET Core Web API**
-* **Entity Framework Core**
-* **SQL Server**
-* **JWT Authentication**
-* **Redis**
-* **Git & GitHub**
-* **GitHub Actions**
-* **Azure App Service / Railway**
+```
+CardioTrack/
+├── Controllers/       grouped by feature
+├── Services/          business logic, one folder per area
+├── Interfaces/        service contracts (used for mocking in tests)
+├── DTOs/              request/response models
+├── Models/            EF Core entities
+├── Validators/        FluentValidation rules
+├── Middleware/        global exception handling -> ProblemDetails
+├── ExceptionService/  typed exceptions carrying HTTP status codes
+├── VitalSignsAlert/   vital-sign threshold evaluation
+├── Data/              DbContext + seeding
+└── Migrations/
+
+CardioTrack.Tests/
+├── Services/          unit tests (xUnit + Moq + InMemory)
+├── Controllers/       controller-level tests
+└── Integration/       WebApplicationFactory end-to-end tests
+```
 
 ---
 
+## Error format
 
+All unhandled errors pass through `ExceptionMiddleware` and come back as
+RFC 7807 `application/problem+json`:
+
+```json
+{
+  "type": "https://httpstatuses.com/400",
+  "title": "Bad Request",
+  "status": 400,
+  "detail": "Patient not found",
+  "instance": "/api/Doctor/add-Medication",
+  "traceId": "0HN7A3F1K9LMN:00000001"
+}
+```
+
+Internal exception details are never returned to the client — unexpected errors
+become a generic 500 message and are written to the Serilog log with the trace id.

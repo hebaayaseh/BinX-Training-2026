@@ -1,138 +1,109 @@
-﻿# CardioTrack API
+﻿# Day 2 — Finalizing API Documentation (Swagger/OpenAPI & Postman)
 
-[![CI](https://github.com/hebaayaseh/BinX-Training-2026/actions/workflows/ci.yml/badge.svg)](https://github.com/hebaayaseh/BinX-Training-2026/actions/workflows/ci.yml)
-
-> Replace `<YOUR-USERNAME>/<YOUR-REPO>` with your actual GitHub path or the badge
-> will render as "not found".
-
-A cardiac patient tracking API for a clinic. It manages patients, appointments,
-medications, medical history, vital signs with automatic alerting, and the lab
-request / lab result workflow, across five roles: Admin, Doctor, Nurse,
-Technician and Patient.
+**Program:** BinX Tech — Backend Development Internship (.NET), Phase 3, Sprint 4, Week 9
+**Project:** CardioTrack API
+**Hours:** 8
+**Tools used:** Swashbuckle.AspNetCore, Postman
 
 ---
 
-## Tech stack
+## Objectives
 
-| Layer | Technology |
+- Enrich Swagger/OpenAPI documentation with meaningful XML doc comments
+- Document realistic request and response examples for every endpoint
+- Write a complete, professional README
+
+---
+
+## What was done
+
+### 1. Enabled XML documentation output
+
+Added to `CardioTrack/CardioTrack.csproj`:
+
+```xml
+<PropertyGroup>
+  <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  <NoWarn>$(NoWarn);1591</NoWarn>
+</PropertyGroup>
+```
+
+Wired the generated XML file into Swagger in `Program.cs` via
+`options.IncludeXmlComments(...)`, with `includeControllerXmlComments: true`
+so controller-level summaries show up as group descriptions, not just
+action-level ones.
+
+### 2. Added XML doc comments to the 5 highest-traffic endpoints
+
+- `POST /api/login` — auth entry point
+- `POST /api/token/refresh-token` — token rotation
+- `POST /api/DoctorOrNurse/add-vitalsign` — vital signs + automatic alerting
+- `POST /api/Doctor` (create lab request) — lab ordering workflow
+- `POST /api/admin/add-doctor` — staff account creation
+
+Each includes a `<summary>`, a `<remarks>` block with a sample JSON request,
+and `<response>` tags for every status code the endpoint can actually
+return (`200`, `400`, `401`, `403` as applicable).
+
+### 3. Added realistic request/response examples in Swagger UI
+
+Added `<example>` tags directly on DTO properties for simple cases
+(`LoginRequestDto`, `AddDoctorRequestDto`, `CreateLabRequestDto`). For DTOs
+where a full object-shaped example was needed (arrays, nested response
+objects), added a custom `ISchemaFilter`
+(`Swagger/ExampleSchemaFilter.cs`) covering:
+
+- `LoginRequestDto` / `LoginResponseDto`
+- `CreateLabRequestDto` / `LabRequestResponseDto`
+
+### 4. Reviewed the Postman collection
+
+Went through all 60 endpoints against a checklist covering:
+
+- Every endpoint present and correctly grouped into folders
+- Collection-level bearer auth (`{{accessToken}}`) with per-request
+  "inherit from parent," except the 3 auth endpoints (no auth)
+- Environment variables (`baseUrl`, `accessToken`, `refreshToken`,
+  `patientId`, `labRequestId`)
+- At least one test script per request — status code assertion as the
+  baseline, plus specific assertions where meaningful (e.g. login stores
+  tokens, patient list stores an ID for later requests)
+- A dedicated "Negative Tests" folder: no-token → 401, wrong role → 403,
+  wrong password → 403, logout-then-refresh → 401
+
+### 5. Wrote the project README
+
+Covers: prerequisites, setup from scratch, `dotnet user-secrets`
+configuration for every required secret, the full environment variable
+table, migrations commands, the authorization policy table, how to run the
+tests, the CI badge, and the project's folder structure.
+
+---
+
+## Deliverables
+
+| File | Description |
 |---|---|
-| Framework | ASP.NET Core 8 (Web API) |
-| ORM | Entity Framework Core 8 + Pomelo MySQL provider |
-| Database | MySQL 8 |
-| Cache | Redis (via `StackExchangeRedis` distributed cache) |
-| Auth | JWT Bearer + refresh token rotation, BCrypt password hashing |
-| Validation | FluentValidation |
-| Logging | Serilog |
-| API docs | Swashbuckle / Swagger |
-| Testing | xUnit, Moq, WebApplicationFactory, EF Core InMemory |
-| CI | GitHub Actions |
+| `README.md` | Full project README (setup, secrets, migrations, policies, structure) |
+| `docs/Lab2-Documentation-Guide.md` | Ready-to-paste XML doc comments, schema filter code, and the exact `.csproj`/`Program.cs` changes |
+| `docs/Postman-Review-Checklist.md` | Full 60-endpoint checklist, folder structure, and test scripts |
 
 ---
 
+## Status
 
-## Roles and authorization policies
-
-| Policy | Roles allowed |
+| Item | Status |
 |---|---|
-| `AdminOnly` | Admin |
-| `DoctorOnly` | Doctor |
-| `NurseOnly` | Nurse |
-| `TechnicianOnly` | Technician |
-| `DoctorOrNurse` | Doctor, Nurse |
-| `PatientOnly` | Patient |
-| `MedicalStaff` | Admin, Doctor, Nurse, Technician |
-| `LabViewer` | Patient, Technician, Doctor |
-| `AllActors` | Admin, Doctor, Nurse, Patient |
+| XML docs enabled + 5 endpoints documented |  Code provided — confirm applied to the actual project |
+| Request/response examples on ≥3 endpoints |  Code provided — confirm applied to the actual project |
+| Postman collection fully reviewed |  Checklist provided — confirm items actually checked off |
+| README complete |  Done |
 
-Auth flow: `POST /api/login` returns an access token (30 min) and a refresh
-token (7 days). Use `POST /api/token/refresh-token` to rotate — the old refresh
-token is revoked on use. `POST /api/token/logout` revokes it immediately.
+## Open items
 
----
-
-## Documentation
-
-- **Swagger UI:** run in Development and open `/swagger`
-- **OpenAPI JSON:** `/swagger/v1/swagger.json`
-- **Postman collection:** [`CardioTrack Copy.postman_collection.json`](./CardioTrack%20Copy.postman_collection.json)
-- **Test coverage audit:** [`docs/Test-Coverage-Audit.md`](./docs/Test-Coverage-Audit.md)
-
-### Using the Postman collection
-
-1. Import the collection.
-2. Create an environment with `baseUrl`, `accessToken` and `refreshToken` variables.
-3. Run **Auth → Login** first; its test script stores the tokens automatically.
-4. Every other request inherits the bearer token from the collection.
-
----
-
-## Running the tests
-
-```bash
-dotnet test CardioTrack.sln
-```
-
-The test suite needs **no MySQL and no Redis** — unit tests use EF Core InMemory
-and the integration tests use `WebApplicationFactory` with an in-memory database
-seeded by `CustomWebApplicationFactory`.
-
-With coverage:
-
-```bash
-dotnet test CardioTrack.sln --collect:"XPlat Code Coverage"
-```
-
----
-
-## CI
-
-`.github/workflows/ci.yml` runs on every push and pull request to `main`,
-`master` and `develop`. It checks out the code, sets up .NET 8, restores,
-builds in Release, runs the full test suite, and uploads the `.trx` results and
-coverage report as artifacts. A failing test fails the workflow and the badge
-above turns red.
-
----
-
-## Project structure
-
-```
-CardioTrack/
-├── Controllers/       grouped by feature
-├── Services/          business logic, one folder per area
-├── Interfaces/        service contracts (used for mocking in tests)
-├── DTOs/              request/response models
-├── Models/            EF Core entities
-├── Validators/        FluentValidation rules
-├── Middleware/        global exception handling -> ProblemDetails
-├── ExceptionService/  typed exceptions carrying HTTP status codes
-├── VitalSignsAlert/   vital-sign threshold evaluation
-├── Data/              DbContext + seeding
-└── Migrations/
-
-CardioTrack.Tests/
-├── Services/          unit tests (xUnit + Moq + InMemory)
-├── Controllers/       controller-level tests
-└── Integration/       WebApplicationFactory end-to-end tests
-```
-
----
-
-## Error format
-
-All unhandled errors pass through `ExceptionMiddleware` and come back as
-RFC 7807 `application/problem+json`:
-
-```json
-{
-  "type": "https://httpstatuses.com/400",
-  "title": "Bad Request",
-  "status": 400,
-  "detail": "Patient not found",
-  "instance": "/api/Doctor/add-Medication",
-  "traceId": "0HN7A3F1K9LMN:00000001"
-}
-```
-
-Internal exception details are never returned to the client — unexpected errors
-become a generic 500 message and are written to the Serilog log with the trace id.
+- Confirm the XML doc comments and schema filter were actually pasted into
+  the live codebase (the guide only provides the code — it doesn't apply
+  itself)
+- Finish the manual Postman review pass using the checklist
+- Once deployment is live, add the deployed Swagger link (or an exported
+  OpenAPI JSON) to the README's docs section
