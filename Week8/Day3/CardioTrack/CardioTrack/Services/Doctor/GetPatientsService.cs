@@ -63,7 +63,6 @@ namespace CardioTrack.Services.Doctor
                 .FirstOrDefaultAsync(u => u.Id == userId && u.Role == UserRole.Doctor && u.IsActive);
             if (doctor == null)
                 throw new InvalidTokenException("Auth forbidden");
-            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             string cacheKey = $"patients:doctor:{doctor.Id}";
 
             var cachedData = await cache.GetStringAsync(cacheKey);
@@ -119,8 +118,6 @@ namespace CardioTrack.Services.Doctor
                 .Take(query.PageSize)
                 .ToList();
 
-            stopwatch.Stop();
-            Console.WriteLine($"Request took: {stopwatch.ElapsedMilliseconds}ms");
             return new PaginatedPatientsResponseDto
             {
                 Patients = pagedResult,
