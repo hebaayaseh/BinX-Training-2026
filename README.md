@@ -25,4 +25,4 @@ The repository also keeps the earlier weekly exercises and project iterations th
 
 ## Presentation
 
-See [Presentation Outline](PRESENTATION-OUTLINE.md) for the planned project presentation covering the problem, architecture, main challenge, performance work, and outcome.
+See [Presentation Outline](Presentation-Outline.md) for the planned project presentation covering the problem, architecture, main challenge, performance work, and outcome.
