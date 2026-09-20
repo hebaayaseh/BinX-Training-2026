@@ -18,7 +18,7 @@ Adding request validation to Create/Update endpoints using FluentValidation.
 ### 2. CORS
 - Added a named policy `AllowFrontend` restricted to a specific origin (no wildcard `AllowAnyOrigin`).
 - `UseCors("AllowFrontend")` placed before `UseAuthentication()` / `UseAuthorization()` in the pipeline — required ordering.
-- **TODO:** replace placeholder origin `https://localhost:3000` with the real production frontend URL once known.
+- For production, configure the allowed origin with the real frontend URL.
 
 ### 3. Security Headers
 - `UseHttpsRedirection()` was already present.
