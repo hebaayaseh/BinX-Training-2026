@@ -2,8 +2,7 @@
 
 ## 1. Title slide
 
-- CardioTrack — [one-line tagline, e.g. "A role-based cardiac patient
-  tracking API"]
+- CardioTrack 
 - Heba Hesham Ayaseh, BinX Tech Backend .NET Internship, 2026/9/20
 
 ## 2. Problem
