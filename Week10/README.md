@@ -1,28 +1,68 @@
-# BinX Training 2026
+# Week 10 — Finalization, Presentation & Wrap-Up
 
-Backend Development Internship training repository covering C#, ASP.NET Core, Entity Framework Core, authentication, authorization, validation, testing, caching, CI, documentation, and deployment work.
+## Overview
 
-## Main Project â€” CardioTrack
+Week 10 focused on finalizing the CardioTrack project, preparing the presentation, rehearsing the demo, and completing the final review.
 
-CardioTrack is an ASP.NET Core Web API for managing cardiac patient care workflows, including:
+## Day 1 — Repository Cleanup & Presentation Outline
 
-- Authentication and role-based authorization
-- Patient, doctor, nurse, appointment, medication, medical-history, lab, and vital-sign workflows
-- JWT authentication and refresh tokens
-- Entity Framework Core with MySQL
-- FluentValidation
-- xUnit, Moq, and integration testing
-- Distributed caching with Redis
-- Swagger/OpenAPI and Postman
-- Global error handling and API security practices
-- GitHub Actions CI
+* Reviewed and cleaned the repository.
+* Removed leftover debug code and unnecessary commented experiments.
+* Reviewed the commit history and project structure.
+* Prepared the final presentation outline:
 
-The repository also keeps the earlier weekly exercises and project iterations that document the progression of the training.
+  * Problem
+  * Architecture
+  * Biggest Challenge
+  * Performance Work
+  * Testing
+  * Outcome
 
-## Tech Stack
+## Day 2 — Case Study & Profiles
 
-**C# Â· .NET 8 Â· ASP.NET Core Web API Â· EF Core Â· MySQL Â· Redis Â· FluentValidation Â· xUnit Â· Moq Â· Swagger/OpenAPI Â· GitHub Actions**
+* Prepared the CardioTrack case study.
+* Documented measurable performance and testing results.
+* Prepared a CV project description.
+* Updated the LinkedIn profile content.
+* Prepared a LinkedIn post draft linking to the GitHub repository.
 
-## Presentation
+## Day 3 — Full Rehearsal & Mock Q&A
 
-See [Presentation Outline](PRESENTATION-OUTLINE.md) for the planned project presentation covering the problem, architecture, main challenge, performance work, and outcome.
+* Rehearsed the complete presentation with timing.
+* Prepared the live Postman API demo.
+* Prepared a backup demo.
+* Created technical Q&A covering:
+
+  * Architecture
+  * Authentication & Authorization
+  * Redis
+  * Performance
+  * Testing
+* Completed a second rehearsal with peer/mentor feedback.
+
+## Day 4 — Final Presentation
+
+* Completed the pre-presentation checklist.
+* Prepared the presentation and Postman collection.
+* Delivered the CardioTrack presentation and API demo.
+* Answered technical questions based on the actual implementation and evidence.
+* Documented questions and identified potential project improvements.
+
+## Day 5 — Final Review & Wrap-Up
+
+* Participated in the final code review.
+* Reviewed the final evaluation with the mentor.
+* Documented mentor and review-panel feedback.
+* Confirmed certification outcome and next steps.
+* Completed the final personal reflection on the 10-week program.
+
+## Tools Used
+
+* GitHub
+* Postman
+* PowerPoint / Google Slides
+* Notion
+
+## Week 10 Outcome
+
+Completed the final project preparation, technical presentation, API demo rehearsal, Q&A preparation, and program wrap-up for the CardioTrack backend project.
